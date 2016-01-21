@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">SignOn</string>
+    <string name="loginButton">Log in</string>
+    <string name="registerButton">Register</string>
+    <string name="logoTextView">SignOn</string>
+    <string name="emailEditText">Email</string>
+    <string name="passwordEditText">Password</string>
 </resources>
