@@ -5,4 +5,8 @@
     <string name="logoTextView">SignOn</string>
     <string name="emailEditText">Email</string>
     <string name="passwordEditText">Password</string>
+    <string name="changeEmailButtonText">Change Email</string>
+    <string name="changePasswordButtonText">Change Password</string>
+    <string name="changeNameButtonText">Change Name</string>
+    <string name="changeSignatureButtonText">Change Signature</string>
 </resources>
