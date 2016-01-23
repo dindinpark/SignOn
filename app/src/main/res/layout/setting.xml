@@ -7,6 +7,132 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.signononlinesignatureapp.signon.SettingActivity">
+    tools:context="com.signononlinesignatureapp.signon.SettingActivity"
+    android:background="#e0dfe1">
 
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="#ffffff">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Change Email"
+                android:id="@+id/button3"
+                android:layout_column="1"
+                android:background="@null"
+                android:layout_gravity="left"
+                android:layout_marginRight="10dp"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_marginLeft="5dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Large Text"
+                android:id="@+id/textView2"
+                android:layout_column="2"
+                android:layout_span="80"
+                android:layout_gravity="center_vertical"
+                android:textColor="#777679" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Change Password"
+                android:id="@+id/button4"
+                android:layout_column="1"
+                android:background="@null"
+                android:shadowColor="@null"
+                android:layout_gravity="left"
+                android:layout_marginRight="10dp"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_marginLeft="5dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Large Text"
+                android:id="@+id/textView3"
+                android:layout_column="2"
+                android:layout_span="80"
+                android:layout_gravity="center_vertical"
+                android:textColor="#777679" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Change Name"
+                android:id="@+id/button5"
+                android:layout_column="1"
+                android:background="@null"
+                android:layout_gravity="left"
+                android:layout_marginRight="10dp"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_marginLeft="5dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Large Text"
+                android:id="@+id/textView4"
+                android:layout_column="2"
+                android:layout_gravity="center_vertical"
+                android:textColor="#777679" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Change Signature"
+                android:id="@+id/button6"
+                android:layout_column="1"
+                android:background="@null"
+                android:layout_gravity="left"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_marginLeft="5dp" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView2"
+                android:layout_column="1"
+                android:layout_span="2"
+                android:minHeight="60dp"
+                android:layout_marginLeft="2dp" />
+
+        </TableRow>
+    </TableLayout>
 </RelativeLayout>
