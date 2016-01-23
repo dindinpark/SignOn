@@ -18,10 +18,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".SettingActivity" />
-        <activity android:name=".ViewDocumentActivity"></activity>
+        <activity android:name=".ViewDocumentActivity" />
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".DocumentActivity"
+            android:label="@string/title_activity_document"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
