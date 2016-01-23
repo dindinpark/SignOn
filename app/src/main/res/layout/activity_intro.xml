@@ -41,7 +41,8 @@
         android:textColor="#ffffff"
         android:textSize="50dp"
         android:layout_marginTop="110dp"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:typeface="serif" />
 
     <ImageView
         android:layout_width="200dp"
@@ -65,7 +66,9 @@
         android:layout_centerHorizontal="true"
         android:hint="@string/emailEditText"
         android:textAlignment="center"
-        android:textColorHint="#b7a9cc" />
+        android:textColorHint="#b7a9cc"
+        android:backgroundTint="#b7a9cc"
+        android:textColor="#ffffff" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -80,6 +83,7 @@
         android:layout_alignBottom="@+id/imageView"
         android:layout_alignLeft="@+id/imageView"
         android:layout_alignStart="@+id/imageView"
-        android:layout_below="@+id/editText" />
+        android:layout_below="@+id/editText"
+        android:textColor="#ffffff" />
 
 </RelativeLayout>
