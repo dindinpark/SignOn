@@ -24,6 +24,7 @@
 
 
             <Button
+                android:textAllCaps="false"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/changePasswordButtonText"
@@ -54,6 +55,7 @@
             android:layout_height="match_parent">
 
             <Button
+                android:textAllCaps="false"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/changePasswordButtonText"
@@ -85,6 +87,7 @@
             android:layout_height="match_parent">
 
             <Button
+                android:textAllCaps="false"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/changeNameButtonText"
@@ -115,6 +118,7 @@
             android:layout_height="match_parent">
 
             <Button
+                android:textAllCaps="false"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/changeSignatureButtonText"
