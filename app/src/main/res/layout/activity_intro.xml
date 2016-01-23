@@ -61,14 +61,14 @@
         android:inputType="textEmailAddress"
         android:ems="10"
         android:id="@+id/editText"
-        android:layout_marginTop="35dp"
-        android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true"
+        android:layout_marginTop="31dp"
         android:hint="@string/emailEditText"
         android:textAlignment="center"
         android:textColorHint="#b7a9cc"
         android:backgroundTint="#b7a9cc"
-        android:textColor="#ffffff" />
+        android:textColor="#ffffff"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true" />
 
     <EditText
         android:layout_width="wrap_content"

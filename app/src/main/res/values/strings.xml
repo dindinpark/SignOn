@@ -9,4 +9,9 @@
     <string name="changePasswordButtonText">Change Password</string>
     <string name="changeNameButtonText">Change Name</string>
     <string name="changeSignatureButtonText">Change Signature</string>
+    <string name="username">USERNAME</string>
+    <string name="name">Name:</string>
+    <string name="birthday">Date of Birth:</string>
+    <string name="joinedOn">Joined on:</string>
+    <string name="documentSigned">Document Signed:</string>
 </resources>
