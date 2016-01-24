@@ -20,17 +20,34 @@ public class IntroActivity extends FragmentActivity {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.rgb(80,23,140));
         }
+
+
+
+        setContentView(R.layout.activity_intro);
         Button introActivityLoginButton=(Button)findViewById(R.id.introActivityLoginButton);
+        Button introActivityRegisterButton=(Button) findViewById(R.id.introActivityRegisterButton);
+
         introActivityLoginButton.setOnClickListener(
-                new Button.OnClickListener(){
-                    public void onClick(View v){
-                        startActivity(new Intent(IntroActivity.this,SettingActivity.class));
+                new View.OnClickListener() {
+                    public void onClick(View v) {
+                        startActivity(new Intent(IntroActivity.this, ViewDocumentActivity.class));
 
                     }
 
                 }
 
         );
-        setContentView(R.layout.activity_intro);
+
+        introActivityRegisterButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(IntroActivity.this, SettingActivity.class));
+
+                    }
+
+                }
+
+        );
     }
 }
