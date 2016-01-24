@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/loginButton"
-        android:id="@+id/button"
+        android:id="@+id/introActivityLoginButton"
         android:background="#50178c"
         android:layout_above="@+id/button2"
         android:layout_alignParentRight="true"
