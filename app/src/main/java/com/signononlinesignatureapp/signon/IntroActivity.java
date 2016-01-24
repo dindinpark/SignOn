@@ -1,13 +1,14 @@
 package com.signononlinesignatureapp.signon;
 
 import android.os.Build;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.graphics.Color;
 import android.view.Window;
 import android.view.WindowManager;
 
-public class IntroActivity extends AppCompatActivity {
+public class IntroActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
