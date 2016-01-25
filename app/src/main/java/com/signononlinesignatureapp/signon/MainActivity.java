@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -20,7 +21,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbartry);
         setSupportActionBar(toolbar);
 
      /*   FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab); // it generate errors so I made it comment for now
@@ -93,5 +94,16 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+    @Override
+    public void setContentView(int layoutResID)
+    {
+        DrawerLayout fullView = (DrawerLayout) getLayoutInflater().inflate(R.layout.activity_main, null);
+        FrameLayout activityContainer = (FrameLayout) fullView.findViewById(R.id.app_bar_main);
+        getLayoutInflater().inflate(layoutResID, activityContainer, true);
+        super.setContentView(fullView);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbartry);
+        setSupportActionBar(toolbar);
+        setTitle("Activity Title");
     }
 }

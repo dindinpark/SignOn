@@ -13,8 +13,8 @@ public class DocumentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_document);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+       // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
 
       /*  FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab); // it generate errors so I made it comment for no
         fab.setOnClickListener(new View.OnClickListener() {
