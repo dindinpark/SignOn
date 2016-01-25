@@ -18,5 +18,6 @@ public class SettingActivity extends MainActivity {
             window.setStatusBarColor(Color.rgb(80, 23, 140));
         }
         setContentView(R.layout.setting);
+
     }
 }
