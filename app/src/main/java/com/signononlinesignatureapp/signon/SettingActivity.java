@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
-public class SettingActivity extends AppCompatActivity {
+public class SettingActivity extends MainActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

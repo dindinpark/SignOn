@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-public class DocumentActivity extends AppCompatActivity {
+public class DocumentActivity extends MainActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
