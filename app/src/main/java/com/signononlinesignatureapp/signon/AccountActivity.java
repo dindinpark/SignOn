@@ -11,3 +11,4 @@ public class AccountActivity extends MainActivity {
         setContentView(R.layout.activity_account);
     }
 }
+//test
