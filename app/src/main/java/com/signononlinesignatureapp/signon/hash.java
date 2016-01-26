@@ -18,6 +18,7 @@ public class hash extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hash);
+
         checksum= (TextView) findViewById(R.id.checksum);
         hashButton=(Button) findViewById(R.id.hashButton);
         File dir = new File(path);
