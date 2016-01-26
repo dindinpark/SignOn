@@ -42,7 +42,7 @@ public class IntroActivity extends FragmentActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startActivity(new Intent(IntroActivity.this, SettingActivity.class));
+                        startActivity(new Intent(IntroActivity.this, hash.class));
 
                     }
 
