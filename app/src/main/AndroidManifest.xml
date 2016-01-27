@@ -40,7 +40,9 @@
         <activity android:name=".SignatureActivity" />
         <activity android:name=".register" />
         <activity android:name=".hash" />
-        <activity android:name=".SignDocument"></activity>
+        <activity android:name=".SignDocument" />
+        <activity android:name=".CaptureSignatureActivity" />
+        <activity android:name=".GetSignatureActivity"></activity>
     </application>
 
 </manifest>
