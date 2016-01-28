@@ -30,7 +30,7 @@ public class IntroActivity extends FragmentActivity {
         introActivityLoginButton.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View v) {
-                        startActivity(new Intent(IntroActivity.this, GetSignatureActivity.class));
+                        startActivity(new Intent(IntroActivity.this, SettingActivity.class));
 
                     }
 
