@@ -47,6 +47,12 @@ public class ECDSA {
         return QA;
     }
 
+    public void setQA(Point mypub){
+        QA= mypub;
+
+    }
+
+
     //BigInteger random generator in closed set [1, n]
     private BigInteger randomBigInteger(BigInteger n) {
         Random rnd = new Random();
@@ -139,35 +145,36 @@ public class ECDSA {
         // the content of this main will be moved to signing activity *ghadeer
 
         /*
-        TextView signture = (TextView) findViewById(R.id.mytext);
-        TextView varify = (TextView) findViewById(R.id.checkmsg);
-        TextView fakesender= (TextView) findViewById(R.id.falseSender);
-        String mymesg = "Im ghadeer";
+      try {
+            // sign ducoment
+            String mydocument = "Im ghadeer";
+            ECDSA app = new ECDSA();  // eliptic curve opject
+            String primarykey = "4435345888889823424880345";
+            BigInteger test = new BigInteger(primarykey);
 
-        try {
-            ECDSA app = new ECDSA(); // eliptic curve opject
-            ECDSA fake = new ECDSA();
-            BigInteger dA = BigInteger.valueOf(987987987);
-            app.setdA(dA);
-            fake.setdA(BigInteger.valueOf(234423)); // set privte key
-            Point QA = app.getQA();
-            String signature = app.signingMessage(mymesg); // get mymesg signature
-            String fakeS =  fake.signingMessage(mymesg); // genereate fake signature
+            BigInteger password = new BigInteger("4");
 
-            boolean check = app.checkSignature(mymesg, signature);
-            signture.setText(signature);
-            varify.setText("varifiction is " + check);
-            check= app.checkSignature(mymesg,fakeS);
-            fakesender.setText("varification is " + check);
-            //    ECDSA secondapp = new ECDSA();
+            app.setdA(password);
+           String signature = app.signingMessage(mydocument);
+            Point pubkey = app.getQA();
+signture.setText(signature);
 
+
+
+            // varify document
+
+ECDSA app2 = new ECDSA();
+            app2.setQA(pubkey);
+boolean check = app2.checkSignature(mydocument,signature);
+            varify.setText(" varifcation is " + check );
 
 
         }
         catch (java.lang.Exception e1){  //
             signture.setText("in java.lang exciption");
-            Toast toast = Toast.makeText(getApplicationContext(),"Error please try again later",Toast.LENGTH_LONG);
+              Toast toast = Toast.makeText(getApplicationContext(),"Error please try again later",Toast.LENGTH_LONG);
         }
+    }
 */
 
     }
