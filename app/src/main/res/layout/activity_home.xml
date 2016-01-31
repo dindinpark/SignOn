@@ -95,7 +95,8 @@
                     android:layout_marginTop="60dp"
                     android:background="#7724cc"
                     android:textColor="#ffffff"
-                    android:layout_gravity="center_horizontal" />
+                    android:layout_gravity="center_horizontal"
+            android:clickable="false" />
 
         <Button
             android:layout_width="148dp"
