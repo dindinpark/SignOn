@@ -30,7 +30,7 @@ public class IntroActivity extends FragmentActivity {
         introActivityLoginButton.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View v) {
-                        startActivity(new Intent(IntroActivity.this, HomeActivity.class));
+                        startActivity(new Intent(IntroActivity.this, SettingActivity.class));
 
                     }
 
@@ -42,7 +42,7 @@ public class IntroActivity extends FragmentActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startActivity(new Intent(IntroActivity.this, SettingActivity.class));
+                        startActivity(new Intent(IntroActivity.this, SignDocument.class));
 
                     }
 
