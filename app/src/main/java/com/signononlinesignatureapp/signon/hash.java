@@ -95,7 +95,7 @@ String hashValue;
 
         }
 
-    }
+
     public void performButtonClick(View v){
         File file = new File (path + "/word2.pdf");
         if(SHA512.checkSHA512(hashValue,file))
