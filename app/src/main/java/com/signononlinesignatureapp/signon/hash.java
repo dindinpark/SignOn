@@ -1,5 +1,6 @@
 package com.signononlinesignatureapp.signon;
 
+import android.content.Intent;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,7 +16,7 @@ public class hash extends AppCompatActivity {
     public Button hashButton;
     public String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/signon";
     Point pubkey;
-    String digest;
+    String digest="nothing";
     String signature;
 
     @Override
@@ -28,13 +29,15 @@ public class hash extends AppCompatActivity {
 
         File dir = new File(path);
         dir.mkdirs();
+        File file = new File (path + "/word.pdf");
+        digest = SHA512.calculateSHA512(file);
+        checksum.setText(digest);
 
-
-        ///
-        try {
+        /*
+         try {
             // sign ducoment
 
-             digest = SHA512.calculateSHA512(dir);
+
             ECDSA app = new ECDSA();  // eliptic curve opject
 
             BigInteger password = new BigInteger("764");
@@ -51,7 +54,7 @@ public class hash extends AppCompatActivity {
         } catch (java.lang.Exception e1) {  //
             checksum.setText("in java.lang exciption");
             Toast toast = Toast.makeText(getApplicationContext(), "Error please try again later", Toast.LENGTH_LONG);
-        }
+        } */
     }
 
 
@@ -59,12 +62,13 @@ public class hash extends AppCompatActivity {
 
     public void hashButtonClick(View v) {
 
-        /*
-        File file = new File (path + "/word.pdf");
-        checksum.setText(SHA512.calculateSHA512(file)); */
+
+     /*   File file = new File (path + "/word.pdf");
+        checksum.setText(SHA512.calculateSHA512(file));    */
+        checksum.setText(digest);
 
         // varify document
-
+/*
         try {
             ECDSA app = new ECDSA();
             app.setQA(pubkey);
@@ -80,6 +84,15 @@ public class hash extends AppCompatActivity {
 
             checksum.setText("in java.lang.exception");
 
-        }
+        } */
+    }
+
+    public void gotoSign(View v){
+
+        Intent intent = new Intent(this,SignAndVerifyActivity.class);
+        intent.putExtra("SHAhash", digest);
+        startActivity(intent);
+
+
     }
 }

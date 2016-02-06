@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.signononlinesignatureapp.signon.Register">
+    tools:context="com.signononlinesignatureapp.signon.RigesterActivity">
 
     <TextView
         android:layout_width="wrap_content"
@@ -68,13 +68,55 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Register"
-        android:id="@+id/button"
+        android:id="@+id/registerbutton"
         android:background="#7724cc"
         android:textColor="#ffffff"
         android:height="70dp"
         android:textSize="25dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:clickable="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Name"
+        android:ems="10"
+        android:id="@+id/editText9"
+        android:layout_alignTop="@+id/name_txt"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:id="@+id/editText10"
+        android:layout_below="@+id/editText9"
+        android:layout_alignLeft="@+id/editText11"
+        android:layout_alignStart="@+id/editText11" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/editText11"
+        android:layout_alignTop="@+id/pass_txt"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="10"
+        android:id="@+id/editText12"
+        android:layout_alignTop="@+id/birth_txt"
+        android:layout_alignLeft="@+id/editText11"
+        android:layout_alignStart="@+id/editText11" />
 
 </RelativeLayout>

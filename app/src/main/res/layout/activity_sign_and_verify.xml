@@ -7,38 +7,39 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.signononlinesignatureapp.signon.hash">
+    tools:context="com.signononlinesignatureapp.signon.SignAndVerifyActivity">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/checksum"
-        android:layout_below="@+id/hashButton"
+        android:text="large text"
+        android:id="@+id/signatureText"
+        android:layout_marginTop="25dp"
+        android:layout_below="@+id/ECDSAbutton"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="perform sha512"
-        android:id="@+id/hashButton"
-        android:onClick="hashButtonClick"
-        android:layout_alignBottom="@+id/gotosign"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sign hash"
-        android:id="@+id/gotosign"
+        android:text="perform ECDSA"
+        android:id="@+id/ECDSAbutton"
+        android:onClick="signclick"
         android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/checksum"
-        android:layout_alignEnd="@+id/checksum"
-        android:layout_marginRight="30dp"
-        android:layout_marginEnd="30dp"
-        android:onClick="gotoSign" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="varify signature"
+        android:id="@+id/ECDSAverfiyButton"
+        android:layout_alignTop="@+id/ECDSAbutton"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="49dp"
+        android:layout_marginEnd="49dp"
+        android:onClick="verfiySignature" />
+
 </RelativeLayout>

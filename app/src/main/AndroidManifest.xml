@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -13,9 +14,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".IntroActivity"
-            android:screenOrientation="portrait">
-
-        </activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".SettingActivity"
             android:parentActivityName=".MainActivity">
@@ -23,8 +22,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.signononlinesignatureapp.signon.MainActivity" />
         </activity>
-        <activity android:name=".ViewDocumentActivity" android:parentActivityName=".MainActivity"
-            >
+        <activity
+            android:name=".ViewDocumentActivity"
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.signononlinesignatureapp.signon.MainActivity" />
@@ -33,26 +33,27 @@
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter></activity>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".DocumentActivity"
             android:label="@string/title_activity_document"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".HomeActivity"
-            android:parentActivityName=".MainActivity"
-            >
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.signononlinesignatureapp.signon.MainActivity" />
         </activity>
         <activity android:name=".SignatureActivity" />
-        <activity android:name=".register" android:parentActivityName=".MainActivity"
-            >
+        <activity
+            android:name=".register"
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.signononlinesignatureapp.signon.MainActivity" />
@@ -60,7 +61,9 @@
         <activity android:name=".hash" />
         <activity android:name=".SignDocument" />
         <activity android:name=".CaptureSignatureActivity" />
-        <activity android:name=".GetSignatureActivity"></activity>
+        <activity android:name=".GetSignatureActivity" />
+        <activity android:name=".RigesterActivity" />
+        <activity android:name=".SignAndVerifyActivity"></activity>
     </application>
 
 </manifest>
