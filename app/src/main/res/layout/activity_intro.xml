@@ -86,4 +86,45 @@
         android:layout_below="@+id/editText"
         android:textColor="#ffffff" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SHA512+ECDSA"
+        android:id="@+id/button"
+        android:background="#50178c"
+        android:textColor="#ffffff"
+        android:height="70dp"
+        android:textSize="25dp"
+        android:layout_above="@+id/introActivityLoginButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:onClick="sha512ButtonClick"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Signature pics"
+        android:id="@+id/button2"
+        android:background="#50178c"
+        android:textColor="#ffffff"
+        android:height="70dp"
+        android:textSize="25dp"
+        android:layout_below="@+id/button9"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:onClick="picButtonClick"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Store Signature"
+        android:id="@+id/button9"
+        android:background="#50178c"
+        android:textColor="#ffffff"
+        android:height="70dp"
+        android:textSize="25dp"
+        android:layout_above="@+id/button"
+        android:layout_centerHorizontal="true"
+        android:onClick="storeSignatureButtonClick"/>
+
 </RelativeLayout>
