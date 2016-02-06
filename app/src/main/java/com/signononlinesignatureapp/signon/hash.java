@@ -32,6 +32,7 @@ public class hash extends AppCompatActivity {
         checkHashButton=(Button) findViewById(R.id.checkHashButton);
         File dir = new File(path);
         dir.mkdirs();
+        /*
 
 
         ///
@@ -55,21 +56,13 @@ public class hash extends AppCompatActivity {
         } catch (java.lang.Exception e1) {  //
             checksum.setText("in java.lang exciption");
             Toast toast = Toast.makeText(getApplicationContext(), "Error please try again later", Toast.LENGTH_LONG);
-        }
+        }*/
     }
     public void hashButtonClick(View v){
         File file = new File (path + "/word.pdf");
         hashValue=SHA512.calculateSHA512(file);
         checksum.setText(hashValue);
-
-    }
-    public void performButtonClick(View v){
-        File file = new File (path + "/word2.pdf");
-        if(SHA512.checkSHA512(hashValue,file))
-        equalhash.setText("Same File");
-        else
-            equalhash.setText("Different File");
-
+        /*
         // varify document
 
         try {
@@ -81,12 +74,22 @@ public class hash extends AppCompatActivity {
 
             }
             else
-            checksum.setText("varifcation is false");
+                checksum.setText("varifcation is false");
         }
         catch (java.lang.Exception e1){
 
             checksum.setText("in java.lang.exception");
 
         }
+*/
+    }
+    public void performButtonClick(View v){
+        File file = new File (path + "/word2.pdf");
+        if(SHA512.checkSHA512(hashValue,file))
+        equalhash.setText("Same File");
+        else
+            equalhash.setText("Different File");
+
+
     }
 }
