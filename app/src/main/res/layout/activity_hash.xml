@@ -15,15 +15,17 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
         android:id="@+id/checksum"
-        android:layout_below="@+id/hashButton"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:layout_above="@+id/checkHashButton" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="perform sha512"
         android:id="@+id/hashButton"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
         android:onClick="hashButtonClick"
         android:layout_alignBottom="@+id/gotosign"
         android:layout_alignParentLeft="true"
@@ -41,4 +43,24 @@
         android:layout_marginRight="30dp"
         android:layout_marginEnd="30dp"
         android:onClick="gotoSign" />
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Perform Check"
+        android:id="@+id/checkHashButton"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="performButtonClick"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/equalhash"
+        android:layout_below="@+id/checkHashButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>

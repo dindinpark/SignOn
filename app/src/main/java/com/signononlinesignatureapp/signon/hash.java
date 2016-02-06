@@ -13,31 +13,36 @@ import java.io.File;
 
 public class hash extends AppCompatActivity {
     public TextView checksum;
+    public TextView equalhash;
+    public Button checkHashButton;
     public Button hashButton;
     public String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/signon";
     Point pubkey;
-    String digest="nothing";
+    String digest;
     String signature;
-
+String hashValue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hash);
 
-        checksum = (TextView) findViewById(R.id.checksum);
-        hashButton = (Button) findViewById(R.id.hashButton);
-
+        checksum= (TextView) findViewById(R.id.checksum);
+        equalhash=(TextView) findViewById(R.id.equalhash);
+        hashButton=(Button) findViewById(R.id.hashButton);
+        checkHashButton=(Button) findViewById(R.id.checkHashButton);
         File dir = new File(path);
         dir.mkdirs();
         File file = new File (path + "/word.pdf");
-        digest = SHA512.calculateSHA512(file);
-        checksum.setText(digest);
-
+        hashValue = SHA512.calculateSHA512(file);
+        checksum.setText(hashValue);
         /*
-         try {
+
+
+        ///
+        try {
             // sign ducoment
 
-
+             digest = SHA512.calculateSHA512(dir);
             ECDSA app = new ECDSA();  // eliptic curve opject
 
             BigInteger password = new BigInteger("764");
@@ -54,21 +59,15 @@ public class hash extends AppCompatActivity {
         } catch (java.lang.Exception e1) {  //
             checksum.setText("in java.lang exciption");
             Toast toast = Toast.makeText(getApplicationContext(), "Error please try again later", Toast.LENGTH_LONG);
-        } */
+        }*/
     }
-
-
-    ///
-
-    public void hashButtonClick(View v) {
-
-
-     /*   File file = new File (path + "/word.pdf");
-        checksum.setText(SHA512.calculateSHA512(file));    */
-        checksum.setText(digest);
-
+    public void hashButtonClick(View v){
+        File file = new File (path + "/word.pdf");
+        hashValue=SHA512.calculateSHA512(file);
+        checksum.setText(hashValue);
+        /*
         // varify document
-/*
+
         try {
             ECDSA app = new ECDSA();
             app.setQA(pubkey);
@@ -90,8 +89,19 @@ public class hash extends AppCompatActivity {
     public void gotoSign(View v){
 
         Intent intent = new Intent(this,SignAndVerifyActivity.class);
-        intent.putExtra("SHAhash", digest);
+        intent.putExtra("SHAhash", hashValue);
         startActivity(intent);
+
+
+        }
+
+    }
+    public void performButtonClick(View v){
+        File file = new File (path + "/word2.pdf");
+        if(SHA512.checkSHA512(hashValue,file))
+        equalhash.setText("Same File");
+        else
+            equalhash.setText("Different File");
 
 
     }
