@@ -33,5 +33,5 @@ dependencies {
     compile 'com.android.support:design:23.1.1'
     compile files('libs/5.5.4/itextg-5.5.4.jar')
     compile 'com.firebase:firebase-client-android:2.5.0'
-
+    compile files('libs/PdfViewer.jar')
 }
