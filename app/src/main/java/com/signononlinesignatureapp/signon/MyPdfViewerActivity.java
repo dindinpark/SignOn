@@ -24,6 +24,8 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 import android.content.Context;
+
+import com.itextpdf.awt.geom.Rectangle;
 import com.sun.pdfview.PDFFile;
 import com.sun.pdfview.PDFImage;
 import com.sun.pdfview.PDFPage;
@@ -46,8 +48,10 @@ public class MyPdfViewerActivity extends Pdftry {//implements View.OnTouchListen
 
     public void merge(float x,float y) {
         try {
-            PdfReader pdfReader = new PdfReader(signPath);
 
+            PdfReader pdfReader = new PdfReader(signPath);
+            //fix y
+            y=pdfReader.getCropBox(1).getHeight()-y;
             PdfStamper pdfStamper = new PdfStamper(pdfReader,
                     new FileOutputStream(newPath));
 
