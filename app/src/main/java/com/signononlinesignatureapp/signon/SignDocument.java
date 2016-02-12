@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.content.Intent;
 public class SignDocument extends AppCompatActivity {
 
-    public String newPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/signon/word.pdf";
+    public String newPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/signon/word.pdf";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
