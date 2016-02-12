@@ -13,12 +13,12 @@
         android:text="@string/loginButton"
         android:id="@+id/introActivityLoginButton"
         android:background="#50178c"
-        android:layout_above="@+id/introActivityRegisterButton"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
         android:textColor="#ffffff"
         android:height="70dp"
-        android:textSize="25dp" />
+        android:textSize="25dp"
+        android:layout_above="@+id/introActivityRegisterButton"
+        android:layout_alignRight="@+id/button2"
+        android:layout_alignEnd="@+id/button2" />
 
     <Button
         android:layout_width="fill_parent"
@@ -49,18 +49,18 @@
         android:layout_height="70dp"
         android:id="@+id/imageView"
         android:background="#50178c"
-        android:layout_alignTop="@+id/editText"
-        android:layout_alignLeft="@+id/editText"
-        android:layout_alignStart="@+id/editText"
-        android:layout_alignRight="@+id/editText"
-        android:layout_alignEnd="@+id/editText" />
+        android:layout_alignTop="@+id/introEmailEditText"
+        android:layout_alignLeft="@+id/introEmailEditText"
+        android:layout_alignStart="@+id/introEmailEditText"
+        android:layout_alignRight="@+id/introEmailEditText"
+        android:layout_alignEnd="@+id/introEmailEditText" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress"
         android:ems="10"
-        android:id="@+id/editText"
+        android:id="@+id/introEmailEditText"
         android:layout_marginTop="31dp"
         android:hint="@string/emailEditText"
         android:textAlignment="center"
@@ -76,14 +76,14 @@
         android:inputType="textPassword"
         android:background="#50178c"
         android:ems="10"
-        android:id="@+id/editText2"
+        android:id="@+id/introPasswordEditText"
         android:hint="@string/passwordEditText"
         android:textAlignment="center"
         android:textColorHint="#b7a9cc"
         android:layout_alignBottom="@+id/imageView"
         android:layout_alignLeft="@+id/imageView"
         android:layout_alignStart="@+id/imageView"
-        android:layout_below="@+id/editText"
+        android:layout_below="@+id/introEmailEditText"
         android:textColor="#ffffff" />
 
     <Button

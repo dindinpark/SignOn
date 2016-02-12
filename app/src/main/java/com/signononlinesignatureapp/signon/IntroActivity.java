@@ -10,6 +10,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.view.View;
+import android.widget.EditText;
+
 public class IntroActivity extends FragmentActivity {
 
     @Override
@@ -27,9 +29,14 @@ public class IntroActivity extends FragmentActivity {
         Button introActivityLoginButton=(Button)findViewById(R.id.introActivityLoginButton);
         Button introActivityRegisterButton=(Button) findViewById(R.id.introActivityRegisterButton);
 
+        EditText email, password;
+        email = (EditText) findViewById(R.id.introEmailEditText);
+        password = (EditText) findViewById(R.id.introPasswordEditText);
+
         introActivityLoginButton.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View v) {
+
                         startActivity(new Intent(IntroActivity.this, HomeActivity.class));
 
                     }
