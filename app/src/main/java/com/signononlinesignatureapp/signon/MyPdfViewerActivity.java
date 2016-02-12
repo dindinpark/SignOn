@@ -41,9 +41,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class MyPdfViewerActivity extends Pdftry {//implements View.OnTouchListener {
-    public String signPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/signon/word.pdf";
-    public String newPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/signon/word.pdf";
-    public String signaturePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/signon/word.png";
+    public String signPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/signon/word.pdf";
+    public String newPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/signon/wordstamp.pdf";
+    public String signaturePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/signon/sign.png";
 
 
     public void merge(float x,float y) {

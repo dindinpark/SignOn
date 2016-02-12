@@ -26,9 +26,9 @@ public class AESencrypttionFirst extends AppCompatActivity {
         main();
     }
     public static void main() {
-        String newPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/signon/DES.pdf";
-        String encPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/signon/trye.enc";
-        String decPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/signon/tryd2.pdf";
+        String newPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/signon/word.pdf";
+        String encPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/signon/worde.enc";
+        String decPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/signon/wordd.pdf";
         byte[] key = getKey();
         File inputFile = new File(newPath);
         File encryptedFile = new File(encPath);
