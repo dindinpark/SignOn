@@ -95,9 +95,9 @@ public class MyPdfViewerActivity extends Pdftry {//implements View.OnTouchListen
                     content.addImage(image);
 
                     //put content over
-             /*   content = pdfStamper.getOverContent(i);
+                content = pdfStamper.getOverContent(i);
                 image.setAbsolutePosition(x, y);
-                content.addImage(image);*/
+                content.addImage(image);
 
                     //Text over the existing page
                     /*BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA,
@@ -109,7 +109,7 @@ public class MyPdfViewerActivity extends Pdftry {//implements View.OnTouchListen
                 }
             }
             else{
-                PdfContentByte content = pdfStamper.getUnderContent(pageNum);
+                PdfContentByte content =  pdfStamper.getOverContent(pageNum);
                 image.setAbsolutePosition(x, y);
                 content.addImage(image);
 
