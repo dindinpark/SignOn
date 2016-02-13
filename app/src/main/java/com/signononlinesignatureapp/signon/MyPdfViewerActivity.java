@@ -48,7 +48,7 @@ public class MyPdfViewerActivity extends Pdftry {//implements View.OnTouchListen
     public String newPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/signon/word-S.pdf";
     public String signaturePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/signon/sign.png";
     public void displayAlertDialog() {
-//////////////
+//////////
         AlertDialog.Builder alert = new AlertDialog.Builder(MyPdfViewerActivity.this);
         alert.setTitle("Signing");
         alert.setMessage("Do you want to sign on all pages?");
