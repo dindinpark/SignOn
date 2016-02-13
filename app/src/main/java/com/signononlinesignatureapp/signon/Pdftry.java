@@ -893,7 +893,7 @@ public abstract class Pdftry extends Activity {
 			hl.addView(send);*/
 
 			////////////////////////////////////////////////////////////////////////////////////////////////////
-
+/////////////////////////
 				// zoom out button
 				bZoomOut=new ImageButton(context);
 				bZoomOut.setBackgroundDrawable(null);
