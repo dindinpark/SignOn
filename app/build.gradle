@@ -24,14 +24,19 @@ android {
     }
     productFlavors {
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
+    compile files('libs/5.5.4/itextg-5.5.4.jar')
+    compile files('libs/PdfViewer.jar')
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
-    compile files('libs/5.5.4/itextg-5.5.4.jar')
     compile 'com.firebase:firebase-client-android:2.5.0'
-    compile files('libs/PdfViewer.jar')
+    compile project(path: ':backend', configuration: 'android-endpoints')
 }
