@@ -24,7 +24,6 @@ public class IntroActivity extends FragmentActivity {
             window.setStatusBarColor(Color.rgb(80,23,140));
         }
 
-        new EndpointsAsyncTask().execute(new Pair<Context, String>(this, "SignOn"));
 
         setContentView(R.layout.activity_intro);
         Button introActivityLoginButton=(Button)findViewById(R.id.introActivityLoginButton);
