@@ -64,11 +64,11 @@ import java.nio.channels.FileChannel;
 public abstract class Pdftry extends Activity {
 	public static int pageSign;
 	private static final int STARTPAGE = 1;
-	private static final float STARTZOOM = 1.0f;
+	private static final float STARTZOOM = 1.0f;//2.0f for full page on HD
 	public static boolean allOrNot;
 	////////////////////////////////////////////////////Just for more time to solve problems /////////////////////////////
-	private static final float MIN_ZOOM = 1.0f; //0.80f;
-	private static final float MAX_ZOOM = 1.0f;//3.0f;
+	private static final float MIN_ZOOM = 0.80f; //0.80f;
+	private static final float MAX_ZOOM = 3.0f;//3.0f;
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	private static final float ZOOM_INCREMENT = 1.5f;
@@ -861,23 +861,32 @@ public abstract class Pdftry extends Activity {
 			sign.setText("SIGN");
 			sign.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
+
+					Matrix matrix=signature.getImageMatrix();
+					// Get the values of the matrix
+					float[] values = new float[9];
+					matrix.getValues(values);
+					// values[2] and values[5] are the x,y coordinates of the top left corner of the drawable image, regardless of the zoom factor.
+					// values[0] and values[4] are the zoom factors for the image's width and height respectively. If you zoom at the same factor, these should both be the same value.
+					values[0]=mZoom;
+					values[4]=mZoom;
+					// event is the touch event for MotionEvent.ACTION_UP
+					float relativeX = (signature.getX() - values[2]) / values[0];
+					float relativeY = (signature.getY() - values[5]) / values[4];
 					//////////////////////////option for signing//////////////////////
 					if(mPdfFile.getNumPages()>1){
 					displayAlertDialog();
-						if(allOrNot)
-
-
+						if(allOrNot){
 
 					/////////////////////////////////////////////////////////////////
+						///////////////////zoom coordinates///////////////////////
 
-
-
-					merge(signature.getX(), signature.getY(),-1);
+							merge(relativeX, relativeY,-1);}
 						else
-							merge(signature.getX(), signature.getY(),mPage);
+						merge(relativeX, relativeY,mPage);
 				}
 					else
-						merge(signature.getX(), signature.getY(),1);
+						merge(relativeX, relativeY,1);
 				}
 			});
 			hl.addView(sign);
