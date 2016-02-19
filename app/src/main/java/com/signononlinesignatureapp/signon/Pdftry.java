@@ -93,7 +93,7 @@ public abstract class Pdftry extends Activity {
 	private final static int MENU_ZOOM_OUT  = 5;
 	private final static int MENU_BACK      = 6;
 	private final static int MENU_CLEANUP   = 7;
-
+	private final static int MENU_SIGNATURE =8;
 	private final static int DIALOG_PAGENUM = 1;
 
 	public GraphView mOldGraphView;
@@ -312,9 +312,10 @@ public abstract class Pdftry extends Activity {
         super.onCreateOptionsMenu(menu);
         menu.add(Menu.NONE, MENU_PREV_PAGE, Menu.NONE, "Previous Page").setIcon(getPreviousPageImageResource());
         menu.add(Menu.NONE, MENU_NEXT_PAGE, Menu.NONE, "Next Page").setIcon(getNextPageImageResource());
-        menu.add(Menu.NONE, MENU_GOTO_PAGE, Menu.NONE, "Goto Page");
+		menu.add(Menu.NONE, MENU_GOTO_PAGE, Menu.NONE, "Goto Page");
         menu.add(Menu.NONE, MENU_ZOOM_OUT, Menu.NONE, "Zoom Out").setIcon(getZoomOutImageResource());
         menu.add(Menu.NONE, MENU_ZOOM_IN, Menu.NONE, "Zoom In").setIcon(getZoomInImageResource());
+		menu.add(Menu.NONE, MENU_SIGNATURE,Menu.NONE,"Select Signature").setIcon(getSelectSignatureImageResource());
         if (HardReference.sKeepCaches)
             menu.add(Menu.NONE, MENU_CLEANUP, Menu.NONE, "Clear Caches");
 
@@ -356,6 +357,10 @@ public abstract class Pdftry extends Activity {
             HardReference.cleanup();
             break;
     	}
+			case MENU_SIGNATURE:{
+
+				break;
+			}
     	}
     	return true;
     }
@@ -404,7 +409,12 @@ public abstract class Pdftry extends Activity {
     		}
     	}
 	}
+	private void selectSignature() {
+		if (mPdfFile != null) {
+			//code to get data from database
 
+		}
+	}
 	private void nextPage() {
     	if (mPdfFile != null) {
     		if (mPage < mPdfFile.getNumPages()) {
@@ -501,6 +511,7 @@ public abstract class Pdftry extends Activity {
     	private Button mBtPage2;
 		ImageButton bZoomOut;
 		ImageButton bZoomIn;
+		ImageButton bSelect;
 
 		///////////////////////////////////////////////////////////////////////////////////////////////////
 		//private Fragment sign_bar;
@@ -903,6 +914,17 @@ public abstract class Pdftry extends Activity {
 
 			////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////
+				//select signature button
+				bSelect=new ImageButton(context);
+				bSelect.setBackgroundDrawable(null);
+				bSelect.setLayoutParams(lpChild1);
+				bSelect.setImageResource(getSelectSignatureImageResource());
+				bSelect.setOnClickListener(new OnClickListener() {
+					public void onClick(View v) {
+						//signature select function
+					}
+				});
+			hl.addView(bSelect);
 				// zoom out button
 				bZoomOut=new ImageButton(context);
 				bZoomOut.setBackgroundDrawable(null);
@@ -1363,7 +1385,7 @@ android:layout_gravity="bottom">
     public abstract int getNextPageImageResource(); // R.drawable.right_arrow
     public abstract int getZoomInImageResource(); // R.drawable.zoom_int
     public abstract int getZoomOutImageResource(); // R.drawable.zoom_out
-    
+	public abstract int getSelectSignatureImageResource();//R.drawable.select_signature
     public abstract int getPdfPasswordLayoutResource(); // R.layout.pdf_file_password
     public abstract int getPdfPageNumberResource(); // R.layout.dialog_pagenumber
     

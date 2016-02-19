@@ -1,6 +1,8 @@
 package com.signononlinesignatureapp.signon;
 
 import android.support.v7.app.AppCompatActivity;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Calendar;
@@ -18,6 +20,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore.Images;
 import android.util.AttributeSet;
+import android.util.Base64;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,6 +28,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -39,16 +43,15 @@ public class CaptureSignatureActivity extends AppCompatActivity {
     private Bitmap mBitmap;
     View mView;
     File mypath;
-
     private String uniqueId;
-
+    public EditText SignatureName;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_capture_signature);
-
+        SignatureName=(EditText)findViewById(R.id.captureSignatureNameEditText);
         tempDir = Environment.getExternalStorageDirectory() + "/" + getResources().getString(R.string.external_dir) + "/";
         ContextWrapper cw = new ContextWrapper(getApplicationContext());
         File directory = cw.getDir(getResources().getString(R.string.external_dir), Context.MODE_PRIVATE);
@@ -156,7 +159,7 @@ public class CaptureSignatureActivity extends AppCompatActivity {
         } catch (Exception e)
         {
             e.printStackTrace();
-            Toast.makeText(this, "Could not initiate File System.. Is Sdcard mounted properly?", 1000).show();
+            Toast.makeText(this, "Could not initiate File System.. Is Sdcard mounted properly?", Toast.LENGTH_SHORT).show();
             return false;
         }
     }
@@ -225,6 +228,25 @@ public class CaptureSignatureActivity extends AppCompatActivity {
                 //boolean deleted = mypath.delete();
                 //Log.v("log_tag","deleted: " + mypath.toString() + deleted);
                 //If you want to convert the image to string use base64 converter
+                ////////////////////////////////store to firebase/////////////////////////////////////////////
+                String tSignatureName=SignatureName.getText().toString();
+                String tSignatureBase64=BitMapToString(mBitmap);
+                ///temp
+                String tSignerID="5";
+                String msg;
+                Toast MSG;
+                if(SignatureName.getText()!=null){
+                    SignatureAdapter mAdapter = new SignatureAdapter(CaptureSignatureActivity.this);
+                    Signature CurrentSignature = new Signature(null, tSignatureName, tSignatureBase64,tSignerID);
+                    mAdapter.addItem(CurrentSignature);
+
+                }
+                else{
+                    SignatureName.setHighlightColor(Color.RED);
+                    msg = "Signature Name cannot be empty";
+                    MSG = Toast.makeText(CaptureSignatureActivity.this, msg, Toast.LENGTH_SHORT);
+                    MSG.show();
+                }
 
             }
             catch(Exception e)
@@ -323,6 +345,14 @@ public class CaptureSignatureActivity extends AppCompatActivity {
             dirtyRect.top = Math.min(lastTouchY, eventY);
             dirtyRect.bottom = Math.max(lastTouchY, eventY);
         }
+        public String BitMapToString(Bitmap bitmap){
+            ByteArrayOutputStream baos=new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
+            byte [] b=baos.toByteArray();
+            String temp=Base64.encodeToString(b, Base64.DEFAULT);
+            return temp;
+        }
+
     }
 }
 

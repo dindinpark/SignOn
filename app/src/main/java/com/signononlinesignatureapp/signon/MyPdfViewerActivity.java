@@ -140,7 +140,9 @@ public class MyPdfViewerActivity extends Pdftry {//implements View.OnTouchListen
     public int getZoomOutImageResource() {
         return R.drawable.zoom_out;
     }
-
+    public int getSelectSignatureImageResource(){
+        return  R.drawable.select_signature;
+    }
     public int getPdfPasswordLayoutResource() {
         return R.layout.pdf_file_password;
     }

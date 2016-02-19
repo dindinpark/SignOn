@@ -22,6 +22,7 @@
     <string name="documentSigned">Document Signed:</string>
     <string name="title_activity_document">DocumentActivity</string>
     <string name="external_dir">signon</string>
+    <string name="captureSignatureNameText">Enter Signature Name:</string>
 
 
 </resources>
