@@ -85,6 +85,7 @@ public class MyPdfViewerActivity extends Pdftry {//implements View.OnTouchListen
                     new FileOutputStream(newPath));
 
             Image image = Image.getInstance(signaturePath);
+
             if (pageNum==-1) {
 
                 for (int i = 1; i <= pdfReader.getNumberOfPages(); i++) {
