@@ -3,38 +3,13 @@ package com.signononlinesignatureapp.signon;
 /**
  * Created by Naseebah on 28/01/16.
  */
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.os.Environment;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import net.sf.andpdf.pdfviewer.PdfViewerActivity;
-import net.sf.andpdf.pdfviewer.gui.FullScrollView;
-import android.content.Intent;
-import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
-import android.widget.TextView;
-import android.content.Context;
 
-import com.itextpdf.awt.geom.Rectangle;
-import com.sun.pdfview.PDFFile;
-import com.sun.pdfview.PDFImage;
-import com.sun.pdfview.PDFPage;
-import com.sun.pdfview.PDFPaint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.os.Environment;
+
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Image;
-import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
@@ -66,7 +41,7 @@ public class MyPdfViewerActivity extends Pdftry {//implements View.OnTouchListen
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-               allOrNot=true;
+                allOrNot=true;
             }
         });
 
@@ -96,9 +71,9 @@ public class MyPdfViewerActivity extends Pdftry {//implements View.OnTouchListen
                     content.addImage(image);
 
                     //put content over
-                content = pdfStamper.getOverContent(i);
-                image.setAbsolutePosition(x, y);
-                content.addImage(image);
+                    content = pdfStamper.getOverContent(i);
+                    image.setAbsolutePosition(x, y);
+                    content.addImage(image);
 
                     //Text over the existing page
                     /*BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA,
@@ -212,5 +187,3 @@ public class MyPdfViewerActivity extends Pdftry {//implements View.OnTouchListen
     // }
 
 }
-
-

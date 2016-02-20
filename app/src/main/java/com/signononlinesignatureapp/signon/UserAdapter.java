@@ -28,6 +28,8 @@ public class UserAdapter extends BaseAdapter implements ChildEventListener {
         mFirebase.addChildEventListener(this);
     }
 
+
+
     @Override
     public int getCount() {
         return mUsers.size();
@@ -38,24 +40,28 @@ public class UserAdapter extends BaseAdapter implements ChildEventListener {
         mFirebase.child(user.getKey()).removeValue();
     }
 
-    public void addItem(User user) {
+    public void addItem(final User user) {
         //TODO: Push new data to Firebase
         Map<String, String> newUser = new HashMap<String, String>();
-        newUser.put("Email",user.getEmail());
-        //newUser.put("a", user.getA().toString());
+        newUser.put("Email", user.getEmail());
+        newUser.put("a", user.getA().toString());
         newUser.put("birthdate", user.getBirthdate());
-        //if (user.isInfinity()) {
-        //    newUser.put("infinity","TRUE");
-        //}
-        //else {
-        //    newUser.put("infinity", "FALSE");
-        //}
+        if (user.isInfinity()) {
+            newUser.put("infinity","TRUE");
+        }
+        else {
+            newUser.put("infinity", "FALSE");
+        }
         newUser.put("password", user.getPassword());
         newUser.put("username", user.getUsername());
-        //newUser.put("x", user.getX().toString());
-        //newUser.put("y", user.getY().toString());
+        newUser.put("x", user.getX().toString());
+        newUser.put("y", user.getY().toString());
+        newUser.put("p", user.getP().toString());
+        newUser.put("PK", String.valueOf(user.getPK()));
+
 
         mFirebase.push().setValue(newUser);
+
     }
 
     public void updateItem(User user) {
@@ -143,4 +149,5 @@ public class UserAdapter extends BaseAdapter implements ChildEventListener {
     public void onCancelled(FirebaseError firebaseError) {
 
     }
+
 }
