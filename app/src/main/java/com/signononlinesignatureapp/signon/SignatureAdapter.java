@@ -1,7 +1,6 @@
 package com.signononlinesignatureapp.signon;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -22,11 +21,11 @@ import java.util.Map;
 public class SignatureAdapter extends BaseAdapter implements ChildEventListener {
 
 
-    private List<Signature> mSignatures;
+    private List<signature> mSignatures;
     private Firebase mFirebase;
 
     public SignatureAdapter(Context context) {
-        mSignatures = new ArrayList<Signature>();
+        mSignatures = new ArrayList<signature>();
         Firebase.setAndroidContext(context);
         mFirebase = new Firebase ("https://torrid-heat-4458.firebaseio.com/signature");
         mFirebase.addChildEventListener(this);
@@ -37,12 +36,12 @@ public class SignatureAdapter extends BaseAdapter implements ChildEventListener 
         return mSignatures.size();
     }
 
-    public void removeItem(Signature signature) {
+    public void removeItem(signature signature) {
         //TODO: Remove data from Firebase
         mFirebase.child(signature.getKey()).removeValue();
     }
 
-    public void addItem(Signature signature) {
+    public void addItem(signature signature) {
         //TODO: Push new data to Firebase
         Map<String, String> newSignature = new HashMap<String, String>();
         newSignature.put("signatureName",signature.getSignatureName());
@@ -51,17 +50,17 @@ public class SignatureAdapter extends BaseAdapter implements ChildEventListener 
         mFirebase.push().setValue(newSignature);
     }
 
-    public void updateItem(Signature signature) {
+    public void updateItem(signature signature ) {
         //TODO: Push changes to Firebase
         Map<String, String> newSignature = new HashMap<String, String>();
         newSignature.put("signatureName",signature.getSignatureName());
         newSignature.put("signatureBase64", signature.getSignatureBase64());
         newSignature.put("signerID", signature.getSignerID());
-        mFirebase.child(signature.getKey()).setValue(newSignature);
+        mFirebase.push().setValue(newSignature);
     }
 
     @Override
-    public Signature getItem(int position) {
+    public signature getItem(int position) {
         return mSignatures.get(position);
     }
 
@@ -79,26 +78,26 @@ public class SignatureAdapter extends BaseAdapter implements ChildEventListener 
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String previeousChildName) {
         String key = dataSnapshot.getKey();
-        String SignatureName = dataSnapshot.child("signatureName").getValue(String.class);
-        String SignatureBase64 = dataSnapshot.child("SignatureBase64").getValue(String.class);
-        String SignerID = dataSnapshot.child("SignerID").getValue(String.class);
-        mSignatures.add(0, new Signature(key,SignatureName,SignatureBase64,SignerID));// add to the top
+        String signatureName = dataSnapshot.child("signatureName").getValue(String.class);
+        String signatureBase64 = dataSnapshot.child("signatureBase64").getValue(String.class);
+        String signerID = dataSnapshot.child("signerID").getValue(String.class);
+        mSignatures.add(0, new signature(key,signatureName,signatureBase64,signerID));// add to the top
         notifyDataSetChanged();// update adapter
     }
 
     @Override
     public void onChildChanged(DataSnapshot dataSnapshot, String s) {
         String key = dataSnapshot.getKey();
-        String SignatureName = dataSnapshot.child("signatureName").getValue(String.class);
-        String SignatureBase64 = dataSnapshot.child("SignatureBase64").getValue(String.class);
-        String SignerID = dataSnapshot.child("SignerID").getValue(String.class);
-        for ( Signature newSignature : mSignatures)
+        String signatureName = dataSnapshot.child("signatureName").getValue(String.class);
+        String signatureBase64 = dataSnapshot.child("signatureBase64").getValue(String.class);
+        String signerID = dataSnapshot.child("signerID").getValue(String.class);
+        for ( signature newSignature : mSignatures)
         {
             if (key.equals(newSignature.getKey()))
             {
-                newSignature.setSignatureBase64(SignatureBase64);
-                newSignature.setSignatureName(SignatureName);
-                newSignature.setSignerID(SignerID);
+                newSignature.setSignatureBase64(signatureBase64);
+                newSignature.setSignatureName(signatureName);
+                newSignature.setSignerID(signerID);
                 break;
             }
         }
@@ -108,7 +107,7 @@ public class SignatureAdapter extends BaseAdapter implements ChildEventListener 
     @Override
     public void onChildRemoved(DataSnapshot dataSnapshot) {
         String key = dataSnapshot.getKey();
-        for ( Signature newSignature : mSignatures)
+        for ( signature newSignature : mSignatures)
         {
             if (key.equals(newSignature.getKey()))
             {

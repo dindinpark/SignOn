@@ -73,7 +73,7 @@ public class IntroActivity extends FragmentActivity {
 
     }
     public void sha512ButtonClick(View v){
-        startActivity(new Intent(IntroActivity.this, hash.class));
+        startActivity(new Intent(IntroActivity.this, SignatureSelectActivity.class));
 
 
     }

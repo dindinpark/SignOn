@@ -237,13 +237,13 @@ public class CaptureSignatureActivity extends AppCompatActivity {
                 Toast MSG;
                 if(SignatureName.getText()!=null){
                     SignatureAdapter mAdapter = new SignatureAdapter(CaptureSignatureActivity.this);
-                    Signature CurrentSignature = new Signature(null, tSignatureName, tSignatureBase64,tSignerID);
+                    com.signononlinesignatureapp.signon.signature CurrentSignature = new com.signononlinesignatureapp.signon.signature(null, tSignatureName, tSignatureBase64,tSignerID);
                     mAdapter.addItem(CurrentSignature);
 
                 }
                 else{
                     SignatureName.setHighlightColor(Color.RED);
-                    msg = "Signature Name cannot be empty";
+                    msg = "signature Name cannot be empty";
                     MSG = Toast.makeText(CaptureSignatureActivity.this, msg, Toast.LENGTH_SHORT);
                     MSG.show();
                 }
