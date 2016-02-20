@@ -5,10 +5,17 @@ package com.signononlinesignatureapp.signon;
  */
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.firebase.client.Query;
+
+import java.io.ByteArrayOutputStream;
+
 public class SignatureListArrayAdapter extends FirebaseListAdapter<signature> {
 
 
@@ -20,6 +27,11 @@ public class SignatureListArrayAdapter extends FirebaseListAdapter<signature> {
     protected void populateView(View view, signature signature) {
         // Map a Chat object to an entry in our listview
         String signatureName = signature.getSignatureName();
+        String signatureBase64=signature.getSignatureBase64();
+        byte[] temp=Base64.decode(signatureBase64, Base64.DEFAULT);
+        Bitmap img= BitmapFactory.decodeByteArray(temp, 0, temp.length);
+        ImageView signaturePic=(ImageView)view.findViewById(R.id.selectSignatureBase64);
+        signaturePic.setImageBitmap(img);
         TextView signatureText = (TextView) view.findViewById(R.id.selectSignatureName);
         signatureText.setText(signatureName + ": ");
         // If the message was sent by this user, color it differently
