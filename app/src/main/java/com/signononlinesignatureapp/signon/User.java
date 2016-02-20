@@ -1,20 +1,73 @@
 package com.signononlinesignatureapp.signon;
 
+import java.math.BigInteger;
+import java.util.Random;
+
 /**
  * Created by Omaimah on 2/19/2016.
  */
 public class User {
 
-   //private Point point = new Point();
     private String key;
     private String Email;
-   //BigInteger a;
+    private BigInteger a;
+    private BigInteger p;
     private String birthdate;
-    //boolean infinity;
+    boolean infinity;
     private String password;
     private String username;
-    //private BigInteger x;
-    //private BigInteger y;
+    private BigInteger x;
+    private BigInteger y;
+
+    public long getPK() {
+        return PK;
+    }
+
+    public void setPK(long PK) {
+        this.PK = PK;
+    }
+
+    private long PK;
+
+    public BigInteger getA() {
+        return a;
+    }
+
+    public void setA(BigInteger a) {
+        this.a = a;
+    }
+
+    public BigInteger getP() {
+        return p;
+    }
+
+    public void setP(BigInteger p) {
+        this.p = p;
+    }
+
+    public boolean isInfinity() {
+        return infinity;
+    }
+
+    public void setInfinity(boolean infinity) {
+        this.infinity = infinity;
+    }
+
+    public BigInteger getY() {
+        return y;
+    }
+
+    public void setY(BigInteger y) {
+        this.y = y;
+    }
+
+    public BigInteger getX() {
+        return x;
+    }
+
+    public void setX(BigInteger x) {
+        this.x = x;
+    }
 
     public String getKey() {
         return key;
@@ -57,39 +110,6 @@ public class User {
     }
 
 
-    /*public BigInteger getY() {
-        return point.getY();
-    }
-
-    public void setY(BigInteger y) {
-        this.y = point.getY();
-    }
-
-    public BigInteger getX() {
-        return point.getX();
-    }
-
-    public void setX(BigInteger x) {
-
-        this.x = point.getX();
-    }
-
-    public BigInteger getA() {
-        return point.getA();
-    }
-
-    public void setA(BigInteger a) {
-        this.a = point.getA();
-    }
-
-    public boolean isInfinity() {
-        return point.isInfinity();
-    }
-
-    public void setInfinity(boolean infinity) {
-        this.infinity = point.isInfinity();
-    }*/
-
 
 
     public User(String key, String email, String birthdate, String password, String username) {
@@ -98,9 +118,32 @@ public class User {
         this.birthdate = birthdate;
         this.password = password;
         this.username = username;
-        /*this.a = getA();
-        this.infinity = isInfinity();
-        this.x = getX();
-        this.y = getY();*/
+    }
+
+    public void CreateECDSAobject ( long PrK )
+    {
+        PK = PrK;
+        ECDSA obj = new ECDSA();
+        obj.setdA(BigInteger.valueOf(PrK));
+        Point QA = obj.getQA(); // public key
+        a = QA.getA();   // store values
+        p = QA.getP();
+        x = QA.getX();
+        y = QA.getY();
+
+        if(QA.isInfinity()){
+            infinity = true;
+        }
+        else {
+            infinity = false;
+        }
+
+    }
+
+    public long GeneratePK ()
+    {
+        Random random = new Random();
+        long PrK = random.nextLong();
+        return PrK;
     }
 }
