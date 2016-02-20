@@ -12,12 +12,23 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.Query;
+import com.firebase.client.ValueEventListener;
 
 public class IntroActivity extends FragmentActivity {
+
+    Intent homeintent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Firebase.setAndroidContext(this);
+        homeintent= new Intent(this,HomeActivity.class);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -29,7 +40,7 @@ public class IntroActivity extends FragmentActivity {
         Button introActivityLoginButton=(Button)findViewById(R.id.introActivityLoginButton);
         Button introActivityRegisterButton=(Button) findViewById(R.id.introActivityRegisterButton);
 
-        EditText email, password;
+       final EditText email, password;
         email = (EditText) findViewById(R.id.introEmailEditText);
         password = (EditText) findViewById(R.id.introPasswordEditText);
 
@@ -37,7 +48,7 @@ public class IntroActivity extends FragmentActivity {
                 new View.OnClickListener() {
                     public void onClick(View v) {
 
-                        startActivity(new Intent(IntroActivity.this, HomeActivity.class));
+                        searchforuser(email.getText().toString(), password.getText().toString());
 
                     }
 
@@ -71,4 +82,68 @@ public class IntroActivity extends FragmentActivity {
         startActivity(new Intent(IntroActivity.this, SignDocument.class));
 
     }
+
+    public void searchforuser(final String email, final String password) {
+        final EditText emailtext = (EditText) findViewById(R.id.introEmailEditText);
+        Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/users");
+        Query queryRef = ref.orderByChild("Email").equalTo(email);
+
+        ValueEventListener listener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot child: dataSnapshot.getChildren()) {
+
+                        passwordsearch(password,child.getKey());
+
+                    }
+                }
+                else {
+                    Toast toast = Toast.makeText(IntroActivity.this, "email not found", Toast.LENGTH_LONG);
+                    toast.show();
+
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        };
+        queryRef.addValueEventListener(listener);
+    }
+
+    public void passwordsearch(String password, final String userkey){
+
+        Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/users/");
+        final EditText emailtext = (EditText) findViewById(R.id.introEmailEditText);
+        Query queryRef = ref.orderByChild("password").equalTo(password);
+        ValueEventListener listener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot child: dataSnapshot.getChildren()) {
+                      if(userkey==child.getKey()) {
+                          homeintent.putExtra("key", userkey);
+                        startActivity(homeintent);
+                          break;
+                      }
+                    }
+                }
+                else {
+                    Toast toast = Toast.makeText(IntroActivity.this, "Incorrect password", Toast.LENGTH_LONG);
+                    toast.show();
+
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        };
+        queryRef.addValueEventListener(listener);
+
+    }
 }
+
