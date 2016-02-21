@@ -19,12 +19,18 @@ public class HomeActivity extends AppCompatActivity {
        session.userkey = extras.getString("key");
     }
     public void testOn(View v){
-        startActivity(new Intent(HomeActivity.this, SettingActivity.class));
+        startActivity(new Intent(HomeActivity.this, SignatureSelectActivity.class));
 
 
     }
     public void testOn2(View v){
         startActivity(new Intent(HomeActivity.this, CaptureSignatureActivity.class));
+
+
+    }
+
+    public void testOn3(View v){
+        startActivity(new Intent(HomeActivity.this, SettingActivity.class));
 
 
     }

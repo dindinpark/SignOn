@@ -1,12 +1,5 @@
 package com.signononlinesignatureapp.signon;
 
-import android.support.v7.app.AppCompatActivity;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.util.Calendar;
-
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
@@ -19,6 +12,7 @@ import android.graphics.RectF;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore.Images;
+import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.util.Base64;
 import android.util.Log;
@@ -31,6 +25,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.Calendar;
 
 public class CaptureSignatureActivity extends AppCompatActivity {
 
@@ -219,10 +218,14 @@ public class CaptureSignatureActivity extends AppCompatActivity {
                 FileOutputStream mFileOutStream = new FileOutputStream(mypath);
 
                 v.draw(canvas);
-                mBitmap.compress(Bitmap.CompressFormat.PNG, 90, mFileOutStream);
+                //mBitmap.createScaledBitmap(mBitmap, 50, 50,false);
+
+                Bitmap resized = Bitmap.createScaledBitmap(mBitmap, (int)(mBitmap.getWidth()*0.5), (int)(mBitmap.getHeight()*0.5), true);
+
+                resized.compress(Bitmap.CompressFormat.PNG, 90, mFileOutStream);
                 mFileOutStream.flush();
                 mFileOutStream.close();
-                String url = Images.Media.insertImage(getContentResolver(), mBitmap, "title", null);
+                String url = Images.Media.insertImage(getContentResolver(), resized, "title", null);
                 Log.v("log_tag","url: " + url);
                 //In case you want to delete the file
                 //boolean deleted = mypath.delete();
@@ -230,7 +233,7 @@ public class CaptureSignatureActivity extends AppCompatActivity {
                 //If you want to convert the image to string use base64 converter
                 ////////////////////////////////store to firebase/////////////////////////////////////////////
                 String tSignatureName=SignatureName.getText().toString();
-                String tSignatureBase64=BitMapToString(mBitmap);
+                String tSignatureBase64=BitMapToString(resized);
                 ///temp
                 String tSignerID=session.userkey;
                 String msg;

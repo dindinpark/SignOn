@@ -112,6 +112,17 @@
             android:background="#7724cc"
             android:textColor="#ffffff"
             android:onClick="testOn2"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Settings"
+            android:id="@+id/button3"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#ffffff"
+            android:background="#7724cc"
+            android:onClick="testOn3" />
+
     </LinearLayout>
 
 </RelativeLayout>
