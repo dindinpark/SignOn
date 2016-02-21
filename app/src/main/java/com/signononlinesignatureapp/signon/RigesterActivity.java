@@ -79,47 +79,51 @@ public class RigesterActivity extends AppCompatActivity {
             final Firebase mFirebase = new Firebase ("https://torrid-heat-4458.firebaseio.com/users");
             final UserAdapter mAdapter = new UserAdapter(this);
             final User CurrentUser = new User(null, email, birthdate, password, name);
-            Firebase.setAndroidContext(this);
+            EmailExist(email, CurrentUser, mAdapter);
 
-            Query queryRef = mFirebase.orderByChild("Email").equalTo(email);
-
-
-            ValueEventListener listener = new ValueEventListener() {
-
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    String msg;
-                    if (!dataSnapshot.exists()) {
-                         //long PrK = CurrentUser.GeneratePK();
-                        long PrK = 1245;
-                        CurrentUser.CreateECDSAobject(PrK);
-                        mAdapter.addItem(CurrentUser);
-                        msg = "register is successful";
-                        Toast MSG = Toast.makeText(RigesterActivity.this, msg, Toast.LENGTH_SHORT);
-                        MSG.show();
-                    }
-                    else {
-                        for (DataSnapshot child : dataSnapshot.getChildren()) {
-
-                            msg = "email is already registered";
-                            Toast toast = Toast.makeText(RigesterActivity.this, msg, Toast.LENGTH_SHORT);
-                            toast.show();
-                            break;
-                        }
-                    }
-                }
-
-                @Override
-                public void onCancelled(FirebaseError firebaseError) {
-
-                }
-
-            };
-            queryRef.addValueEventListener(listener);
 
         }
     }
 
+    private void EmailExist(String email, final User currentUser, final UserAdapter mAdapter) {
+        Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/users");
+        Query queryRef = ref.orderByChild("Email").equalTo(email);
+
+        ValueEventListener listener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot child: dataSnapshot.getChildren()) {
+                        Toast toast = Toast.makeText(RigesterActivity.this, "email is already registered", Toast.LENGTH_LONG);
+                        toast.show();
+                        break;
+                    }
+                }
+                else {
+                    createAccount(currentUser, mAdapter);
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+
+        };
+        queryRef.addListenerForSingleValueEvent(listener);
+
+    }
+
+    public void createAccount (User CurrentUser, UserAdapter mAdapter)
+    {
+        //long PrK = CurrentUser.GeneratePK();
+        long PrK = 1245;
+        CurrentUser.CreateECDSAobject(PrK);
+        mAdapter.addItem(CurrentUser);
+        Toast MSG = Toast.makeText(RigesterActivity.this, "register is successful", Toast.LENGTH_SHORT);
+        MSG.show();
+
+    }
 
 
 }

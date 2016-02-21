@@ -2,14 +2,10 @@ package com.signononlinesignatureapp.signon;
 
 
 import android.app.ListActivity;
-import android.content.SharedPreferences;
 import android.database.DataSetObserver;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,9 +15,6 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
-import com.google.appengine.repackaged.com.google.gson.internal.bind.ReflectiveTypeAdapterFactory;
-
-import java.util.Random;
 
 public class SignatureSelectActivity extends ListActivity {
 

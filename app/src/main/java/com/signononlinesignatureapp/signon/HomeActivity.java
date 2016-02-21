@@ -2,11 +2,10 @@ package com.signononlinesignatureapp.signon;
 
 import android.content.Intent;
 import android.os.Bundle;
-//import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.TextView;
+
+//import android.support.v7.app.AppCompatActivity;
 
 //push 2
 public class HomeActivity extends AppCompatActivity {
@@ -20,7 +19,7 @@ public class HomeActivity extends AppCompatActivity {
        session.userkey = extras.getString("key");
     }
     public void testOn(View v){
-        startActivity(new Intent(HomeActivity.this, SignatureSelectActivity.class));
+        startActivity(new Intent(HomeActivity.this, SettingActivity.class));
 
 
     }

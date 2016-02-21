@@ -10,141 +10,130 @@
     tools:context="com.signononlinesignatureapp.signon.SettingActivity"
     android:background="#e0dfe1">
 
-    <TableLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:background="#ffffff">
+        android:layout_height="match_parent">
 
-        <TableRow
+        <GridLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-
-            <Button
-                android:textAllCaps="false"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/changePasswordButtonText"
-                android:id="@+id/button3"
-                android:layout_column="1"
-                android:background="@null"
-                android:layout_gravity="left"
-                android:layout_marginRight="10dp"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_marginLeft="5dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:id="@+id/textView2"
-                android:layout_column="2"
-                android:textColor="#777679"
-                android:layout_gravity="center_vertical"
-                android:maxLines = "1"
-                android:scrollbars = "horizontal"
-                />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <Button
-                android:textAllCaps="false"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/changePasswordButtonText"
-                android:id="@+id/button4"
-                android:layout_column="1"
-                android:background="@null"
-                android:shadowColor="@null"
-                android:layout_gravity="left"
-                android:layout_marginRight="10dp"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_marginLeft="5dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:id="@+id/textView3"
-                android:layout_column="2"
-                android:textColor="#777679"
-                android:layout_gravity="center_vertical"
-                android:maxLines = "1"
-                android:scrollbars = "horizontal"
-                />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <Button
-                android:textAllCaps="false"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/changeNameButtonText"
-                android:id="@+id/button5"
-                android:layout_column="1"
-                android:background="@null"
-                android:layout_gravity="left"
-                android:layout_marginRight="10dp"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_marginLeft="5dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:id="@+id/textView5"
-                android:layout_column="2"
-                android:textColor="#777679"
-                android:layout_gravity="center_vertical"
-                android:maxLines = "1"
-                android:scrollbars = "horizontal"
-                />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <Button
-                android:textAllCaps="false"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/changeSignatureButtonText"
-                android:id="@+id/button6"
-                android:layout_column="1"
-                android:background="@null"
-                android:layout_gravity="left"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_marginLeft="5dp" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="210dp"
+            android:background="#ffffff"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:clickable="false"
+            android:columnCount="3"
+            android:rowCount="2">
 
             <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:id="@+id/Picture"
+                android:layout_row="0"
+                android:layout_column="0"
+                android:layout_marginLeft="10dp"
+                android:layout_columnSpan="3"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp" />
+
+            <Button
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="Change Picture"
+                android:id="@+id/ChangePictureButton"
+                android:layout_row="1"
+                android:layout_column="1"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="left" />
+
+            <Button
+                android:layout_width="149dp"
+                android:layout_height="wrap_content"
+                android:text="Save Changes"
+                android:id="@+id/SaveChangesButton"
+                android:layout_row="1"
+                android:layout_marginLeft="10dp"
+                android:layout_column="2"
+                android:layout_marginRight="10dp"
+                android:onClick="SaveChangesOnClick" />
+
+        </GridLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:background="#ffffff">
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageView2"
-                android:layout_column="1"
-                android:layout_span="2"
-                android:minHeight="60dp"
-                android:layout_marginLeft="2dp"
-                android:contentDescription="signatureImage" />
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Name :"
+                android:id="@+id/textView3"
+                android:layout_marginLeft="10dp" />
 
-        </TableRow>
-    </TableLayout>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/NameEditText"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:singleLine="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Password :"
+                android:id="@+id/textView5"
+                android:layout_marginLeft="10dp" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/PasswordEditText"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:password="true"
+                android:singleLine="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Email :"
+                android:id="@+id/textView17"
+                android:layout_marginLeft="10dp" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:id="@+id/EmailEditText"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:singleLine="true"
+                android:inputType="textWebEmailAddress" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Birthday :"
+                android:id="@+id/textView18"
+                android:layout_marginLeft="10dp" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/BirthdayEditText"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:singleLine="true" />
+        </LinearLayout>
+    </LinearLayout>
+
 </RelativeLayout>

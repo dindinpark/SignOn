@@ -59,7 +59,6 @@ public class UserAdapter extends BaseAdapter implements ChildEventListener {
         newUser.put("p", user.getP().toString());
         newUser.put("PK", String.valueOf(user.getPK()));
 
-
         mFirebase.push().setValue(newUser);
 
     }
@@ -71,7 +70,10 @@ public class UserAdapter extends BaseAdapter implements ChildEventListener {
         newUser.put("birthdate", user.getBirthdate());
         newUser.put("password", user.getPassword());
         newUser.put("username", user.getUsername());
-        mFirebase.child(user.getKey()).setValue(newUser);
+        mFirebase.child(user.getKey()).child("Email").setValue(user.getEmail());
+        mFirebase.child(user.getKey()).child("birthdate").setValue(user.getBirthdate());
+        mFirebase.child(user.getKey()).child("password").setValue(user.getPassword());
+        mFirebase.child(user.getKey()).child("username").setValue(user.getUsername());
     }
 
     @Override
