@@ -116,7 +116,6 @@ public class IntroActivity extends FragmentActivity {
     public void passwordsearch(String password, final String userkey){
 
         Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/users/");
-        final EditText emailtext = (EditText) findViewById(R.id.introEmailEditText);
         Query queryRef = ref.orderByChild("password").equalTo(password);
         ValueEventListener listener = new ValueEventListener() {
             @Override
