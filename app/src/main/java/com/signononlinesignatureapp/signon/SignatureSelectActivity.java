@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
+import com.google.appengine.repackaged.com.google.gson.internal.bind.ReflectiveTypeAdapterFactory;
 
 import java.util.Random;
 
@@ -36,7 +38,7 @@ private Query queryRef;
         Firebase.setAndroidContext(this);
         Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/signature");
         mFirebaseRef = new Firebase(FIREBASE_URL).child("signature");
-        //queryRef = ref.orderByChild("signerID").equalTo(session.userkey);
+        queryRef = ref.orderByChild("signerID").equalTo(session.userkey);
     }
     @Override
     public void onStart() {
@@ -44,7 +46,7 @@ private Query queryRef;
         // Setup our view and list adapter. Ensure it scrolls to the bottom as data changes
         final ListView listView = getListView();
         // Tell our list adapter that we only want 50 messages at a time
-        mSignatureListAdapter = new SignatureListArrayAdapter(mFirebaseRef, this, R.layout.signature);
+        mSignatureListAdapter = new SignatureListArrayAdapter(queryRef, this, R.layout.signature);
         listView.setAdapter(mSignatureListAdapter);
         mSignatureListAdapter.registerDataSetObserver(new DataSetObserver() {
             @Override
@@ -53,7 +55,15 @@ private Query queryRef;
                 listView.setSelection(mSignatureListAdapter.getCount() - 1);
             }
         });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position,
+                                    long id) { String selected = ((TextView) view.findViewById(R.id.selectSignatureName)).getText().toString();
 
+                Toast toast=Toast.makeText(getApplicationContext(), selected, Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
         // Finally, a little indication of connection status
         mConnectedListener = mFirebaseRef.getRoot().child(".info/connected").addValueEventListener(new ValueEventListener() {
             @Override

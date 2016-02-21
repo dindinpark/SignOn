@@ -232,7 +232,7 @@ public class CaptureSignatureActivity extends AppCompatActivity {
                 String tSignatureName=SignatureName.getText().toString();
                 String tSignatureBase64=BitMapToString(mBitmap);
                 ///temp
-                String tSignerID="5";
+                String tSignerID=session.userkey;
                 String msg;
                 Toast MSG;
                 if(SignatureName.getText()!=null){
