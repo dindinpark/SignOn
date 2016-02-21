@@ -40,6 +40,7 @@ private Query queryRef;
         queryRef = ref.orderByChild("signerID").equalTo(session.userkey);
     }
     @Override
+
     public void onStart() {
         super.onStart();
         // Setup our view and list adapter. Ensure it scrolls to the bottom as data changes
