@@ -26,6 +26,7 @@ public class SignatureListArrayAdapter extends FirebaseListAdapter<signature> {
     @Override
     protected void populateView(View view, signature signature) {
         // Map a Chat object to an entry in our listview
+       // if(signature.getSignerID().equals(session.userkey)){
         String signatureName = signature.getSignatureName();
         String signatureBase64=signature.getSignatureBase64();
         byte[] temp=Base64.decode(signatureBase64, Base64.DEFAULT);
@@ -40,7 +41,7 @@ public class SignatureListArrayAdapter extends FirebaseListAdapter<signature> {
         } else {
             authorText.setTextColor(Color.BLUE);
         }*/
-        ((TextView) view.findViewById(R.id.selectSignatureID)).setText(signature.getSignerID());
+        ((TextView) view.findViewById(R.id.selectSignatureID)).setText(signature.getSignerID());//}
     }
 
     /*private final LayoutInflater mInflater;

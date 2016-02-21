@@ -19,7 +19,6 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
-import com.google.appengine.repackaged.com.google.gson.internal.bind.ReflectiveTypeAdapterFactory;
 
 import java.util.Random;
 
@@ -38,7 +37,7 @@ private Query queryRef;
         Firebase.setAndroidContext(this);
         Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/signature");
         mFirebaseRef = new Firebase(FIREBASE_URL).child("signature");
-        //queryRef = ref.orderByChild("signerID").equalTo(session.userkey);
+        queryRef = ref.orderByChild("signerID").equalTo(session.userkey);
     }
     @Override
     public void onStart() {
