@@ -38,7 +38,7 @@ private Query queryRef;
         Firebase.setAndroidContext(this);
         Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/signature");
         mFirebaseRef = new Firebase(FIREBASE_URL).child("signature");
-        queryRef = ref.orderByChild("signerID").equalTo(session.userkey);
+        //queryRef = ref.orderByChild("signerID").equalTo(session.userkey);
     }
     @Override
     public void onStart() {
@@ -46,7 +46,7 @@ private Query queryRef;
         // Setup our view and list adapter. Ensure it scrolls to the bottom as data changes
         final ListView listView = getListView();
         // Tell our list adapter that we only want 50 messages at a time
-        mSignatureListAdapter = new SignatureListArrayAdapter(queryRef, this, R.layout.signature);
+        mSignatureListAdapter = new SignatureListArrayAdapter(mFirebaseRef, this, R.layout.signature);
         listView.setAdapter(mSignatureListAdapter);
         mSignatureListAdapter.registerDataSetObserver(new DataSetObserver() {
             @Override
