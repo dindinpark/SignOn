@@ -315,7 +315,7 @@ public abstract class Pdftry extends Activity {
 		menu.add(Menu.NONE, MENU_GOTO_PAGE, Menu.NONE, "Goto Page");
         menu.add(Menu.NONE, MENU_ZOOM_OUT, Menu.NONE, "Zoom Out").setIcon(getZoomOutImageResource());
         menu.add(Menu.NONE, MENU_ZOOM_IN, Menu.NONE, "Zoom In").setIcon(getZoomInImageResource());
-		menu.add(Menu.NONE, MENU_SIGNATURE,Menu.NONE,"Select Signature").setIcon(getSelectSignatureImageResource());
+		menu.add(Menu.NONE, MENU_SIGNATURE,Menu.NONE,"Select signature").setIcon(getSelectSignatureImageResource());
         if (HardReference.sKeepCaches)
             menu.add(Menu.NONE, MENU_CLEANUP, Menu.NONE, "Clear Caches");
 
@@ -358,6 +358,10 @@ public abstract class Pdftry extends Activity {
             break;
     	}
 			case MENU_SIGNATURE:{
+				startActivity(new Intent(this, SignatureSelectActivity.class));
+
+
+
 
 				break;
 			}
