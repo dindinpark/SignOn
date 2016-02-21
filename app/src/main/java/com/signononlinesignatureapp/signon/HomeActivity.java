@@ -24,4 +24,9 @@ public class HomeActivity extends AppCompatActivity {
 
 
     }
+    public void testOn2(View v){
+        startActivity(new Intent(HomeActivity.this, CaptureSignatureActivity.class));
+
+
+    }
 }

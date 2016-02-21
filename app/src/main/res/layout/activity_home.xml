@@ -110,7 +110,8 @@
             android:layout_marginTop="20dp"
             android:layout_gravity="center_horizontal"
             android:background="#7724cc"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:onClick="testOn2"/>
     </LinearLayout>
 
 </RelativeLayout>
