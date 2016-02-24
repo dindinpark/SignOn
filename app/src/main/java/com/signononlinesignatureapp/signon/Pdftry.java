@@ -366,8 +366,8 @@ public abstract class Pdftry extends Activity {
             break;
     	}
 			case MENU_SIGNATURE:{
-				startActivity(new Intent(this, SignatureSelectActivity.class));
 
+				selectSignature();
 
 
 
@@ -421,12 +421,23 @@ public abstract class Pdftry extends Activity {
     		}
     	}
 	}
+
+
 	private void selectSignature() {
 		if (mPdfFile != null) {
-			//code to get data from database
+
+			Toast.makeText(this, "clicked", Toast.LENGTH_LONG);
+
+			Intent pickContactIntent = new Intent(this,SignatureSelectActivity.class);
+			startActivity(pickContactIntent);
+
+			//mGraphView.signature=getsignatureImageReasource();
+
+			//Toast.makeText(this, getsignatureImageReasource().toString(), Toast.LENGTH_LONG);
 
 		}
 	}
+
 	private void nextPage() {
     	if (mPdfFile != null) {
     		if (mPage < mPdfFile.getNumPages()) {
@@ -661,7 +672,8 @@ public abstract class Pdftry extends Activity {
 			signature.setLayoutParams(imsize);
 			//bNext.setText(">");
 			//bNext.setWidth(40);
-			signature.setImageResource(getsignatureImageReasource());
+			changeImageView();
+			//signature.setImageResource(getsignatureImageReasource());
 			signature.setScaleType(ImageView.ScaleType.FIT_CENTER);
 			vl.addView(signature);
 			/////////////////////////////////////////////////////////////////////////////////////////
@@ -934,6 +946,7 @@ public abstract class Pdftry extends Activity {
 				bSelect.setOnClickListener(new OnClickListener() {
 					public void onClick(View v) {
 						//signature select function
+						selectSignature();
 					}
 				});
 			hl.addView(bSelect);
@@ -1413,7 +1426,7 @@ android:layout_gravity="bottom">
 	public void changeImageView(){
 
 		Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/signature");
-		Query queryRef = ref.orderByChild("signatureName");
+		Query queryRef = ref.orderByChild("signerID").equalTo(session.userkey);;
 
 		ValueEventListener listener = new ValueEventListener() {
 			@Override

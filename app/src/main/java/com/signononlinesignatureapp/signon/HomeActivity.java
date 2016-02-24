@@ -66,10 +66,10 @@ queryRef.addValueEventListener(listener);
 
 
        session.userkey = extras.getString("key");
-        changeImageView();
+
     }
     public void testOn(View v){
-        startActivity(new Intent(HomeActivity.this, SignatureSelectActivity.class));
+        startActivity(new Intent(HomeActivity.this, SignDocument.class));
 
 
     }
@@ -93,7 +93,7 @@ queryRef.addValueEventListener(listener);
             // Create an object for subclass of AsyncTask
             GetXMLTask task = new GetXMLTask();
             // Execute the task
-            task.execute(new String[] { URL });
+            task.execute(new String[]{URL});
         }
 
         private class GetXMLTask extends AsyncTask<String, Void, Bitmap> {
@@ -181,27 +181,29 @@ public void personalImageSearch(){
 
 
 }
+    @Override
+    public void onResume(){
+        changeImageView();
+        super.onResume();
+
+    }
     public void changeImageView(){
-
+        final ImageView test=(ImageView)findViewById(R.id.homeSignatureImageView);
         Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/signature");
-        Query queryRef = ref.orderByChild("signatureName");
-
-        ValueEventListener listener = new ValueEventListener() {
+        Query queryRef2 = ref.orderByChild("signerID").equalTo(session.userkey);
+        ValueEventListener listener2 = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot child: dataSnapshot.getChildren()) {
-                        if(child.getKey().equals(session.base64)){
-                            Toast.makeText(HomeActivity.this,"IN",Toast.LENGTH_LONG).show();
+                        session.base64=child.getKey();
                             byte[] temp= Base64.decode(child.child("signatureBase64").getValue(String.class), Base64.NO_WRAP);
                             Bitmap img= BitmapFactory.decodeByteArray(temp, 0, temp.length);
-                            signatureImageView.setImageBitmap(img);
-
-                        }
+                            test.setImageBitmap(img);
                     }
                 }
                 else
-                    Toast.makeText(HomeActivity.this,"OUT",Toast.LENGTH_LONG).show();
+                    test.setImageResource(R.drawable.signature);
 
 
             }
@@ -211,7 +213,7 @@ public void personalImageSearch(){
 
             }
         };
-        queryRef.addValueEventListener(listener);
+        queryRef2.addValueEventListener(listener2);
     }
 }
 

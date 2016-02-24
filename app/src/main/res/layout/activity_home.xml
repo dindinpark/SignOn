@@ -73,7 +73,6 @@
                 android:layout_height="50dp"
                 android:id="@+id/homeSignatureImageView"
                 android:scaleType="fitXY"
-                android:src="@drawable/signature"
                 android:layout_row="1"
                 android:layout_column="4"
                 android:layout_marginLeft="25dp"
