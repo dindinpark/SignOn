@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.PointF;
@@ -17,6 +18,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -35,6 +37,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.Query;
+import com.firebase.client.ValueEventListener;
 import com.sun.pdfview.PDFFile;
 import com.sun.pdfview.PDFImage;
 import com.sun.pdfview.PDFPage;
@@ -157,6 +164,7 @@ public abstract class Pdftry extends Activity {
         super.onCreate(savedInstanceState);
 
         Log.i(TAG, "onCreate");
+		Firebase.setAndroidContext(this);
 		//setContentView(R.layout.activity_view_document);
         //progress = ProgressDialog.show(PdfViewerActivity.this, "Loading", "Loading PDF Page");
         /*closeNavigationHandler = new Handler();
@@ -1402,6 +1410,44 @@ android:layout_gravity="bottom">
 	public abstract int getsignatureImageReasource();
 	public abstract void merge(float x,float y, int pageNum);
 	public abstract void displayAlertDialog();
+	public void changeImageView(){
+
+		Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/signature");
+		Query queryRef = ref.orderByChild("signatureName");
+
+		ValueEventListener listener = new ValueEventListener() {
+			@Override
+			public void onDataChange(DataSnapshot dataSnapshot) {
+				if (dataSnapshot.exists()) {
+					for (DataSnapshot child: dataSnapshot.getChildren()) {
+						if(child.getKey().equals(session.base64)){
+
+							byte[] temp= Base64.decode(child.child("signatureBase64").getValue(String.class), Base64.NO_WRAP);
+							Bitmap img= BitmapFactory.decodeByteArray(temp, 0, temp.length);
+							mGraphView.signature.setImageBitmap(img);
+
+						}
+					}
+				}
+
+			}
+
+			@Override
+			public void onCancelled(FirebaseError firebaseError) {
+
+			}
+		};
+		queryRef.addValueEventListener(listener);
+	}
+	@Override
+	protected void onResume(){
+		changeImageView();
+
+		super.onResume();
+
+
+
+	}
 	////////////////////////////////////////////////////////////////////////////////////////
 }
 

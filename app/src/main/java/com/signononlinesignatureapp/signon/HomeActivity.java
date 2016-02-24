@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 //import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.view.View;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
@@ -30,7 +31,7 @@ import java.net.URLConnection;
 
 //push 2
 public class HomeActivity extends AppCompatActivity {
-
+    ImageView signatureImageView;
     ImageView imageView;
 
     @Override
@@ -41,6 +42,7 @@ public class HomeActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         session.userkey = extras.getString("key");
         imageView = (ImageView) findViewById(R.id.imageButton);
+        signatureImageView=(ImageView)findViewById(R.id.homeSignatureImageView);
         Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/users/"+session.userkey+"/username/");
         Query queryRef = ref.orderByValue();
 
@@ -64,6 +66,7 @@ queryRef.addValueEventListener(listener);
 
 
        session.userkey = extras.getString("key");
+        changeImageView();
     }
     public void testOn(View v){
         startActivity(new Intent(HomeActivity.this, SignatureSelectActivity.class));
@@ -161,11 +164,11 @@ public void personalImageSearch(){
     ValueEventListener listener = new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
-
+/*
             if(!(dataSnapshot.getValue().toString()=="0"))
                 imageViewfromURL((String)dataSnapshot.getValue());
 
-
+*/
         }
 
         @Override
@@ -178,6 +181,37 @@ public void personalImageSearch(){
 
 
 }
+    public void changeImageView(){
 
+        Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/signature");
+        Query queryRef = ref.orderByChild("signatureName");
+
+        ValueEventListener listener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot child: dataSnapshot.getChildren()) {
+                        if(child.getKey().equals(session.base64)){
+                            Toast.makeText(HomeActivity.this,"IN",Toast.LENGTH_LONG).show();
+                            byte[] temp= Base64.decode(child.child("signatureBase64").getValue(String.class), Base64.NO_WRAP);
+                            Bitmap img= BitmapFactory.decodeByteArray(temp, 0, temp.length);
+                            signatureImageView.setImageBitmap(img);
+
+                        }
+                    }
+                }
+                else
+                    Toast.makeText(HomeActivity.this,"OUT",Toast.LENGTH_LONG).show();
+
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        };
+        queryRef.addValueEventListener(listener);
+    }
 }
 

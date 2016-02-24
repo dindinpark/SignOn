@@ -45,7 +45,7 @@ public class SignatureAdapter extends BaseAdapter implements ChildEventListener 
         //TODO: Push new data to Firebase
         Map<String, String> newSignature = new HashMap<String, String>();
         newSignature.put("signatureName",signature.getSignatureName());
-        newSignature.put("signatureBase64", signature.getSignatureBase64());
+        newSignature.put("signatureBase64", signature.getsignatureBase64());
         newSignature.put("signerID", signature.getSignerID());
         mFirebase.push().setValue(newSignature);
     }
@@ -54,7 +54,7 @@ public class SignatureAdapter extends BaseAdapter implements ChildEventListener 
         //TODO: Push changes to Firebase
         Map<String, String> newSignature = new HashMap<String, String>();
         newSignature.put("signatureName",signature.getSignatureName());
-        newSignature.put("signatureBase64", signature.getSignatureBase64());
+        newSignature.put("signatureBase64", signature.getsignatureBase64());
         newSignature.put("signerID", signature.getSignerID());
         mFirebase.push().setValue(newSignature);
     }
@@ -95,9 +95,9 @@ public class SignatureAdapter extends BaseAdapter implements ChildEventListener 
         {
             if (key.equals(newSignature.getKey()))
             {
-                newSignature.setSignatureBase64(signatureBase64);
-                newSignature.setSignatureName(signatureName);
-                newSignature.setSignerID(signerID);
+                newSignature.setsignatureBase64(signatureBase64);
+                newSignature.setsignatureName(signatureName);
+                newSignature.setsignerID(signerID);
                 break;
             }
         }
