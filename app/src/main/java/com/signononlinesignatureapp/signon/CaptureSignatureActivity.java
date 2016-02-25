@@ -216,16 +216,16 @@ public class CaptureSignatureActivity extends AppCompatActivity {
             Canvas canvas = new Canvas(mBitmap);
             try
             {
-                FileOutputStream mFileOutStream = new FileOutputStream(mypath);
+                //FileOutputStream mFileOutStream = new FileOutputStream(mypath);
 
                 v.draw(canvas);
                 //mBitmap.createScaledBitmap(mBitmap, 50, 50,false);
 
                 Bitmap resized = Bitmap.createScaledBitmap(mBitmap, (int)(mBitmap.getWidth()*0.5), (int)(mBitmap.getHeight()*0.5), true);
 
-                resized.compress(Bitmap.CompressFormat.PNG, 90, mFileOutStream);
-                mFileOutStream.flush();
-                mFileOutStream.close();
+               //resized.compress(Bitmap.CompressFormat.PNG, 90, mFileOutStream);
+                //mFileOutStream.flush();
+                //mFileOutStream.close();
                 String url = Images.Media.insertImage(getContentResolver(), resized, "title", null);
                 Log.v("log_tag","url: " + url);
                 //In case you want to delete the file
