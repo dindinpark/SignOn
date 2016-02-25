@@ -42,6 +42,11 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.PdfStamper;
 import com.sun.pdfview.PDFFile;
 import com.sun.pdfview.PDFImage;
 import com.sun.pdfview.PDFPage;
@@ -111,8 +116,10 @@ public abstract class Pdftry extends Activity {
 	private float mZoom;
     private File mTmpFile;
     private ProgressDialog progress;
-
-
+	public String signPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/signon/word.pdf";
+	public String newP = Environment.getExternalStorageDirectory().getAbsolutePath() + "/signon/word-S.pdf";
+	public String signaturePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/signon/sign.png";
+	public byte[] signatureByte;
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//Here we can change the path
 	public String newPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/signon/word.pdf";
@@ -1421,7 +1428,55 @@ android:layout_gravity="bottom">
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	public abstract int getsignatureImageReasource();
-	public abstract void merge(float x,float y, int pageNum);
+	public void merge(float x,float y, int pageNum){
+		try {
+
+			PdfReader pdfReader = new PdfReader(signPath);
+			//fix y
+			y=pdfReader.getCropBox(1).getHeight()-y;
+			PdfStamper pdfStamper = new PdfStamper(pdfReader,
+					new FileOutputStream(newP));
+
+			Image image = Image.getInstance(signatureByte);
+
+			if (pageNum==-1) {
+
+				for (int i = 1; i <= pdfReader.getNumberOfPages(); i++) {
+
+					//put content under
+					PdfContentByte content = pdfStamper.getUnderContent(i);
+					image.setAbsolutePosition(x, y);
+					content.addImage(image);
+
+					//put content over
+					content = pdfStamper.getOverContent(i);
+					image.setAbsolutePosition(x, y);
+					content.addImage(image);
+
+					//Text over the existing page
+                    /*BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA,
+                            BaseFont.WINANSI, BaseFont.EMBEDDED);
+                    content.beginText();
+                    content.setFontAndSize(bf, 18);
+                    content.showTextAligned(PdfContentByte.ALIGN_LEFT, "Page No: " + i, 430, 15, 0);
+                    content.endText();*/
+				}
+			}
+			else{
+				PdfContentByte content =  pdfStamper.getOverContent(pageNum);
+				image.setAbsolutePosition(x, y);
+				content.addImage(image);
+
+			}
+			pdfStamper.close();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (DocumentException e) {
+			e.printStackTrace();
+		}
+
+	}
 	public abstract void displayAlertDialog();
 	public void changeImageView(){
 
@@ -1435,8 +1490,8 @@ android:layout_gravity="bottom">
 					for (DataSnapshot child: dataSnapshot.getChildren()) {
 						if(child.getKey().equals(session.base64)){
 
-							byte[] temp= Base64.decode(child.child("signatureBase64").getValue(String.class), Base64.NO_WRAP);
-							Bitmap img= BitmapFactory.decodeByteArray(temp, 0, temp.length);
+							signatureByte= Base64.decode(child.child("signatureBase64").getValue(String.class), Base64.NO_WRAP);
+							Bitmap img= BitmapFactory.decodeByteArray(signatureByte, 0, signatureByte.length);
 							mGraphView.signature.setImageBitmap(img);
 
 						}

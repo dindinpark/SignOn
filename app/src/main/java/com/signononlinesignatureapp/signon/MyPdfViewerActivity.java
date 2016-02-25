@@ -29,9 +29,7 @@ import java.io.IOException;
 
 public class MyPdfViewerActivity extends Pdftry {//implements View.OnTouchListener {
 
-    public String signPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/signon/word.pdf";
-    public String newPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/signon/word-S.pdf";
-    public String signaturePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/signon/sign.png";
+
     public void displayAlertDialog() {
 //////////
         AlertDialog.Builder alert = new AlertDialog.Builder(MyPdfViewerActivity.this);
@@ -60,54 +58,6 @@ public class MyPdfViewerActivity extends Pdftry {//implements View.OnTouchListen
 
     }
 
-    public void merge(float x,float y,int pageNum) {
-        try {
-
-            PdfReader pdfReader = new PdfReader(signPath);
-            //fix y
-            y=pdfReader.getCropBox(1).getHeight()-y;
-            PdfStamper pdfStamper = new PdfStamper(pdfReader,
-                    new FileOutputStream(newPath));
-
-            Image image = Image.getInstance(signaturePath);
-
-            if (pageNum==-1) {
-
-                for (int i = 1; i <= pdfReader.getNumberOfPages(); i++) {
-
-                    //put content under
-                    PdfContentByte content = pdfStamper.getUnderContent(i);
-                    image.setAbsolutePosition(x, y);
-                    content.addImage(image);
-
-                    //put content over
-                    content = pdfStamper.getOverContent(i);
-                    image.setAbsolutePosition(x, y);
-                    content.addImage(image);
-
-                    //Text over the existing page
-                    /*BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA,
-                            BaseFont.WINANSI, BaseFont.EMBEDDED);
-                    content.beginText();
-                    content.setFontAndSize(bf, 18);
-                    content.showTextAligned(PdfContentByte.ALIGN_LEFT, "Page No: " + i, 430, 15, 0);
-                    content.endText();*/
-                }
-            }
-            else{
-                PdfContentByte content =  pdfStamper.getOverContent(pageNum);
-                image.setAbsolutePosition(x, y);
-                content.addImage(image);
-
-            }
-            pdfStamper.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (DocumentException e) {
-            e.printStackTrace();
-        }
-    }
 
     public int getPreviousPageImageResource() {
 
