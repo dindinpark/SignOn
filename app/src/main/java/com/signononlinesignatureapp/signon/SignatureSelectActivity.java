@@ -3,6 +3,7 @@ package com.signononlinesignatureapp.signon;
 
 import android.app.DialogFragment;
 import android.app.ListActivity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.DataSetObserver;
 import android.os.Bundle;
@@ -34,7 +35,7 @@ import java.util.Random;
 public class SignatureSelectActivity extends ListActivity {
 
     private SignatureArrayAdapter mAdapter;
-
+    private Button SignatureSelectAddButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +44,7 @@ public class SignatureSelectActivity extends ListActivity {
         getListView().setMultiChoiceModeListener(new MyMultiClickListener());
         mAdapter = new SignatureArrayAdapter(this);
         setListAdapter(mAdapter);
+        SignatureSelectAddButton=(Button) findViewById(R.id.signatureSelectAddButton);
     }
 
     private class MyMultiClickListener implements AbsListView.MultiChoiceModeListener {
@@ -159,6 +161,10 @@ public class SignatureSelectActivity extends ListActivity {
             }
         };
         df.show(getFragmentManager(), "");*/
+    }
+    public void signatureSelectAddButtonClick(View v){
+        startActivity(new Intent(SignatureSelectActivity.this,CaptureSignatureActivity.class));
+
     }
 
 

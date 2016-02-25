@@ -206,6 +206,7 @@ public class CaptureSignatureActivity extends AppCompatActivity {
 
         public void save(View v)
         {
+
             Log.v("log_tag", "Width: " + v.getWidth());
             Log.v("log_tag", "Height: " + v.getHeight());
             if(mBitmap == null)
@@ -236,26 +237,19 @@ public class CaptureSignatureActivity extends AppCompatActivity {
                 String tSignatureBase64=BitMapToString(resized);
                 ///temp
                 String tSignerID=session.userkey;
-                String msg;
-                Toast MSG;
-                if(SignatureName.getText()!=null){
-                    SignatureAdapter mAdapter = new SignatureAdapter(CaptureSignatureActivity.this);
-                    com.signononlinesignatureapp.signon.signature CurrentSignature = new com.signononlinesignatureapp.signon.signature(null, tSignatureName, tSignatureBase64,tSignerID);
+                   SignatureArrayAdapter mAdapter = new SignatureArrayAdapter(CaptureSignatureActivity.this);
+                    com.signononlinesignatureapp.signon.signature CurrentSignature = new com.signononlinesignatureapp.signon.signature(null, tSignatureBase64, tSignatureName,tSignerID);
                     mAdapter.addItem(CurrentSignature);
 
-                }
-                else{
-                    SignatureName.setHighlightColor(Color.RED);
-                    msg = "signature Name cannot be empty";
-                    MSG = Toast.makeText(CaptureSignatureActivity.this, msg, Toast.LENGTH_SHORT);
-                    MSG.show();
-                }
+
+
 
             }
             catch(Exception e)
             {
                 Log.v("log_tag", e.toString());
             }
+
         }
 
         public void clear()
@@ -352,7 +346,7 @@ public class CaptureSignatureActivity extends AppCompatActivity {
             ByteArrayOutputStream baos=new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
             byte [] b=baos.toByteArray();
-            return Base64.encodeToString(b, Base64.DEFAULT);
+            return Base64.encodeToString(b, Base64.NO_WRAP);
         }
 
     }
