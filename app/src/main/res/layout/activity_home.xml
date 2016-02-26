@@ -68,22 +68,16 @@
                 android:layout_marginBottom="20dp"
                 android:layout_marginTop="20dp"/>
 
-            <ImageButton
-                                android:layout_width="100dp"
-                                android:layout_height="50dp"
-                                android:id="@+id/imageButton2"
-                                android:contentDescription="drawable"
-                                android:src="@drawable/signature"
-                                android:scaleType="fitXY"
-                                android:background="#ffffff"
-                                android:layout_marginLeft="25dp"
-                                android:layout_marginStart="25dp"
-                                android:layout_centerVertical="true"
-                                android:layout_toRightOf="@+id/imageButton"
-                                android:layout_toEndOf="@+id/imageButton"
-                android:layout_gravity="center_horizontal"
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:id="@+id/homeSignatureImageView"
+                android:scaleType="fitXY"
                 android:layout_row="1"
-                android:layout_column="4"/>
+                android:layout_column="4"
+                android:layout_marginLeft="25dp"
+                android:layout_marginStart="25dp"
+                android:layout_gravity="center_horizontal" />
         </GridLayout>
 
         <Button

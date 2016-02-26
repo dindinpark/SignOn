@@ -45,7 +45,8 @@
             android:layout_width="315dp"
             android:layout_height="wrap_content"
             android:id="@+id/captureSignatureNameEditText"
-            android:inputType="text" />
+            android:inputType="text"
+            android:text="Signature" />
     </LinearLayout>
 
 </LinearLayout>

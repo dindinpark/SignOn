@@ -38,11 +38,11 @@ public class CaptureSignatureActivity extends AppCompatActivity {
     Button mClear, mGetSign, mCancel;
     public static String tempDir;
     public int count = 1;
-    public String current = null;
+   //public String current = null;
     private Bitmap mBitmap;
     View mView;
     File mypath;
-    private String uniqueId;
+    //private String uniqueId;
     public EditText SignatureName;
 
     @Override
@@ -51,14 +51,14 @@ public class CaptureSignatureActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_capture_signature);
         SignatureName=(EditText)findViewById(R.id.captureSignatureNameEditText);
-        tempDir = Environment.getExternalStorageDirectory() + "/" + getResources().getString(R.string.external_dir) + "/";
+        //tempDir = Environment.getExternalStorageDirectory() + "/" + getResources().getString(R.string.external_dir) + "/";
         ContextWrapper cw = new ContextWrapper(getApplicationContext());
         File directory = cw.getDir(getResources().getString(R.string.external_dir), Context.MODE_PRIVATE);
 
-        prepareDirectory();
-        uniqueId = getTodaysDate() + "_" + getCurrentTime() + "_" + Math.random();
-        current = uniqueId + ".png";
-        mypath= new File(directory,current);
+       // prepareDirectory();
+        //uniqueId = getTodaysDate() + "_" + getCurrentTime() + "_" + Math.random();
+        //current = uniqueId + ".png";
+        //mypath= new File(directory,current);
 
 
         mContent = (LinearLayout) findViewById(R.id.linearLayout);
@@ -144,7 +144,7 @@ public class CaptureSignatureActivity extends AppCompatActivity {
 
     }
 
-
+/*
     private boolean prepareDirectory()
     {
         try
@@ -162,8 +162,8 @@ public class CaptureSignatureActivity extends AppCompatActivity {
             return false;
         }
     }
-
-    private boolean makedirs()
+*/
+   /* private boolean makedirs()
     {
         File tempdir = new File(tempDir);
         if (!tempdir.exists())
@@ -181,7 +181,7 @@ public class CaptureSignatureActivity extends AppCompatActivity {
             }
         }
         return (tempdir.isDirectory());
-    }
+    }*/
 
     public class signature extends View
     {
@@ -206,6 +206,7 @@ public class CaptureSignatureActivity extends AppCompatActivity {
 
         public void save(View v)
         {
+
             Log.v("log_tag", "Width: " + v.getWidth());
             Log.v("log_tag", "Height: " + v.getHeight());
             if(mBitmap == null)
@@ -215,16 +216,16 @@ public class CaptureSignatureActivity extends AppCompatActivity {
             Canvas canvas = new Canvas(mBitmap);
             try
             {
-                FileOutputStream mFileOutStream = new FileOutputStream(mypath);
+                ByteArrayOutputStream mFileOutStream = new ByteArrayOutputStream();
 
                 v.draw(canvas);
                 //mBitmap.createScaledBitmap(mBitmap, 50, 50,false);
 
-                Bitmap resized = Bitmap.createScaledBitmap(mBitmap, (int)(mBitmap.getWidth()*0.5), (int)(mBitmap.getHeight()*0.5), true);
+                Bitmap resized = Bitmap.createScaledBitmap(mBitmap, (int)(mBitmap.getWidth()*0.15), (int)(mBitmap.getHeight()*0.15), true);
 
-                resized.compress(Bitmap.CompressFormat.PNG, 90, mFileOutStream);
-                mFileOutStream.flush();
-                mFileOutStream.close();
+               //resized.compress(Bitmap.CompressFormat.PNG, 90, mFileOutStream);
+                //mFileOutStream.flush();
+                //mFileOutStream.close();
                 String url = Images.Media.insertImage(getContentResolver(), resized, "title", null);
                 Log.v("log_tag","url: " + url);
                 //In case you want to delete the file
@@ -236,26 +237,19 @@ public class CaptureSignatureActivity extends AppCompatActivity {
                 String tSignatureBase64=BitMapToString(resized);
                 ///temp
                 String tSignerID=session.userkey;
-                String msg;
-                Toast MSG;
-                if(SignatureName.getText()!=null){
-                    SignatureAdapter mAdapter = new SignatureAdapter(CaptureSignatureActivity.this);
-                    com.signononlinesignatureapp.signon.signature CurrentSignature = new com.signononlinesignatureapp.signon.signature(null, tSignatureName, tSignatureBase64,tSignerID);
+                   SignatureArrayAdapter mAdapter = new SignatureArrayAdapter(CaptureSignatureActivity.this);
+                    com.signononlinesignatureapp.signon.signature CurrentSignature = new com.signononlinesignatureapp.signon.signature(null, tSignatureBase64, tSignatureName,tSignerID);
                     mAdapter.addItem(CurrentSignature);
 
-                }
-                else{
-                    SignatureName.setHighlightColor(Color.RED);
-                    msg = "signature Name cannot be empty";
-                    MSG = Toast.makeText(CaptureSignatureActivity.this, msg, Toast.LENGTH_SHORT);
-                    MSG.show();
-                }
+
+
 
             }
             catch(Exception e)
             {
                 Log.v("log_tag", e.toString());
             }
+
         }
 
         public void clear()
@@ -352,8 +346,7 @@ public class CaptureSignatureActivity extends AppCompatActivity {
             ByteArrayOutputStream baos=new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
             byte [] b=baos.toByteArray();
-            String temp=Base64.encodeToString(b, Base64.DEFAULT);
-            return temp;
+            return Base64.encodeToString(b, Base64.NO_WRAP);
         }
 
     }

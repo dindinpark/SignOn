@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.PointF;
@@ -17,6 +18,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -35,6 +37,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.Query;
+import com.firebase.client.ValueEventListener;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.PdfStamper;
 import com.sun.pdfview.PDFFile;
 import com.sun.pdfview.PDFImage;
 import com.sun.pdfview.PDFPage;
@@ -104,8 +116,10 @@ public abstract class Pdftry extends Activity {
 	private float mZoom;
     private File mTmpFile;
     private ProgressDialog progress;
-
-
+	public String signPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/signon/word.pdf";
+	public String newP = Environment.getExternalStorageDirectory().getAbsolutePath() + "/signon/word-S.pdf";
+	public String signaturePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/signon/sign.png";
+	public byte[] signatureByte;
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//Here we can change the path
 	public String newPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/signon/word.pdf";
@@ -157,6 +171,7 @@ public abstract class Pdftry extends Activity {
         super.onCreate(savedInstanceState);
 
         Log.i(TAG, "onCreate");
+		Firebase.setAndroidContext(this);
 		//setContentView(R.layout.activity_view_document);
         //progress = ProgressDialog.show(PdfViewerActivity.this, "Loading", "Loading PDF Page");
         /*closeNavigationHandler = new Handler();
@@ -358,8 +373,8 @@ public abstract class Pdftry extends Activity {
             break;
     	}
 			case MENU_SIGNATURE:{
-				startActivity(new Intent(this, SignatureSelectActivity.class));
 
+				selectSignature();
 
 
 
@@ -413,12 +428,22 @@ public abstract class Pdftry extends Activity {
     		}
     	}
 	}
+
+
 	private void selectSignature() {
 		if (mPdfFile != null) {
-			//code to get data from database
+
+
+			Intent pickContactIntent = new Intent(this,SignatureSelectActivity.class);
+			startActivity(pickContactIntent);
+
+			//mGraphView.signature=getsignatureImageReasource();
+
+			//Toast.makeText(this, getsignatureImageReasource().toString(), Toast.LENGTH_LONG);
 
 		}
 	}
+
 	private void nextPage() {
     	if (mPdfFile != null) {
     		if (mPage < mPdfFile.getNumPages()) {
@@ -646,14 +671,15 @@ public abstract class Pdftry extends Activity {
 				}
 			});
 			vl.addView(send);*/
-			LinearLayout.LayoutParams imsize = new LinearLayout.LayoutParams(90,50,1);
+			LinearLayout.LayoutParams imsize = new LinearLayout.LayoutParams(140,100,1);
 
 			// sign Image
 			signature=new ImageView(context);
 			signature.setLayoutParams(imsize);
 			//bNext.setText(">");
 			//bNext.setWidth(40);
-			signature.setImageResource(getsignatureImageReasource());
+			changeImageView();
+			//signature.setImageResource(getsignatureImageReasource());
 			signature.setScaleType(ImageView.ScaleType.FIT_CENTER);
 			vl.addView(signature);
 			/////////////////////////////////////////////////////////////////////////////////////////
@@ -926,6 +952,7 @@ public abstract class Pdftry extends Activity {
 				bSelect.setOnClickListener(new OnClickListener() {
 					public void onClick(View v) {
 						//signature select function
+						selectSignature();
 					}
 				});
 			hl.addView(bSelect);
@@ -1400,8 +1427,94 @@ android:layout_gravity="bottom">
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	public abstract int getsignatureImageReasource();
-	public abstract void merge(float x,float y, int pageNum);
+	public void merge(float x,float y, int pageNum){
+		try {
+
+			PdfReader pdfReader = new PdfReader(signPath);
+			//fix y
+			y=pdfReader.getCropBox(1).getHeight()-y;
+			PdfStamper pdfStamper = new PdfStamper(pdfReader,
+					new FileOutputStream(newP));
+
+			Image image = Image.getInstance(signatureByte);
+
+			if (pageNum==-1) {
+
+				for (int i = 1; i <= pdfReader.getNumberOfPages(); i++) {
+
+					//put content under
+					PdfContentByte content = pdfStamper.getUnderContent(i);
+					image.setAbsolutePosition(x, y);
+					content.addImage(image);
+
+					//put content over
+					content = pdfStamper.getOverContent(i);
+					image.setAbsolutePosition(x, y);
+					content.addImage(image);
+
+					//Text over the existing page
+                    /*BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA,
+                            BaseFont.WINANSI, BaseFont.EMBEDDED);
+                    content.beginText();
+                    content.setFontAndSize(bf, 18);
+                    content.showTextAligned(PdfContentByte.ALIGN_LEFT, "Page No: " + i, 430, 15, 0);
+                    content.endText();*/
+				}
+			}
+			else{
+				PdfContentByte content =  pdfStamper.getOverContent(pageNum);
+				image.setAbsolutePosition(x, y);
+				content.addImage(image);
+
+			}
+			pdfStamper.close();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (DocumentException e) {
+			e.printStackTrace();
+		}
+
+	}
 	public abstract void displayAlertDialog();
+	public void changeImageView(){
+
+		Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/signature");
+		Query queryRef = ref.orderByChild("signerID").equalTo(session.userkey);;
+
+		ValueEventListener listener = new ValueEventListener() {
+			@Override
+			public void onDataChange(DataSnapshot dataSnapshot) {
+				if (dataSnapshot.exists()) {
+					for (DataSnapshot child: dataSnapshot.getChildren()) {
+						if(child.getKey().equals(session.base64)){
+
+							signatureByte= Base64.decode(child.child("signatureBase64").getValue(String.class), Base64.NO_WRAP);
+							Bitmap img= BitmapFactory.decodeByteArray(signatureByte, 0, signatureByte.length);
+							mGraphView.signature.setImageBitmap(img);
+
+						}
+					}
+				}
+
+			}
+
+			@Override
+			public void onCancelled(FirebaseError firebaseError) {
+
+			}
+		};
+		queryRef.addValueEventListener(listener);
+	}
+	@Override
+	protected void onResume(){
+		changeImageView();
+
+		super.onResume();
+
+
+
+	}
 	////////////////////////////////////////////////////////////////////////////////////////
 }
 

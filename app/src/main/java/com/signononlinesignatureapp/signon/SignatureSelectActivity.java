@@ -1,14 +1,23 @@
 package com.signononlinesignatureapp.signon;
 
 
+import android.app.DialogFragment;
 import android.app.ListActivity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.DataSetObserver;
 import android.os.Bundle;
+import android.view.ActionMode;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -20,85 +29,143 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class SignatureSelectActivity extends ListActivity {
 
-    private static final String FIREBASE_URL = "https://torrid-heat-4458.firebaseio.com/";
-    private String mSignature;
-    private Firebase mFirebaseRef;
-    private ValueEventListener mConnectedListener;
-    private SignatureListArrayAdapter mSignatureListAdapter;
-private Query queryRef;
+    private SignatureArrayAdapter mAdapter;
+    private Button SignatureSelectAddButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signature_select);
-        Firebase.setAndroidContext(this);
-        Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/signature");
-        mFirebaseRef = new Firebase(FIREBASE_URL).child("signature");
-        queryRef = ref.orderByChild("signerID").equalTo(session.userkey);
-    }
-    @Override
-
-    public void onStart() {
-        super.onStart();
-        // Setup our view and list adapter. Ensure it scrolls to the bottom as data changes
-        final ListView listView = getListView();
-        // Tell our list adapter that we only want 50 messages at a time
-        mSignatureListAdapter = new SignatureListArrayAdapter(mFirebaseRef, this, R.layout.signature);
-        listView.setAdapter(mSignatureListAdapter);
-        mSignatureListAdapter.registerDataSetObserver(new DataSetObserver() {
-            @Override
-            public void onChanged() {
-                super.onChanged();
-                listView.setSelection(mSignatureListAdapter.getCount() - 1);
-            }
-        });
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position,
-                                    long id) { String selected = ((TextView) view.findViewById(R.id.selectSignatureName)).getText().toString();
-
-                Toast toast=Toast.makeText(getApplicationContext(), selected, Toast.LENGTH_SHORT);
-                toast.show();
-            }
-        });
-        // Finally, a little indication of connection status
-        mConnectedListener = mFirebaseRef.getRoot().child(".info/connected").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                boolean connected = (Boolean) dataSnapshot.getValue();
-                if (connected) {
-                    Toast.makeText(SignatureSelectActivity.this, "Connected to Firebase", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(SignatureSelectActivity.this, "Disconnected from Firebase", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-                // No-op
-            }
-        });
-    }
-    @Override
-    public void onStop() {
-        super.onStop();
-        mFirebaseRef.getRoot().child(".info/connected").removeEventListener(mConnectedListener);
-        mSignatureListAdapter.cleanup();
+        getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+        getListView().setMultiChoiceModeListener(new MyMultiClickListener());
+        mAdapter = new SignatureArrayAdapter(this);
+        setListAdapter(mAdapter);
+        SignatureSelectAddButton=(Button) findViewById(R.id.signatureSelectAddButton);
     }
 
+    private class MyMultiClickListener implements AbsListView.MultiChoiceModeListener {
 
+        private ArrayList<signature> mSignatureToDelete = new ArrayList<signature>();
 
-    /*private void populateSignatureList() {
-        signatureList = new ArrayList<signature>();
-        signaturenames = getResources().getStringArray(R.array.country_names);
-        imgs = getResources().obtainTypedArray(R.array.country_flags);
-        for(int i = 0; i < countrycodes.length; i++){
-            signatureList.add(new signature(signaturenames[i], imgs.getDrawable(i)));
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            mode.getMenuInflater().inflate(R.menu.context, menu);
+            mode.setTitle(R.string.context_delete_title);
+            return true; // gives tactile feedback
         }
-    }*/
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.context_delete:
+                    deleteSelectedItems();
+                    mode.finish();
+                    return true;
+            }
+            return false;
+        }
+
+        @Override
+        public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
+            signature item = (signature) getListAdapter().getItem(position);
+            if (checked) {
+                mSignatureToDelete.add(item);
+            } else {
+                mSignatureToDelete.remove(item);
+            }
+            mode.setTitle("Selected " + mSignatureToDelete.size() + " signatures");
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            // purposefully empty
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            mSignatureToDelete = new ArrayList<signature>();
+            return true;
+        }
+
+        private void deleteSelectedItems() {
+            for (signature signature : mSignatureToDelete) {
+                mAdapter.removeItem(signature);
+            }
+            mAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+
+        final signature currentsignature = (signature) getListAdapter().getItem(position);
+        session.base64=currentsignature.getKey();
+        super.onListItemClick(l, v, position, id);
+    }
+    //////////////////////////////////////////////////////////////
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main2, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.add:
+                // add
+                addItem();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void addItem() {
+/*
+        DialogFragment df = new DialogFragment() {
+            @Override
+            public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+                View view = inflater.inflate(R.layout.content_main, container);
+                getDialog().setTitle("Add a movie and quote");
+                final Button confirmButton = (Button) view.findViewById(R.id.add);
+                final Button cancelButton = (Button) view.findViewById(R.id.birth_txt);
+                final EditText movieTitleEditText = (EditText) view.findViewById(R.id.selectSignatureName);
+                final EditText movieQuoteEditText = (EditText) view.findViewById(R.id.selectSignatureID);
+
+                confirmButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String movieTitleText = movieTitleEditText.getText().toString();
+                        String movieQuoteText = movieQuoteEditText.getText().toString();
+                        Toast.makeText(SignatureSelectActivity.this,
+                                "Got the title " + movieTitleText + " and quote " + movieQuoteText, Toast.LENGTH_LONG)
+                                .show();
+                        signature currentQuote = new signature(null,"6666", movieTitleText, movieQuoteText);
+                        mAdapter.addItem(currentQuote);
+                        dismiss();
+                    }
+                });
+
+                cancelButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dismiss();
+                    }
+                });
+                return view;
+            }
+        };
+        df.show(getFragmentManager(), "");*/
+    }
+    public void signatureSelectAddButtonClick(View v){
+        startActivity(new Intent(SignatureSelectActivity.this,CaptureSignatureActivity.class));
+
+    }
 
 
 }

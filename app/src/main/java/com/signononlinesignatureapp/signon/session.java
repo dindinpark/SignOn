@@ -6,5 +6,6 @@ package com.signononlinesignatureapp.signon;
 public class session {
 
     public static String userkey;
+    public static String base64;
 
 }
