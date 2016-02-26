@@ -433,7 +433,6 @@ public abstract class Pdftry extends Activity {
 	private void selectSignature() {
 		if (mPdfFile != null) {
 
-			Toast.makeText(this, "clicked", Toast.LENGTH_LONG);
 
 			Intent pickContactIntent = new Intent(this,SignatureSelectActivity.class);
 			startActivity(pickContactIntent);
@@ -672,7 +671,7 @@ public abstract class Pdftry extends Activity {
 				}
 			});
 			vl.addView(send);*/
-			LinearLayout.LayoutParams imsize = new LinearLayout.LayoutParams(90,50,1);
+			LinearLayout.LayoutParams imsize = new LinearLayout.LayoutParams(140,100,1);
 
 			// sign Image
 			signature=new ImageView(context);

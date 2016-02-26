@@ -38,11 +38,11 @@ public class CaptureSignatureActivity extends AppCompatActivity {
     Button mClear, mGetSign, mCancel;
     public static String tempDir;
     public int count = 1;
-    public String current = null;
+   //public String current = null;
     private Bitmap mBitmap;
     View mView;
     File mypath;
-    private String uniqueId;
+    //private String uniqueId;
     public EditText SignatureName;
 
     @Override
@@ -51,14 +51,14 @@ public class CaptureSignatureActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_capture_signature);
         SignatureName=(EditText)findViewById(R.id.captureSignatureNameEditText);
-        tempDir = Environment.getExternalStorageDirectory() + "/" + getResources().getString(R.string.external_dir) + "/";
+        //tempDir = Environment.getExternalStorageDirectory() + "/" + getResources().getString(R.string.external_dir) + "/";
         ContextWrapper cw = new ContextWrapper(getApplicationContext());
         File directory = cw.getDir(getResources().getString(R.string.external_dir), Context.MODE_PRIVATE);
 
-        prepareDirectory();
-        uniqueId = getTodaysDate() + "_" + getCurrentTime() + "_" + Math.random();
-        current = uniqueId + ".png";
-        mypath= new File(directory,current);
+       // prepareDirectory();
+        //uniqueId = getTodaysDate() + "_" + getCurrentTime() + "_" + Math.random();
+        //current = uniqueId + ".png";
+        //mypath= new File(directory,current);
 
 
         mContent = (LinearLayout) findViewById(R.id.linearLayout);
@@ -144,7 +144,7 @@ public class CaptureSignatureActivity extends AppCompatActivity {
 
     }
 
-
+/*
     private boolean prepareDirectory()
     {
         try
@@ -162,8 +162,8 @@ public class CaptureSignatureActivity extends AppCompatActivity {
             return false;
         }
     }
-
-    private boolean makedirs()
+*/
+   /* private boolean makedirs()
     {
         File tempdir = new File(tempDir);
         if (!tempdir.exists())
@@ -181,7 +181,7 @@ public class CaptureSignatureActivity extends AppCompatActivity {
             }
         }
         return (tempdir.isDirectory());
-    }
+    }*/
 
     public class signature extends View
     {
@@ -216,12 +216,12 @@ public class CaptureSignatureActivity extends AppCompatActivity {
             Canvas canvas = new Canvas(mBitmap);
             try
             {
-                //FileOutputStream mFileOutStream = new FileOutputStream(mypath);
+                ByteArrayOutputStream mFileOutStream = new ByteArrayOutputStream();
 
                 v.draw(canvas);
                 //mBitmap.createScaledBitmap(mBitmap, 50, 50,false);
 
-                Bitmap resized = Bitmap.createScaledBitmap(mBitmap, (int)(mBitmap.getWidth()*0.5), (int)(mBitmap.getHeight()*0.5), true);
+                Bitmap resized = Bitmap.createScaledBitmap(mBitmap, (int)(mBitmap.getWidth()*0.15), (int)(mBitmap.getHeight()*0.15), true);
 
                //resized.compress(Bitmap.CompressFormat.PNG, 90, mFileOutStream);
                 //mFileOutStream.flush();
