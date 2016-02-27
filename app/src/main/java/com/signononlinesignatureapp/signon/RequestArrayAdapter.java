@@ -15,6 +15,7 @@ import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.Query;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,7 +34,8 @@ public class RequestArrayAdapter extends BaseAdapter implements ChildEventListen
         mRequests = new ArrayList<Request>();
         Firebase.setAndroidContext(context);
         mFirebase = new Firebase ("https://torrid-heat-4458.firebaseio.com/requests");
-        mFirebase.addChildEventListener(this);
+        Query q1 = mFirebase.orderByChild("requesterID").equalTo(session.userkey);
+        q1.addChildEventListener(this);
     }
 
     @Override
