@@ -5,18 +5,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
-//import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.view.View;
-import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-//import android.support.v7.app.AppCompatActivity;
-
-import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -28,6 +23,9 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+
+//import android.support.v7.app.AppCompatActivity;
+//import android.support.v7.app.AppCompatActivity;
 
 //push 2
 public class HomeActivity extends AppCompatActivity {
@@ -81,6 +79,12 @@ queryRef.addValueEventListener(listener);
 
     public void testOn3(View v){
         startActivity(new Intent(HomeActivity.this, SettingActivity.class));
+
+
+    }
+
+    public void testOn4(View v){
+        startActivity(new Intent(HomeActivity.this, Request_Signture.class));
 
 
     }

@@ -61,6 +61,7 @@
         <activity android:name=".AESencrypttionFirst" />
         <activity android:name=".SignatureSelectActivity"></activity>
         <activity android:name=".Request_Signture"></activity>
+        <activity android:name=".main_request__edit"/>
 
     </application>
 
