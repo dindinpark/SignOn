@@ -70,6 +70,7 @@ public class Point {
         return p;
     }
 
+    public void setInfinity(boolean inf){infinity=inf;}
     public Point copy(){
         Point r = new Point(this.x, this.y, this.a, this.p);
         return r;
