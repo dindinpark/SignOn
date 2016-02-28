@@ -51,13 +51,6 @@
                 android:value="com.signononlinesignatureapp.signon.MainActivity" />
         </activity>
         <activity android:name=".SignatureActivity" />
-        <activity
-            android:name=".register"
-            android:parentActivityName=".MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.signononlinesignatureapp.signon.MainActivity" />
-        </activity>
         <activity android:name=".hash" />
         <activity android:name=".SignDocument" />
         <activity android:name=".CaptureSignatureActivity" />
@@ -67,6 +60,8 @@
         <activity android:name=".MyPdfViewerActivity" />
         <activity android:name=".AESencrypttionFirst" />
         <activity android:name=".SignatureSelectActivity"></activity>
+        <activity android:name=".Request_Signture"></activity>
+        <activity android:name=".main_request__edit"/>
 
     </application>
 

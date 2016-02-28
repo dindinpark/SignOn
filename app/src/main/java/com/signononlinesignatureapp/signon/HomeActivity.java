@@ -5,17 +5,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
-//import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.view.View;
-import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-//import android.support.v7.app.AppCompatActivity;
-
-import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -28,9 +24,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
+//import android.support.v7.app.AppCompatActivity;
+//import android.support.v7.app.AppCompatActivity;
+
 //push 2
 public class HomeActivity extends AppCompatActivity {
-
+    ImageView signatureImageView;
     ImageView imageView;
 
     @Override
@@ -41,6 +40,7 @@ public class HomeActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         session.userkey = extras.getString("key");
         imageView = (ImageView) findViewById(R.id.imageButton);
+        signatureImageView=(ImageView)findViewById(R.id.homeSignatureImageView);
         Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/users/"+session.userkey+"/username/");
         Query queryRef = ref.orderByValue();
 
@@ -64,9 +64,10 @@ queryRef.addValueEventListener(listener);
 
 
        session.userkey = extras.getString("key");
+
     }
     public void testOn(View v){
-        startActivity(new Intent(HomeActivity.this, SignatureSelectActivity.class));
+        startActivity(new Intent(HomeActivity.this, SignDocument.class));
 
 
     }
@@ -82,6 +83,12 @@ queryRef.addValueEventListener(listener);
 
     }
 
+    public void testOn4(View v){
+        startActivity(new Intent(HomeActivity.this, Request_Signture.class));
+
+
+    }
+
     public void imageViewfromURL (String imageUrl){
         final String URL = imageUrl;
         /** Called when the activity is first created. */
@@ -90,7 +97,7 @@ queryRef.addValueEventListener(listener);
             // Create an object for subclass of AsyncTask
             GetXMLTask task = new GetXMLTask();
             // Execute the task
-            task.execute(new String[] { URL });
+            task.execute(new String[]{URL});
         }
 
         private class GetXMLTask extends AsyncTask<String, Void, Bitmap> {
@@ -161,11 +168,11 @@ public void personalImageSearch(){
     ValueEventListener listener = new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
-
+/*
             if(!(dataSnapshot.getValue().toString()=="0"))
                 imageViewfromURL((String)dataSnapshot.getValue());
 
-
+*/
         }
 
         @Override
@@ -178,6 +185,39 @@ public void personalImageSearch(){
 
 
 }
+    @Override
+    public void onResume(){
+        changeImageView();
+        super.onResume();
 
+    }
+    public void changeImageView(){
+        final ImageView test=(ImageView)findViewById(R.id.homeSignatureImageView);
+        Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/signature");
+        Query queryRef2 = ref.orderByChild("signerID").equalTo(session.userkey);
+        ValueEventListener listener2 = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot child: dataSnapshot.getChildren()) {
+                        session.base64=child.getKey();
+                            byte[] temp= Base64.decode(child.child("signatureBase64").getValue(String.class), Base64.NO_WRAP);
+                            Bitmap img= BitmapFactory.decodeByteArray(temp, 0, temp.length);
+                            test.setImageBitmap(img);
+                    }
+                }
+                else
+                    test.setImageResource(R.drawable.signature);
+
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        };
+        queryRef2.addValueEventListener(listener2);
+    }
 }
 
