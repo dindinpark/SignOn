@@ -69,7 +69,11 @@ public class documentsArrayAdapter extends BaseAdapter implements ChildEventList
         newDocument.put("documentURL", doc.getDocumentURL());
         newDocument.put("ekey", doc.getEkey());
         newDocument.put("messagedigest", doc.getMessagedigest());
-        mFireBase.push().setValue(newDocument);
+        mFireBase.child(doc.getKey()).child("documentName").setValue(doc.getDocumentName());
+        mFireBase.child(doc.getKey()).child("documentOwnerID").setValue(doc.getDocumentOwnerID());
+        mFireBase.child(doc.getKey()).child("documentURL").setValue(doc.getDocumentURL());
+        mFireBase.child(doc.getKey()).child("ekey").setValue(doc.getEkey());
+        mFireBase.child(doc.getKey()).child("messagedigest").setValue(doc.getMessagedigest());
     }
 
     @Override

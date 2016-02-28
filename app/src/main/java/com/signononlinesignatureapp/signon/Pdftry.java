@@ -108,6 +108,11 @@ public abstract class Pdftry extends Activity {
 	private final static int MENU_SIGNATURE =8;
 	private final static int DIALOG_PAGENUM = 1;
 
+	private PdfReader pdfReader;
+	private String PdfChecksum;
+	private documents mDocument;
+
+
 	public GraphView mOldGraphView;
 	public GraphView mGraphView;
 	private String pdffilename;
@@ -928,6 +933,20 @@ public abstract class Pdftry extends Activity {
 				}
 					else
 						merge(relativeX, relativeY,1);
+					File f=new File(signPath);
+					PdfChecksum=SHA512.calculateSHA512(f);
+					changeChecksum();
+
+					/////////////////////firebase////////////////////////////
+
+
+
+
+
+
+
+
+
 				}
 			});
 			hl.addView(sign);
@@ -1430,7 +1449,7 @@ android:layout_gravity="bottom">
 	public void merge(float x,float y, int pageNum){
 		try {
 
-			PdfReader pdfReader = new PdfReader(signPath);
+			pdfReader = new PdfReader(signPath);
 			//fix y
 			y=pdfReader.getCropBox(1).getHeight()-y;
 			PdfStamper pdfStamper = new PdfStamper(pdfReader,
@@ -1512,6 +1531,48 @@ android:layout_gravity="bottom">
 
 		super.onResume();
 
+
+
+	}
+
+	public void changeChecksum(){
+		String docKey="7";
+		Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/documents/");
+		Query queryRef = ref.orderByKey().equalTo(docKey);
+		ValueEventListener listener = new ValueEventListener() {
+			@Override
+			public void onDataChange(DataSnapshot dataSnapshot) {
+
+					for (DataSnapshot child: dataSnapshot.getChildren()) {
+						String key = child.getKey();
+						String documentName, documentOwnerID, documentURL, ekey, messagedigest, signature;
+						documentName = child.child("documentName").getValue(String.class);
+						documentOwnerID = child.child("documentOwnerID").getValue(String.class);
+						;
+						documentURL = child.child("documentURL").getValue(String.class);
+						;
+						ekey = child.child("ekey").getValue(String.class);
+						;
+						messagedigest=PdfChecksum;
+
+
+						mDocument = new documents(key, messagedigest,ekey,documentURL,documentOwnerID,documentName);
+						documentsArrayAdapter mAdapter=new documentsArrayAdapter(Pdftry.this);
+						mAdapter.updateItem(mDocument);
+
+							break;
+
+
+				}
+
+			}
+
+			@Override
+			public void onCancelled(FirebaseError firebaseError) {
+
+			}
+		};
+		queryRef.addValueEventListener(listener);
 
 
 	}
