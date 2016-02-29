@@ -108,6 +108,8 @@ public abstract class Pdftry extends Activity {
 	private final static int MENU_SIGNATURE =8;
 	private final static int DIALOG_PAGENUM = 1;
 
+
+	private String docKey="7";
 	private PdfReader pdfReader;
 	private String PdfChecksum;
 	private documents mDocument;
@@ -140,7 +142,7 @@ public abstract class Pdftry extends Activity {
 
     private Thread backgroundThread;
     private Handler uiHandler;
-
+	public String messagedigest;
 
 	@Override
 	public Object onRetainNonConfigurationInstance() {
@@ -908,46 +910,93 @@ public abstract class Pdftry extends Activity {
 			sign.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
 
-					Matrix matrix=signature.getImageMatrix();
-					// Get the values of the matrix
-					float[] values = new float[9];
-					matrix.getValues(values);
-					// values[2] and values[5] are the x,y coordinates of the top left corner of the drawable image, regardless of the zoom factor.
-					// values[0] and values[4] are the zoom factors for the image's width and height respectively. If you zoom at the same factor, these should both be the same value.
-					values[0]=mZoom;
-					values[4]=mZoom;
-					// event is the touch event for MotionEvent.ACTION_UP
-					float relativeX = (signature.getX() - values[2]) / values[0];
-					float relativeY = (signature.getY() - values[5]) / values[4];
-					//////////////////////////option for signing//////////////////////
-					if(mPdfFile.getNumPages()>1){
-					displayAlertDialog();
-						if(allOrNot){
 
-					/////////////////////////////////////////////////////////////////
-						///////////////////zoom coordinates///////////////////////
+					////////////////check hash//////////////////////////////
 
-							merge(relativeX, relativeY,-1);}
-						else
-						merge(relativeX, relativeY,mPage);
-				}
-					else
-						merge(relativeX, relativeY,1);
-					File f=new File(signPath);
-					PdfChecksum=SHA512.calculateSHA512(f);
+					Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/documents/");
+					Query queryRef = ref.orderByKey().equalTo(docKey);
+					ValueEventListener listener = new ValueEventListener() {
+						@Override
+						public void onDataChange(DataSnapshot dataSnapshot) {
+							if (dataSnapshot.exists()) {
+							for (DataSnapshot child : dataSnapshot.getChildren()) {
+								if (child.getKey().equals("7")) {
+									messagedigest = child.child("messagedigest").getValue(String.class);
+									File f = new File(signPath);
+									if (SHA512.checkSHA512(messagedigest, f)) {
+										Matrix matrix = signature.getImageMatrix();
+										// Get the values of the matrix
+										float[] values = new float[9];
+										matrix.getValues(values);
+										// values[2] and values[5] are the x,y coordinates of the top left corner of the drawable image, regardless of the zoom factor.
+										// values[0] and values[4] are the zoom factors for the image's width and height respectively. If you zoom at the same factor, these should both be the same value.
+										values[0] = mZoom;
+										values[4] = mZoom;
+										// event is the touch event for MotionEvent.ACTION_UP
+										float relativeX = (signature.getX() - values[2]) / values[0];
+										float relativeY = (signature.getY() - values[5]) / values[4];
+										//////////////////////////option for signing//////////////////////
+										if (mPdfFile.getNumPages() > 1) {
+											displayAlertDialog();
+											if (allOrNot) {
+
+												/////////////////////////////////////////////////////////////////
+												///////////////////zoom coordinates///////////////////////
+
+												merge(relativeX, relativeY, -1);
+											} else
+												merge(relativeX, relativeY, mPage);
+										} else
+											merge(relativeX, relativeY, 1);
+
+									} else {
+										AlertDialog alert = new AlertDialog.Builder(Pdftry.this).setMessage("You Altered the file").setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+											public void onClick(DialogInterface dialog, int which) {
+												// do nothing
+											}
+										}).show();
+									}
+								}
+								break;
+
+
+							}
+						}
+						}
+
+						@Override
+						public void onCancelled(FirebaseError firebaseError) {
+
+						}
+
+					};
+					queryRef.addValueEventListener(listener);
+					File f2 = new File(newP);
+					PdfChecksum = SHA512.calculateSHA512(f2);
 					changeChecksum();
+
+
+
+
+
+
+
+
+
+
+
+
+					//Toast.makeText(Pdftry.this,messagedigest,Toast.LENGTH_LONG);
+					//Toast.makeText(Pdftry.this,SHA512.calculateSHA512(f), Toast.LENGTH_LONG);
+
 
 					/////////////////////firebase////////////////////////////
 
 
-
-
-
-
-
-
-
 				}
+
+
+
 			});
 			hl.addView(sign);
 			// send button
@@ -1535,8 +1584,15 @@ android:layout_gravity="bottom">
 
 	}
 
+	public void getChecksum(){
+
+
+
+
+
+	}
 	public void changeChecksum(){
-		String docKey="7";
+
 		Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/documents/");
 		Query queryRef = ref.orderByKey().equalTo(docKey);
 		ValueEventListener listener = new ValueEventListener() {
@@ -1544,21 +1600,7 @@ android:layout_gravity="bottom">
 			public void onDataChange(DataSnapshot dataSnapshot) {
 
 					for (DataSnapshot child: dataSnapshot.getChildren()) {
-						String key = child.getKey();
-						String documentName, documentOwnerID, documentURL, ekey, messagedigest, signature;
-						documentName = child.child("documentName").getValue(String.class);
-						documentOwnerID = child.child("documentOwnerID").getValue(String.class);
-						;
-						documentURL = child.child("documentURL").getValue(String.class);
-						;
-						ekey = child.child("ekey").getValue(String.class);
-						;
-						messagedigest=PdfChecksum;
 
-
-						mDocument = new documents(key, messagedigest,ekey,documentURL,documentOwnerID,documentName);
-						documentsArrayAdapter mAdapter=new documentsArrayAdapter(Pdftry.this);
-						mAdapter.updateItem(mDocument);
 
 							break;
 
