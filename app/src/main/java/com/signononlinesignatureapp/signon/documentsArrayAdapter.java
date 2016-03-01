@@ -13,7 +13,9 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
+import com.firebase.client.ValueEventListener;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +31,7 @@ public class documentsArrayAdapter extends BaseAdapter implements ChildEventList
     private List<documents> mdocuments;
     private List<documents> waitdocuments;
     private Firebase mFireBase;
+    private Firebase userFire;
 
     public documentsArrayAdapter(Context context) {
         Firebase.setAndroidContext(context);
@@ -98,11 +101,9 @@ public class documentsArrayAdapter extends BaseAdapter implements ChildEventList
 
         documents child_doc = getItem(position);
         TextView childtxt= (TextView)view.findViewById(R.id.docchildtxt);
-        childtxt.setText(child_doc.getDocumentName());
         TextView childOwnertxt= (TextView)view.findViewById(R.id. docOwnertxt);
         childtxt.setText(child_doc.getDocumentName());
-       // childOwnertxt.setText(child_doc.getOwner().getUsername());
-
+        childOwnertxt.setText(child_doc.getOwner().getUsername());
         Button viewB= (Button)view.findViewById(R.id.docexviewbutton);
         Button signB= (Button)view.findViewById(R.id.docexsignbutton);
         Button requestB= (Button)view.findViewById(R.id.docexrequestbutton);
@@ -132,27 +133,49 @@ public class documentsArrayAdapter extends BaseAdapter implements ChildEventList
     }
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String previeousChildName) {
-        String Skey = dataSnapshot.getKey();
-        String documentName = dataSnapshot.child("documentName").getValue(String.class);
-        String documentOwnerID = dataSnapshot.child("documentOwnerID").getValue(String.class);
-        String documentURL = dataSnapshot.child("documentURL").getValue(String.class);
-        String ekey = dataSnapshot.child("ekey").getValue(String.class);
-        String messagedigest = dataSnapshot.child("messagedigest").getValue(String.class);
-      //  String email = dataSnapshot.child("SignerEmail").getValue(String.class);
-        //String status = dataSnapshot.child("status").getValue(String.class);
+        final String Skey = dataSnapshot.getKey();
+        final String documentName = dataSnapshot.child("documentName").getValue(String.class);
+        final String documentOwnerID = dataSnapshot.child("documentOwnerID").getValue(String.class);
+        final String documentURL = dataSnapshot.child("documentURL").getValue(String.class);
+        final String ekey = dataSnapshot.child("ekey").getValue(String.class);
+        final String messagedigest = dataSnapshot.child("messagedigest").getValue(String.class);
 
+        userFire = new Firebase ("https://torrid-heat-4458.firebaseio.com/users/"+session.userkey+"/");
+        if(documentOwnerID.equals(session.userkey))
+        {
 
+            Query queryRef = userFire.orderByValue();
+            // userFire.orderByKey().equalTo(session.userkey).addListenerForSingleValueEvent(new ValueEventListener() {
+            ValueEventListener listener = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    String key = dataSnapshot.getKey();
+                    String email = dataSnapshot.child("Email").getValue(String.class);
+                    String a = dataSnapshot.child("a").getValue(String.class);
+                    String birthdate = dataSnapshot.child("birthdate").getValue(String.class);
+                    String infinity = dataSnapshot.child("infinity").getValue(String.class);
+                    String password = dataSnapshot.child("password").getValue(String.class);
+                    String username = dataSnapshot.child("username").getValue(String.class);
+                    String x = dataSnapshot.child("x").getValue(String.class);
+                    String y = dataSnapshot.child("y").getValue(String.class);
+                    User mUser = new User(key, email, birthdate, password, username);
+                    // mUser.setA(a);
+                    // mUser.setP();
+                    // mUser.setPK();
+                    // mUser.setX();
+                    // mUser.setY();
+                    mdocuments.add(0, new documents(Skey, messagedigest, ekey, documentURL, documentOwnerID, documentName, mUser));// add to the top
+                    notifyDataSetChanged();// update adapter
+                }
 
-        //if((email.equals(session.userEmail))&&(status=="waiting"))
-       // {
-         //   waitdocuments.add(0, new documents(Skey, messagedigest, ekey, documentURL, documentOwnerID, documentName));
-       // }/*else if((email.equals(session.userEmail))&&(status=="done"))*/
-        /*else*/
-      if(documentOwnerID.equals(session.userkey)){
-            mdocuments.add(0, new documents(Skey, messagedigest, ekey, documentURL, documentOwnerID, documentName));// add to the top
+                @Override
+                public void onCancelled(FirebaseError firebaseError) {
+
+                }
+            };
+            queryRef.addValueEventListener(listener);
         }
-         /*documentOwnerID.equals(session.userkey)refuser.child("Email").equalTo(refreq.("SignerEmail")) && refreq.orderByChild("rDocumentID").equalTo(Skey));
-*/
+
         notifyDataSetChanged();// update adapter
 
     }
