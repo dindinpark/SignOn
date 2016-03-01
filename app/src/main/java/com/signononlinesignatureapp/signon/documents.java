@@ -1,5 +1,11 @@
 package com.signononlinesignatureapp.signon;
 
+import java.nio.charset.Charset;
+import java.security.NoSuchAlgorithmException;
+
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+
 /**
  * Created by Naseebah on 24/02/16.
  */
@@ -12,7 +18,7 @@ public class documents {
     private String ekey;
     private String messagedigest;
 
-
+    public documents(){}
     public documents(String key, String messagedigest, String ekey, String documentURL, String documentOwnerID, String documentName,User Owner) {
         this.key=key;
         this.messagedigest = messagedigest;
@@ -76,4 +82,46 @@ public class documents {
         this.messagedigest = messagedigest;
     }
 
+
+    public void geteKey() {
+
+
+        KeyGenerator keyGen;
+
+
+        byte[] dataKey = null;
+
+        String Key = null;
+        try {
+
+
+            // Generate 256-bit key
+
+
+            keyGen = KeyGenerator.getInstance("AES");
+
+
+            keyGen.init(256);
+
+
+            SecretKey secretKey = keyGen.generateKey();
+
+
+            dataKey = secretKey.getEncoded();
+
+
+        } catch (NoSuchAlgorithmException e) {
+
+
+            // TODO Auto-generated catch block
+
+
+            e.printStackTrace();
+
+        }
+        String storeStr = new String(dataKey, Charset.forName("ASCII"));
+        // Key = new String();
+        setEkey(storeStr);
+
+    }
 }
