@@ -3,6 +3,8 @@ package com.signononlinesignatureapp.signon;
 /**
  * Created by Naseebah on 10/02/16.
  */
+import android.os.Environment;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -27,7 +29,36 @@ import javax.crypto.spec.SecretKeySpec;
 public class  AESencryptionSecond {
     private static final String ALGORITHM = "AES";
     private static final String TRANSFORMATION = "AES";
+    public static void storeKey (byte[] ekey)throws IOException
+    {
+        try {
+            String keyPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/signon/wordKeydan.txt";
+            File keyFile = new File(keyPath);
 
+            FileOutputStream output = new FileOutputStream(keyFile);
+            output.write(ekey);
+            output.close();
+        } catch(IOException ex) {
+            throw new IOException ("Error encrypting/decrypting file", ex);
+        }
+
+    }
+    public static byte[] ReadKey ()throws IOException
+    {
+        try {
+            String keyPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/signon/wordKeydan.txt";
+            File keyFile = new File(keyPath);
+
+            FileInputStream inputStream = new FileInputStream(keyFile);
+            byte[] inputBytes =readFully(inputStream);
+            inputStream.read(inputBytes);
+            inputStream.close();
+            return inputBytes;
+        } catch(IOException ex) {
+            throw new IOException ("Error encrypting/decrypting file", ex);
+        }
+
+    }
     public static void encrypt(byte[] key, File inputFile, File outputFile)
             throws CryptoException {
         doCrypto(Cipher.ENCRYPT_MODE, key, inputFile, outputFile);
