@@ -19,14 +19,13 @@ public class documents {
     private String messagedigest;
 
     public documents(){}
-    public documents(String key, String messagedigest, String ekey, String documentURL, String documentOwnerID, String documentName,User Owner) {
+    public documents(String key, String messagedigest, String ekey, String documentURL, String documentOwnerID, String documentName) {
         this.key=key;
         this.messagedigest = messagedigest;
         this.ekey = ekey;
         this.documentURL = documentURL;
         this.documentOwnerID = documentOwnerID;
         this.documentName = documentName;
-        this.Owner=Owner;
     }
     public User getOwner() {
         return Owner;

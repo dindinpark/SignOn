@@ -164,7 +164,10 @@ public class documentsArrayAdapter extends BaseAdapter implements ChildEventList
                     // mUser.setPK();
                     // mUser.setX();
                     // mUser.setY();
-                    mdocuments.add(0, new documents(Skey, messagedigest, ekey, documentURL, documentOwnerID, documentName, mUser));// add to the top
+                    documents doc = new documents(Skey, messagedigest, ekey, documentURL, documentOwnerID, documentName);
+                    doc.setOwner(mUser);
+                    mdocuments.add(0, doc);// add to the top
+
                     notifyDataSetChanged();// update adapter
                 }
 
