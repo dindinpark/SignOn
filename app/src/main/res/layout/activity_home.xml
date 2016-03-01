@@ -84,13 +84,13 @@
                     android:layout_width="148dp"
                     android:layout_height="wrap_content"
                     android:text="  Upload Document  "
-                    android:id="@+id/button7"
+                    android:id="@+id/homeUploadButton"
                     android:layout_column="38"
                     android:layout_marginBottom="20dp"
                     android:layout_marginTop="60dp"
                     android:background="#7724cc"
                     android:textColor="#ffffff"
-            android:onClick="testOn"
+            android:onClick="uploadDocument"
                     android:layout_gravity="center_horizontal"
             android:clickable="false" />
 

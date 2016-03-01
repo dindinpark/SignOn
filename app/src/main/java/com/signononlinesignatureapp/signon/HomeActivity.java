@@ -1,12 +1,17 @@
 package com.signononlinesignatureapp.signon;
 
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,6 +26,7 @@ import com.firebase.client.ValueEventListener;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -29,9 +35,10 @@ import java.net.URLConnection;
 
 //push 2
 public class HomeActivity extends AppCompatActivity {
+    private static final String TAG = "Snap";
     ImageView signatureImageView;
     ImageView imageView;
-
+    private static final int FILE_SELECT_CODE = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,11 +73,64 @@ queryRef.addValueEventListener(listener);
        session.userkey = extras.getString("key");
 
     }
-    public void testOn(View v){
-        startActivity(new Intent(HomeActivity.this, SignDocument.class));
+    public void uploadDocument(View v){
+
+
+
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("application/pdf");
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+
+            try {
+                startActivityForResult(
+                        Intent.createChooser(intent, "Select a File to Upload"),
+                        FILE_SELECT_CODE);
+            } catch (android.content.ActivityNotFoundException ex) {
+                // Potentially direct the user to the Market with a Dialog
+                Toast.makeText(this, "Please install a File Manager.",
+                        Toast.LENGTH_SHORT).show();
+            }
 
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case FILE_SELECT_CODE:
+                if (resultCode == RESULT_OK) {
+                    // Get the Uri of the selected file
+                    try{
+                    Uri uri = data.getData();
+                    Log.d(TAG, "File Uri: " + uri.toString());
+                    // Get the path
+
+                        String uriString=uri.getPath();
+                        Log.d(TAG, "String Path: " + uriString);
+                    String path = FileUtils.getPath(this, uri);
+
+                    Log.d(TAG, "File Path: " + path);
+
+
+
+                        // Get the file instance
+                        new HDWFTP_Upload().execute(path);
+
+                        // File file = new File(path);
+                        // Initiate the upload
+                    }
+                    catch (URISyntaxException e){
+                    Toast.makeText(this, "Please install a File Manager.",
+                            Toast.LENGTH_SHORT).show();}
+
+                }
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+
     public void testOn2(View v){
         startActivity(new Intent(HomeActivity.this, CaptureSignatureActivity.class));
 
