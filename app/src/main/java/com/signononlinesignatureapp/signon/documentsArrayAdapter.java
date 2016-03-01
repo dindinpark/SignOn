@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.firebase.client.ChildEventListener;
@@ -98,6 +99,35 @@ public class documentsArrayAdapter extends BaseAdapter implements ChildEventList
         documents child_doc = getItem(position);
         TextView childtxt= (TextView)view.findViewById(R.id.docchildtxt);
         childtxt.setText(child_doc.getDocumentName());
+        TextView childOwnertxt= (TextView)view.findViewById(R.id. docOwnertxt);
+        childtxt.setText(child_doc.getDocumentName());
+       // childOwnertxt.setText(child_doc.getOwner().getUsername());
+
+        Button viewB= (Button)view.findViewById(R.id.docexviewbutton);
+        Button signB= (Button)view.findViewById(R.id.docexsignbutton);
+        Button requestB= (Button)view.findViewById(R.id.docexrequestbutton);
+        viewB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /// go to webview activity
+
+            }
+        });
+        signB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //// go to Mypdfviewer activity
+
+            }
+        });
+        requestB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ////// go to request Activity
+
+            }
+        });
         return view;
     }
     @Override
@@ -118,9 +148,9 @@ public class documentsArrayAdapter extends BaseAdapter implements ChildEventList
          //   waitdocuments.add(0, new documents(Skey, messagedigest, ekey, documentURL, documentOwnerID, documentName));
        // }/*else if((email.equals(session.userEmail))&&(status=="done"))*/
         /*else*/
-     //   if(documentOwnerID.equals(session.userkey)){
+      if(documentOwnerID.equals(session.userkey)){
             mdocuments.add(0, new documents(Skey, messagedigest, ekey, documentURL, documentOwnerID, documentName));// add to the top
-       // }
+        }
          /*documentOwnerID.equals(session.userkey)refuser.child("Email").equalTo(refreq.("SignerEmail")) && refreq.orderByChild("rDocumentID").equalTo(Skey));
 */
         notifyDataSetChanged();// update adapter
