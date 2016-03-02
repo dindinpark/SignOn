@@ -132,14 +132,15 @@ queryRef.addValueEventListener(listener);
 
 
     public void testOn2(View v){
-        startActivity(new Intent(HomeActivity.this, CaptureSignatureActivity.class));
+       // startActivity(new Intent(HomeActivity.this, CaptureSignatureActivity.class));
+        startActivity(new Intent(HomeActivity.this, AESencrypttionFirst.class));
 
 
     }
 
     public void testOn3(View v){
-        startActivity(new Intent(HomeActivity.this, SettingActivity.class));
-
+      //  startActivity(new Intent(HomeActivity.this, SettingActivity.class));
+        startActivity(new Intent(HomeActivity.this, documentsSelectActivity.class));
 
     }
 
