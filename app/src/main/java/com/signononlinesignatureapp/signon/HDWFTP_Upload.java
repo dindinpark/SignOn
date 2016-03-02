@@ -29,6 +29,8 @@ public class HDWFTP_Upload extends AsyncTask <String, Void, Long>{
     String messagedigest, ekey, documentOwnerID, documentName, documentURL;
     documents document;
     documentsArrayAdapter documentAdapter;
+    File f ;
+    byte[] key;
     Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/users");
     HDWFTP_Upload(Context context){
         this.context=context;
@@ -79,8 +81,8 @@ public class HDWFTP_Upload extends AsyncTask <String, Void, Long>{
                     ftpClient.setFileType(org.apache.commons.net.ftp.FTP.BINARY_FILE_TYPE);
                     //////////////////encrypt////////////////////////////
 try {
-    File f = new File(FULL_PATH_TO_LOCAL_FILE[0]);
-    byte[] key = AESencryptionSecond.getencryptioKey();
+    f = new File(FULL_PATH_TO_LOCAL_FILE[0]);
+    key = AESencryptionSecond.getencryptioKey();
     ekey = new String(key, Charset.forName("ASCII"));
     AESencryptionSecond.encrypt(key, f, f);
 }
@@ -125,6 +127,14 @@ catch (CryptoException ex) {
 
                     ftpClient.logout();
                     ftpClient.disconnect();
+                    try {
+                        AESencryptionSecond.decrypt(key, f, f);
+                    }
+                    catch (CryptoException ex) {
+                        System.out.println(ex.getMessage());
+                        ex.printStackTrace();
+                    }
+
                 }}
                 else{
                     AlertDialog alert = new AlertDialog.Builder(context).setMessage("A file with the same name already exist").setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
