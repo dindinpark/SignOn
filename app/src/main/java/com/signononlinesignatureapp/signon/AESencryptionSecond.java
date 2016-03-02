@@ -18,7 +18,9 @@ import java.security.NoSuchAlgorithmException;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
@@ -112,5 +114,48 @@ public class  AESencryptionSecond {
         catch(IOException ex) {
             throw new CryptoException("Error encrypting/decrypting file", ex);
         }
+    }
+    public static byte[] getKey(){
+
+
+        KeyGenerator keyGen;
+
+
+        byte[] dataKey=null;
+
+        String Key=null;
+        try {
+
+
+            // Generate 256-bit key
+
+
+            keyGen = KeyGenerator.getInstance("AES");
+
+
+            keyGen.init(256);
+
+
+            SecretKey secretKey = keyGen.generateKey();
+
+
+            dataKey=secretKey.getEncoded();
+
+
+
+        } catch (NoSuchAlgorithmException e) {
+
+
+            // TODO Auto-generated catch block
+
+
+            e.printStackTrace();
+
+        }
+
+
+        return dataKey;
+
+
     }
 }
