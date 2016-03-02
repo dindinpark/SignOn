@@ -24,6 +24,7 @@ import java.net.UnknownHostException;
 import java.nio.charset.Charset;
 
 public class HDWFTP_Upload extends AsyncTask <String, Void, Long>{
+
     private Context context;
     String messagedigest, ekey, documentOwnerID, documentName, documentURL;
     documents document;
@@ -79,8 +80,8 @@ public class HDWFTP_Upload extends AsyncTask <String, Void, Long>{
                     //////////////////encrypt////////////////////////////
 try {
     File f = new File(FULL_PATH_TO_LOCAL_FILE[0]);
-    byte[] key = AESencryptionSecond.getKey();
-    String k = new String(key, Charset.forName("ASCII"));
+    byte[] key = AESencryptionSecond.getencryptioKey();
+    ekey = new String(key, Charset.forName("ASCII"));
     AESencryptionSecond.encrypt(key, f, f);
 }
 catch (CryptoException ex) {
@@ -113,7 +114,6 @@ catch (CryptoException ex) {
                         documentURL="ftp.byethost4.com/htdocs/"+session.userkey+"/"+Picture_File_name+"/";
                         messagedigest=SHA512.calculateSHA512(new File(FULL_PATH_TO_LOCAL_FILE[0]));
                         ///temp
-                        ekey=null;
                         document=new documents(null,messagedigest,ekey,documentURL,documentOwnerID,documentName);
                         documentAdapter=new documentsArrayAdapter(context);
                         documentAdapter.addItem(document);

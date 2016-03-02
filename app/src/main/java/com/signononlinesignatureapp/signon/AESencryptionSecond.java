@@ -115,7 +115,7 @@ public class  AESencryptionSecond {
             throw new CryptoException("Error encrypting/decrypting file", ex);
         }
     }
-    public static byte[] getKey(){
+    public static byte[] getencryptioKey(){
 
 
         KeyGenerator keyGen;
