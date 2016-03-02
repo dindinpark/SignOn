@@ -30,21 +30,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/add_dialog_signer_email"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:inputType="textEmailAddress" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Signer Order :"
-            android:id="@+id/textView21" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/add_dialog_signer_order"
-            android:numeric="integer"
-            android:singleLine="true" />
     </LinearLayout>
 
     <Button
