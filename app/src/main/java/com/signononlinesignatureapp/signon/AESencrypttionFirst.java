@@ -8,10 +8,22 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 
+import com.google.api.client.util.IOUtils;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.KeyGenerator;
+import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 
 /**
@@ -26,18 +38,60 @@ public class AESencrypttionFirst extends AppCompatActivity {
         main();
     }
     public static void main() {
-        String newPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/signon/word.pdf";
-        String encPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/signon/worde.enc";
-        String decPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/signon/wordd.pdf";
-        byte[] key = getKey();
+
+
+        /////////////////////////////Upload
+        String newPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/signon/word.pdf";
+
+        ////////////////////////////Upload & Download
+        String encPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/signon/wordedanenc.enc";
+
+        ////////////////////////////Download
+        String decPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/signon/wordtrykeydan.pdf";
+
+
+        ////////////////////////////Upload & Download
+        /*
+         Firebase.setAndroidContext(this);
+        final Firebase mFirebase = new Firebase ("https://torrid-heat-4458.firebaseio.com/documents");
+        final documentsArrayAdapter Docadapter = new documentsArrayAdapter(this);
+        final documents CurrentDocument = new documents(null, String messagedigest, null, String documentURL, String documentOwnerID, String documentName) ;
+        CurrentDocument.geteKey();
+
+        //////////////////////////////
+        //first message digest
+        /////////////////////////////
+        Docadapter.addItem(CurrentDocument);
+
+        *
+        *
+        *
+        *
+        *
+        * */
+       /*final documents CurrentDocument = new documents();
+        CurrentDocument.geteKey();
+
+        String Skey = CurrentDocument.getEkey();
+        byte[] ekey = Skey.getBytes(Charset.forName("ASCII"));*/
+
+
+        // byte[] ekey = Skey.getBytes(Charset.forName("UTF-8"));
+        //byte[] key = getKey();
+
         File inputFile = new File(newPath);
         File encryptedFile = new File(encPath);
         File decryptedFile = new File(decPath);
 
         try {
-            AESencryptionSecond.encrypt(key, inputFile, encryptedFile);
-            AESencryptionSecond.decrypt(key, encryptedFile, decryptedFile);
+            byte[] ekey = AESencryptionSecond.ReadKey();
+            //AESencryptionSecond.encrypt(ekey, inputFile, encryptedFile);
+            AESencryptionSecond.decrypt(ekey, encryptedFile, decryptedFile);
+            //AESencryptionSecond.storeKey(ekey);
         } catch (CryptoException ex) {
+            System.out.println(ex.getMessage());
+            ex.printStackTrace();
+        } catch (IOException ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace();
         }
@@ -85,5 +139,18 @@ public class AESencrypttionFirst extends AppCompatActivity {
 
 
     }
+    /*
+    public static byte[] readFully(String stream) throws IOException
+    {
+        byte[] buffer = new byte[256];
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        int bytesRead;
+        while ((bytesRead = stream.read(buffer)) != -1)
+        {
+            baos.write(buffer, 0, bytesRead);
+        }
+        return baos.toByteArray();
+    }*/
 }
 

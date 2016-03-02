@@ -110,7 +110,7 @@ public class documentsSelectActivity extends ListActivity{
     protected void onListItemClick(ListView l, View v, int position, long id) {
 
         final documents currentdocuments = (documents) getListAdapter().getItem(position);
-        session.base64=currentdocuments.getKey();
+
         super.onListItemClick(l, v, position, id);
     }
     //////////////////////////////////////////////////////////////
@@ -133,46 +133,7 @@ public class documentsSelectActivity extends ListActivity{
     }
 
     private void addItem() {
-/*
-        DialogFragment df = new DialogFragment() {
-            @Override
-            public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-                View view = inflater.inflate(R.layout.content_main, container);
-                getDialog().setTitle("Add a movie and quote");
-                final Button confirmButton = (Button) view.findViewById(R.id.add);
-                final Button cancelButton = (Button) view.findViewById(R.id.birth_txt);
-                final EditText movieTitleEditText = (EditText) view.findViewById(R.id.selectdocumentsName);
-                final EditText movieQuoteEditText = (EditText) view.findViewById(R.id.selectdocumentsID);
-
-                confirmButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String movieTitleText = movieTitleEditText.getText().toString();
-                        String movieQuoteText = movieQuoteEditText.getText().toString();
-                        Toast.makeText(documentsSelectActivity.this,
-                                "Got the title " + movieTitleText + " and quote " + movieQuoteText, Toast.LENGTH_LONG)
-                                .show();
-                        documents currentQuote = new documents(null,"6666", movieTitleText, movieQuoteText);
-                        mAdapter.addItem(currentQuote);
-                        dismiss();
-                    }
-                });
-
-                cancelButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dismiss();
-                    }
-                });
-                return view;
-            }
-        };
-        df.show(getFragmentManager(), "");*/
     }
-    /*public void documentsSelectAddButtonClick(View v){
-        startActivity(new Intent(documentsSelectActivity.this,CapturedocumentsActivity.class));
-
-    }*/
 
 
 }

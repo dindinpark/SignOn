@@ -1,5 +1,6 @@
 package com.signononlinesignatureapp.signon;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -108,6 +109,11 @@ public class SettingActivity extends AppCompatActivity {
         Toast.makeText(SettingActivity.this, "Information Updated Successfully", Toast.LENGTH_SHORT).show();
 
 
+
+    }
+
+    public void editSignatures(View v){
+        startActivity(new Intent(SettingActivity.this, SignatureSelectActivity.class));
 
     }
 
