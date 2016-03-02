@@ -114,7 +114,7 @@ queryRef.addValueEventListener(listener);
 
 
                         // Get the file instance
-                        new HDWFTP_Upload().execute(path);
+                        new HDWFTP_Upload(this).execute(path);
 
                         // File file = new File(path);
                         // Initiate the upload
