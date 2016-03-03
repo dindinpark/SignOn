@@ -30,34 +30,6 @@ import java.io.IOException;
 public class MyPdfViewerActivity extends Pdftry {//implements View.OnTouchListener {
 
 
-    public void displayAlertDialog() {
-//////////
-        AlertDialog.Builder alert = new AlertDialog.Builder(MyPdfViewerActivity.this);
-        alert.setTitle("Signing");
-        alert.setMessage("Do you want to sign on all pages?");
-        alert.setCancelable(false);
-        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                allOrNot=false;
-
-            }
-        });
-
-        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                allOrNot=true;
-            }
-        });
-
-        AlertDialog dialog = alert.create();
-        dialog.show();
-
-    }
-
 
     public int getPreviousPageImageResource() {
 

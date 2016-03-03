@@ -23,7 +23,7 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.nio.charset.Charset;
 
-public class HDWFTP_Upload extends AsyncTask <String, Void, Long>{
+public class HDWFTP_Upload_Update extends AsyncTask <String, Void, Long>{
 
     private Context context;
     String messagedigest, ekey, documentOwnerID, documentName, documentURL;
@@ -32,7 +32,7 @@ public class HDWFTP_Upload extends AsyncTask <String, Void, Long>{
     File f ;
     byte[] key;
     Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/users");
-    HDWFTP_Upload(Context context){
+    HDWFTP_Upload_Update(Context context){
         this.context=context;
     }
 
@@ -112,14 +112,15 @@ catch (CryptoException ex) {
 
                     if (result) {
                         System.out.println("Success");
+                        System.out.println("name "+Picture_File_name);
                         documentName=Picture_File_name;
                         documentOwnerID=session.userkey;
                         documentURL="ftp.byethost4.com/htdocs/"+session.userkey+"/"+Picture_File_name+"/";
                         messagedigest=SHA512.calculateSHA512(new File(FULL_PATH_TO_LOCAL_FILE[0]));
                         ///temp
-                        document=new documents(null,messagedigest,ekey,documentURL,documentOwnerID,documentName);
+                        document=new documents(session.docKey,messagedigest,ekey,documentURL,documentOwnerID,documentName);
                         documentAdapter=new documentsArrayAdapter(context);
-                        documentAdapter.addItem(document);
+                        documentAdapter.updateItem(document);
                     }
 
 

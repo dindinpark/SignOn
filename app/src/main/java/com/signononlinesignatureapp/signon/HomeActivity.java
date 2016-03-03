@@ -133,7 +133,7 @@ queryRef.addValueEventListener(listener);
 
     public void testOn2(View v){
        // startActivity(new Intent(HomeActivity.this, CaptureSignatureActivity.class));
-        startActivity(new Intent(HomeActivity.this, AESencrypttionFirst.class));
+        startActivity(new Intent(HomeActivity.this, SignDocument.class));
 
 
     }

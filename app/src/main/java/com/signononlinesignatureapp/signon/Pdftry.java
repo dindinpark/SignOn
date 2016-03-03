@@ -109,7 +109,7 @@ public abstract class Pdftry extends Activity {
 	private final static int DIALOG_PAGENUM = 1;
 
 	public int counter=0;
-	private String docKey="7";
+
 	private PdfReader pdfReader;
 	private String PdfChecksum;
 	private documents mDocument;
@@ -143,7 +143,7 @@ public abstract class Pdftry extends Activity {
 
     private Thread backgroundThread;
     private Handler uiHandler;
-	public String messagedigest;
+	public String messagedigest="b1eb2c04b35cea4766c4f438fd983af0ce6098ba918d938e1d03fc4e39f11f46395e2a8e5b730c8f83935ca842230f964c1ea9690333f4a4feb234cda4ff0ac8";
 
 	@Override
 	public Object onRetainNonConfigurationInstance() {
@@ -174,6 +174,8 @@ public abstract class Pdftry extends Activity {
 	}
 
 	/** Called when the activity is first created. */
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -911,11 +913,10 @@ public abstract class Pdftry extends Activity {
 			sign.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
 
-
 					////////////////check hash//////////////////////////////
 
 					Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/documents/");
-					Query queryRef = ref.orderByKey().equalTo(docKey);
+					Query queryRef = ref.orderByKey().equalTo(session.docKey);
 
 					ValueEventListener listener = new ValueEventListener() {
 						@Override
@@ -923,10 +924,10 @@ public abstract class Pdftry extends Activity {
 							if(counter==0){
 							if (dataSnapshot.exists()) {
 								for (DataSnapshot child : dataSnapshot.getChildren()) {
-									if (child.getKey().equals("7")) {
+									if (child.getKey().equals("-KBsnv7uKfs3FCmq3uLG")) {
 										messagedigest = child.child("messagedigest").getValue(String.class);
 
-										if (SHA512.checkSHA512(messagedigest, fileTosign)) {
+										//if (messagedigest=="b1eb2c04b35cea4766c4f438fd983af0ce6098ba918d938e1d03fc4e39f11f46395e2a8e5b730c8f83935ca842230f964c1ea9690333f4a4feb234cda4ff0ac8") {
 											Matrix matrix = signature.getImageMatrix();
 											// Get the values of the matrix
 											float[] values = new float[9];
@@ -952,19 +953,23 @@ public abstract class Pdftry extends Activity {
 											} else
 												merge(relativeX, relativeY, 1);
 											File f2 = new File(newP);
+
 											PdfChecksum = SHA512.calculateSHA512(f2);
-											documentToUpdate=new documents(docKey,PdfChecksum,child.child("ekey").getValue(String.class),child.child("documentURL").getValue(String.class),child.child("documentOwnerID").getValue(String.class),child.child("documentName").getValue(String.class));
+											documentToUpdate=new documents(session.docKey,PdfChecksum,child.child("ekey").getValue(String.class),"ftp.byethost4.com/htdocs/"+session.userkey+"/"+f2.getName()+"/",child.child("documentOwnerID").getValue(String.class),child.child("documentName").getValue(String.class));
 											documentAdapter=new documentsArrayAdapter(Pdftry.this);
 											fileTosign=new File(newP);
-											documentAdapter.updateItem(documentToUpdate);
+											//documentAdapter.updateItem(documentToUpdate);
+										System.out.println("path "+f2.getPath());
 
-										} else {
-											AlertDialog alert = new AlertDialog.Builder(Pdftry.this).setMessage("You Altered the file").setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-												public void onClick(DialogInterface dialog, int which) {
-													// do nothing
-												}
-											}).show();
-										}
+										new HDWFTP_Upload_Update(Pdftry.this).execute(f2.getPath());
+
+									//} else {
+										//	AlertDialog alert = new AlertDialog.Builder(Pdftry.this).setMessage("You Altered the file").setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+										////		public void onClick(DialogInterface dialog, int which) {
+										//			// do nothing
+										//		}
+										//	}).show();
+										//}
 									}
 									break;
 
@@ -1495,9 +1500,9 @@ android:layout_gravity="bottom">
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	public abstract int getsignatureImageReasource();
-	public void merge(float x,float y, int pageNum){
+	public void merge(float x,float y, int pageNum) {
 		try {
-
+		//	finish();
 			pdfReader = new PdfReader(signPath);
 			//fix y
 			y=pdfReader.getCropBox(1).getHeight()-y;
@@ -1544,7 +1549,34 @@ android:layout_gravity="bottom">
 		}
 
 	}
-	public abstract void displayAlertDialog();
+	public void displayAlertDialog() {
+//////////
+		AlertDialog.Builder alert = new AlertDialog.Builder(Pdftry.this);
+		alert.setTitle("Signing");
+		alert.setMessage("Do you want to sign on all pages?");
+		alert.setCancelable(false);
+		alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				allOrNot=false;
+
+			}
+		});
+
+		alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				allOrNot=true;
+			}
+		});
+
+		AlertDialog dialog = alert.create();
+		dialog.show();
+
+	}
+
 	public void changeImageView(){
 
 		Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/signature");
@@ -1594,7 +1626,7 @@ android:layout_gravity="bottom">
 	public void changeChecksum(){
 
 		Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/documents/");
-		Query queryRef = ref.orderByKey().equalTo(docKey);
+		Query queryRef = ref.orderByKey().equalTo(session.docKey);
 		ValueEventListener listener = new ValueEventListener() {
 			@Override
 			public void onDataChange(DataSnapshot dataSnapshot) {
