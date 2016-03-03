@@ -12,12 +12,14 @@ import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.FirebaseException;
 import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 
 import java.lang.String;
 import java.math.BigInteger;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -25,8 +27,9 @@ public class SignAndVerifyActivity extends AppCompatActivity {
 
  public TextView ECDSATextview ;
     public Button signbutton;
-    Point userpubkey ;
-
+ ;
+    String requestID;
+    String documentID; // this variable will be used in both signing and verifying
     String thedigest;
     String signature;
     @Override
@@ -44,25 +47,70 @@ public class SignAndVerifyActivity extends AppCompatActivity {
 
     }
 
-    public void signclick(View V){
+    public void signclick(View v){
+        signdocument("", "","");
+
+    }
+
+
+    public void signdocument(String DID,String RID ,String digest){ // get public key from FIREBASE
+
+        documentID=DID;
+        requestID=RID;
+        thedigest=digest;
+
+        Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/users/"+session.userkey+"/");
+
+        Query queryref = ref.orderByValue();
+        ValueEventListener listener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                BigInteger x,y,a,p;
+                String inf;
+                boolean infinity;
+
+                x=new BigInteger(dataSnapshot.child("x").getValue(String.class));
+                y=new BigInteger(dataSnapshot.child("y").getValue(String.class));
+                a=new BigInteger(dataSnapshot.child("a").getValue(String.class));
+                p=new BigInteger(dataSnapshot.child("p").getValue(String.class));
+                inf=dataSnapshot.child("infinity").getValue(String.class);
+                if(inf=="TRUE")
+                    infinity=true;
+                else
+                    infinity=false;
+
+                Point pubkey = new Point(x,y,a,p);
+                pubkey.setInfinity(infinity);
+                ECDSASIGNING(pubkey);
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        };
+
+        queryref.addValueEventListener(listener);
+
+
+    }
+
+
+    public void ECDSASIGNING (Point pubkey){
 
         try {
             // sign ducoment
 
-
             ECDSA app = new ECDSA();  // eliptic curve opject
-             // public key will be stored in firebase
+            // public key will be stored in firebase
 
-            BigInteger password = new BigInteger("43453");
-
-            app.setdA(password);
+         app.setQA(pubkey);
             signature = app.signingMessage(thedigest);
 
             ECDSATextview.setText(signature);
-            userpubkey=app.getQA();
-            String userID = "-KB3Hr-hppGC_lVeqjjE"; /// here connection
-
-            storePubkeyAndSignature(userID,userpubkey,signature,thedigest);
+            storePubkeyAndSignature(signature, thedigest);
 
 
 
@@ -72,67 +120,187 @@ public class SignAndVerifyActivity extends AppCompatActivity {
         }
 
 
-
     }
 
 
 
-    public void verfiySignature(Point pubkey,String sign,String msg){
+
+    public void storePubkeyAndSignature(String signature,String msg){
 
 
 
-        try {
-            ECDSA app = new ECDSA();
-             app.setQA(pubkey);
-            boolean check = app.checkSignature(msg, sign);
-            if (check == true) {
-                ECDSATextview.setText(" varifcation is true");
+
+      Firebase  mFirebase = new Firebase ("https://torrid-heat-4458.firebaseio.com/documents");
+       // mFirebase.child(documentID).child("messagedigest").setValue(msg); // digest did not change
+
+        mFirebase = new Firebase ("https://torrid-heat-4458.firebaseio.com/requests");
+        mFirebase.child(requestID).child("signature").setValue(signature);
+        mFirebase.child(requestID).child("status").setValue("DONE");
+       getseq();
+
+
+    }
+
+    public void getseq() {
+        Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/requests/" + requestID + "");
+
+        Query queryref = ref.child("signingSeq");
+        ValueEventListener listener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                ECDSATextview.setText(dataSnapshot.getValue().toString());
+              changeSingingoder(dataSnapshot.getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
 
             }
-            else
-                ECDSATextview.setText("varifcation is false"); /// to change
-        }
-        catch (java.lang.Exception e1){
+        };
 
-            ECDSATextview.setText("in java.lang.exception");
+        queryref.addValueEventListener(listener);
+
+    }
+public void changeSingingoder(final String seq){
+
+    Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/requests");
+     Query queryref= ref.orderByChild("rDocumentId").equalTo(documentID); // get reauest by request
+    ValueEventListener listener = new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+
+            for (DataSnapshot child: dataSnapshot.getChildren()){
+
+              if(!(requestID==child.getKey()))
+              { // ECDSATextview.setText(ECDSATextview.getText()+"[   ]"+child.getKey());
+               checkIfItsTheNextSiner(child.getKey(),seq); }
+
+
+            }
+
 
         }
+
+        @Override
+        public void onCancelled(FirebaseError firebaseError) {
+
+        }
+    };
+    queryref.addValueEventListener(listener);
+
+}
+
+    public void checkIfItsTheNextSiner(String RID , final String seq){
+
+       final Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/requests/"+RID+"");
+        Query queryref = ref.child("signingSeq").orderByValue();
+        ValueEventListener listener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+            int afterseq = Integer.parseInt( dataSnapshot.getValue().toString());
+                int beforeseq = Integer.parseInt(seq);
+                if(afterseq-1==beforeseq){
+                    ref.child("status").setValue("waiting");
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        };
+        queryref.addValueEventListener(listener);
 
 
     }
 
 
-    public void storePubkeyAndSignature(String userID,Point pubkey,String signature,String msg){
+    public void verfiyclick(View view){
 
 
-    Firebase mFirebase = new Firebase ("https://torrid-heat-4458.firebaseio.com/users");
-    /*    Map<String, Object> users = new HashMap<String, Object>();
-        users.put("x", pubkey.getX().toString());
-        users.put("y", pubkey.getY().toString());
-        users.put("a", pubkey.getA().toString());
-        users.put("p", pubkey.getP().toString());
-        if(pubkey.isInfinity())
-        users.put("infinity","true");
-        else
-        users.put("infinity","false"); */
-        mFirebase.child(userID).child("x").setValue(pubkey.getX().toString());
-        mFirebase.child(userID).child("y").setValue(pubkey.getY().toString());
-        mFirebase.child(userID).child("a").setValue(pubkey.getA().toString());
-        mFirebase.child(userID).child("p").setValue(pubkey.getP().toString());
-        if(pubkey.isInfinity())
-        mFirebase.child(userID).child("infinity").setValue("TRUE");
-        else
-            mFirebase.child(userID).child("infinity").setValue("FALSE");
+ setdocumentID(requestID); /// here start verifying
 
-         mFirebase = new Firebase ("https://torrid-heat-4458.firebaseio.com/documents");
-        mFirebase.child("0").child("messagedigest").setValue(msg);
-        mFirebase.child("0").child("signature").setValue(signature);
 
 
     }
 
+   public void setdocumentID(final String RID){
 
-    public void retrievepubKey(final String userID, final String docuID){
+       Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/requests/"+RID+"/rDocumentId/");
+       Query queryref = ref.orderByValue();
+       ValueEventListener listener = new ValueEventListener() {
+           @Override
+           public void onDataChange(DataSnapshot dataSnapshot) {
+               documentID= dataSnapshot.getValue().toString(); // after setting documentID we dont have to pass it but we will use it later on
+               retrieveEmailfromRequest(RID); // continue querying
+
+           }
+
+           @Override
+           public void onCancelled(FirebaseError firebaseError) {
+
+           }
+       };
+
+       queryref.addValueEventListener(listener);
+
+   }
+
+    public void retrieveEmailfromRequest(String RID){ // here connection getting signerID and documentID from the request tree by RID
+
+        Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/requests/"+RID+"/SignerEmail/");
+        Query queryref = ref.orderByValue();
+        ValueEventListener listener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                getUIDbyEmail(dataSnapshot.getValue().toString());
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        };
+
+
+queryref.addValueEventListener(listener);
+
+    }
+    public void getUIDbyEmail(String email){ // retrive user key from users by email
+        Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/users");
+        Query queryRef = ref.orderByChild("Email").equalTo(email);
+
+        ValueEventListener listener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot child: dataSnapshot.getChildren()) {
+                       retrievepubKey(child.getKey());
+
+                    }
+                }
+                else {
+                    Toast toast = Toast.makeText(SignAndVerifyActivity.this, "email not found", Toast.LENGTH_LONG);
+                    toast.show();
+
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        };
+        queryRef.addValueEventListener(listener);
+
+    }
+
+    public void retrievepubKey(final String userID){
 
 Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/users/"+userID+"/");
 
@@ -159,7 +327,7 @@ Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/users/"+use
                 Point pubkey = new Point(x,y,a,p);
                 pubkey.setInfinity(infinity);
 
-                  retrieveMSG(pubkey,docuID);
+                  retrieveMSG(pubkey);
             }
 
             @Override
@@ -175,9 +343,9 @@ Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/users/"+use
 
     }
 
-    public void retrieveMSG(final Point pubkey,final String docuID){
+    public void retrieveMSG(final Point pubkey){
 
-        Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/documents/"+docuID+"/");
+        Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/documents/"+documentID+"/");
      Query queryref = ref.orderByValue();
         ValueEventListener listener = new ValueEventListener() {
             @Override
@@ -185,7 +353,7 @@ Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/users/"+use
 
                 String MSG=  dataSnapshot.child("messagedigest").getValue().toString();
                 ECDSATextview.setText(MSG);
-                  retrieveSign(pubkey, MSG,docuID);
+                  retrieveSign(pubkey, MSG);
 
 
             }
@@ -202,9 +370,9 @@ Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/users/"+use
     }
 
 
-    public void retrieveSign(final Point pubkey , final String msg, String docuID){
+    public void retrieveSign(final Point pubkey , final String msg){
 
-        Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/documents/"+docuID+"");
+        Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/requests/"+requestID+"");
         Query queryref = ref.orderByValue();
         ValueEventListener listener = new ValueEventListener() {
             @Override
@@ -230,11 +398,28 @@ Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/users/"+use
 
     }
 
+    public void verfiySignature(Point pubkey,String sign,String msg){
 
-    public void verfiyclick(View view){
 
-retrievepubKey("","");
+
+        try {
+            ECDSA app = new ECDSA();
+            app.setQA(pubkey);
+            boolean check = app.checkSignature(msg, sign);
+            if (check == true) {
+                ECDSATextview.setText(" varifcation is true");
+
+            }
+            else
+                ECDSATextview.setText("varifcation is false"); /// to change
+        }
+        catch (java.lang.Exception e1){
+
+            ECDSATextview.setText("in java.lang.exception");
+
+        }
 
 
     }
+
 }
