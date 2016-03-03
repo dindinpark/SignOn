@@ -961,6 +961,8 @@ public abstract class Pdftry extends Activity {
 											//documentAdapter.updateItem(documentToUpdate);
 										System.out.println("path "+f2.getPath());
 
+File ff=new File(signPath);
+										f2.renameTo(ff);
 										new HDWFTP_Upload_Update(Pdftry.this).execute(f2.getPath());
 
 									//} else {
@@ -1502,7 +1504,7 @@ android:layout_gravity="bottom">
 	public abstract int getsignatureImageReasource();
 	public void merge(float x,float y, int pageNum) {
 		try {
-		//	finish();
+		//finish();
 			pdfReader = new PdfReader(signPath);
 			//fix y
 			y=pdfReader.getCropBox(1).getHeight()-y;

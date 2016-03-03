@@ -114,7 +114,7 @@ catch (CryptoException ex) {
                         System.out.println("Success");
                         System.out.println("name "+Picture_File_name);
                         documentName=Picture_File_name;
-                        documentOwnerID=session.userkey;
+
                         documentURL="ftp.byethost4.com/htdocs/"+session.userkey+"/"+Picture_File_name+"/";
                         messagedigest=SHA512.calculateSHA512(new File(FULL_PATH_TO_LOCAL_FILE[0]));
                         ///temp
