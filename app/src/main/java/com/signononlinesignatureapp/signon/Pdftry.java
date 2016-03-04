@@ -924,10 +924,10 @@ public abstract class Pdftry extends Activity {
 							if(counter==0){
 							if (dataSnapshot.exists()) {
 								for (DataSnapshot child : dataSnapshot.getChildren()) {
-									if (child.getKey().equals("-KBsnv7uKfs3FCmq3uLG")) {
+									if (child.getKey().equals(session.docKey)) {
 										messagedigest = child.child("messagedigest").getValue(String.class);
 
-										//if (messagedigest=="b1eb2c04b35cea4766c4f438fd983af0ce6098ba918d938e1d03fc4e39f11f46395e2a8e5b730c8f83935ca842230f964c1ea9690333f4a4feb234cda4ff0ac8") {
+										if (SHA512.checkSHA512(messagedigest,fileTosign)) {
 											Matrix matrix = signature.getImageMatrix();
 											// Get the values of the matrix
 											float[] values = new float[9];
@@ -954,24 +954,24 @@ public abstract class Pdftry extends Activity {
 												merge(relativeX, relativeY, 1);
 											File f2 = new File(newP);
 
-											PdfChecksum = SHA512.calculateSHA512(f2);
-											documentToUpdate=new documents(session.docKey,PdfChecksum,child.child("ekey").getValue(String.class),"ftp.byethost4.com/htdocs/"+session.userkey+"/"+f2.getName()+"/",child.child("documentOwnerID").getValue(String.class),child.child("documentName").getValue(String.class));
-											documentAdapter=new documentsArrayAdapter(Pdftry.this);
-											fileTosign=new File(newP);
+											//PdfChecksum = SHA512.calculateSHA512(f2);
+											//documentToUpdate=new documents(session.docKey,PdfChecksum,child.child("ekey").getValue(String.class),"ftp.byethost4.com/htdocs/"+session.userkey+"/"+f2.getName()+"/",child.child("documentOwnerID").getValue(String.class),child.child("documentName").getValue(String.class));
+											//documentAdapter=new documentsArrayAdapter(Pdftry.this);
+											//fileTosign=new File(newP);
 											//documentAdapter.updateItem(documentToUpdate);
 										System.out.println("path "+f2.getPath());
+											File ff=new File(signPath);
 
-File ff=new File(signPath);
 										f2.renameTo(ff);
 										new HDWFTP_Upload_Update(Pdftry.this).execute(f2.getPath());
 
-									//} else {
-										//	AlertDialog alert = new AlertDialog.Builder(Pdftry.this).setMessage("You Altered the file").setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-										////		public void onClick(DialogInterface dialog, int which) {
-										//			// do nothing
-										//		}
-										//	}).show();
-										//}
+									} else {
+										AlertDialog alert = new AlertDialog.Builder(Pdftry.this).setMessage("You Altered the file").setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+												public void onClick(DialogInterface dialog, int which) {
+												// do nothing
+											}
+										}).show();
+										}
 									}
 									break;
 
