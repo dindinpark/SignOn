@@ -48,7 +48,8 @@ public class SignAndVerifyActivity extends AppCompatActivity {
     }
 
     public void signclick(View v){
-        signdocument("", "","");
+
+       signdocument("0","-KBJDKF6pflmVOtleAFQ","4444");
 
     }
 
@@ -58,6 +59,7 @@ public class SignAndVerifyActivity extends AppCompatActivity {
         documentID=DID;
         requestID=RID;
         thedigest=digest;
+        session.userkey="-KB3h40cETdpM0fyPVhi";
 
         Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/users/"+session.userkey+"/");
 
@@ -66,23 +68,11 @@ public class SignAndVerifyActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                BigInteger x,y,a,p;
-                String inf;
-                boolean infinity;
+             BigInteger privatekey;
 
-                x=new BigInteger(dataSnapshot.child("x").getValue(String.class));
-                y=new BigInteger(dataSnapshot.child("y").getValue(String.class));
-                a=new BigInteger(dataSnapshot.child("a").getValue(String.class));
-                p=new BigInteger(dataSnapshot.child("p").getValue(String.class));
-                inf=dataSnapshot.child("infinity").getValue(String.class);
-                if(inf=="TRUE")
-                    infinity=true;
-                else
-                    infinity=false;
+              privatekey=new BigInteger(dataSnapshot.child("password").getValue(String.class));
 
-                Point pubkey = new Point(x,y,a,p);
-                pubkey.setInfinity(infinity);
-                ECDSASIGNING(pubkey);
+               ECDSASIGNING(privatekey);
 
             }
 
@@ -98,7 +88,7 @@ public class SignAndVerifyActivity extends AppCompatActivity {
     }
 
 
-    public void ECDSASIGNING (Point pubkey){
+    public void ECDSASIGNING (BigInteger privkey){
 
         try {
             // sign ducoment
@@ -106,10 +96,10 @@ public class SignAndVerifyActivity extends AppCompatActivity {
             ECDSA app = new ECDSA();  // eliptic curve opject
             // public key will be stored in firebase
 
-         app.setQA(pubkey);
+         app.setdA(privkey);
             signature = app.signingMessage(thedigest);
 
-            ECDSATextview.setText(signature);
+          //  ECDSATextview.setText(signature);
             storePubkeyAndSignature(signature, thedigest);
 
 
@@ -135,6 +125,7 @@ public class SignAndVerifyActivity extends AppCompatActivity {
 
         mFirebase = new Firebase ("https://torrid-heat-4458.firebaseio.com/requests");
         mFirebase.child(requestID).child("signature").setValue(signature);
+        ECDSATextview.setText(signature);
         mFirebase.child(requestID).child("status").setValue("DONE");
        getseq();
 
@@ -149,7 +140,7 @@ public class SignAndVerifyActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                ECDSATextview.setText(dataSnapshot.getValue().toString());
+             //   ECDSATextview.setText(dataSnapshot.getValue().toString());
               changeSingingoder(dataSnapshot.getValue().toString());
             }
 
@@ -221,7 +212,7 @@ public void changeSingingoder(final String seq){
 
     public void verfiyclick(View view){
 
-
+requestID="-KBJDKF6pflmVOtleAFQ";
  setdocumentID(requestID); /// here start verifying
 
 
@@ -236,6 +227,7 @@ public void changeSingingoder(final String seq){
            @Override
            public void onDataChange(DataSnapshot dataSnapshot) {
                documentID= dataSnapshot.getValue().toString(); // after setting documentID we dont have to pass it but we will use it later on
+              // ECDSATextview.setText(ECDSATextview.getText()+documentID);
                retrieveEmailfromRequest(RID); // continue querying
 
            }
@@ -279,13 +271,14 @@ queryref.addValueEventListener(listener);
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    for (DataSnapshot child: dataSnapshot.getChildren()) {
-                       retrievepubKey(child.getKey());
+                   for (DataSnapshot child: dataSnapshot.getChildren()) {
+                       ECDSATextview.setText(child.getKey());
+                           retrievepubKey(child.getKey());
 
                     }
                 }
                 else {
-                    Toast toast = Toast.makeText(SignAndVerifyActivity.this, "email not found", Toast.LENGTH_LONG);
+                    Toast toast = Toast.makeText(SignAndVerifyActivity.this, "error", Toast.LENGTH_LONG);
                     toast.show();
 
                 }
@@ -327,7 +320,8 @@ Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/users/"+use
                 Point pubkey = new Point(x,y,a,p);
                 pubkey.setInfinity(infinity);
 
-                  retrieveMSG(pubkey);
+             //   ECDSATextview.setText(ECDSATextview.getText()+"[[[[]]]]]]"+pubkey.getX().toString());
+                 retrieveMSG(pubkey);
             }
 
             @Override
@@ -352,7 +346,7 @@ Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/users/"+use
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 String MSG=  dataSnapshot.child("messagedigest").getValue().toString();
-                ECDSATextview.setText(MSG);
+               // ECDSATextview.setText(MSG);
                   retrieveSign(pubkey, MSG);
 
 
@@ -379,7 +373,7 @@ Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/users/"+use
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 String signature=  dataSnapshot.child("signature").getValue(String.class);
-                ECDSATextview.setText(signature);
+                ECDSATextview.setText(ECDSATextview.getText()+"[[[[]]]]]]"+signature);
 
                 verfiySignature(pubkey, signature, msg);
             }
