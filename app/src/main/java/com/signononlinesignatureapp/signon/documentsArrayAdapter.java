@@ -70,12 +70,12 @@ public class documentsArrayAdapter extends BaseAdapter implements ChildEventList
         Map<String, String> newDocument = new HashMap<String, String>();
         newDocument.put("documentName", doc.getDocumentName());
         //newDocument.put("documentOwnerID", doc.getDocumentOwnerID());
-        newDocument.put("documentURL", doc.getDocumentURL());
+        //newDocument.put("documentURL", doc.getDocumentURL());
         newDocument.put("ekey", doc.getEkey());
         newDocument.put("messagedigest", doc.getMessagedigest());
         mFireBase.child(doc.getKey()).child("documentName").setValue(doc.getDocumentName());
        // mFireBase.child(doc.getKey()).child("documentOwnerID").setValue(doc.getDocumentOwnerID());
-        mFireBase.child(doc.getKey()).child("documentURL").setValue(doc.getDocumentURL());
+        //mFireBase.child(doc.getKey()).child("documentURL").setValue(doc.getDocumentURL());
         mFireBase.child(doc.getKey()).child("ekey").setValue(doc.getEkey());
         mFireBase.child(doc.getKey()).child("messagedigest").setValue(doc.getMessagedigest());
     }

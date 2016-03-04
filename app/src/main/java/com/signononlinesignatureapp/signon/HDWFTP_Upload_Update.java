@@ -5,13 +5,18 @@ package com.signononlinesignatureapp.signon;
  */
 ////////////////////////////// wherever you want to upload use new HDWFTP_Upload().execute("/sdcard/signon/word.pdf");
 import android.app.AlertDialog;
+import android.app.DownloadManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.util.Log;
 
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.Query;
+import com.firebase.client.ValueEventListener;
 
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
@@ -34,7 +39,10 @@ public class HDWFTP_Upload_Update extends AsyncTask <String, Void, Long>{
     documentsArrayAdapter documentAdapter;
     File f ;
     byte[] key;
-    Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/users");
+    Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/documents/"+session.docKey+"/");
+String originalOwner;
+
+
     HDWFTP_Upload_Update(Context context){
         this.context=context;
     }
@@ -43,6 +51,21 @@ public class HDWFTP_Upload_Update extends AsyncTask <String, Void, Long>{
 
         {
             Firebase.setAndroidContext(context);
+            ref.child("documentOwnerID").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    System.out.println("ASS:" + dataSnapshot.getValue(String.class));
+                    originalOwner=dataSnapshot.getValue(String.class);
+                }
+
+                @Override
+                public void onCancelled(FirebaseError firebaseError) {
+
+                }
+            });
+            //Query q =ref.orderByChild("documentOwnerID");
+           // q.
 
             FTPClient ftpClient = new FTPClient();
             int reply;
@@ -64,19 +87,8 @@ public class HDWFTP_Upload_Update extends AsyncTask <String, Void, Long>{
                     ftpClient.disconnect();
                 }
 ///////////////create directory
-                if(!(ftpClient.changeWorkingDirectory("/htdocs/"+session.userkey+"/"))){
-                    ftpClient.makeDirectory("/htdocs/"+session.userkey+"/");
-                    ftpClient.changeWorkingDirectory("/htdocs/" + session.userkey + "/");
-                }
 
-
-
-
-
-//                int length=ftpClient.listNames().length;
-          //    System.out.println("length"+length);
-
-       //        String[] names=ftpClient.listNames();
+                    ftpClient.changeWorkingDirectory("/htdocs/" + originalOwner + "/");
 
                 String Picture_File_name = new File(FULL_PATH_TO_LOCAL_FILE[0]).getName();
 
@@ -118,7 +130,7 @@ catch (CryptoException ex) {
                         System.out.println("name "+Picture_File_name);
                         documentName=Picture_File_name;
 
-                        documentURL="ftp.byethost4.com/htdocs/"+session.userkey+"/"+Picture_File_name+"/";
+                        documentURL="ftp.byethost4.com/htdocs/"+originalOwner+"/"+Picture_File_name+"/";
                         messagedigest=SHA512.calculateSHA512(new File(FULL_PATH_TO_LOCAL_FILE[0]));
                         ///temp
                         document=new documents(session.docKey,messagedigest,ekey,documentURL,documentOwnerID,documentName);

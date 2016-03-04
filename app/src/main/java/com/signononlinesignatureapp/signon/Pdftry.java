@@ -966,8 +966,8 @@ public abstract class Pdftry extends Activity {
 										new HDWFTP_Upload_Update(Pdftry.this).execute(f2.getPath());
 
 									} else {
-										AlertDialog alert = new AlertDialog.Builder(Pdftry.this).setMessage("You Altered the file").setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-												public void onClick(DialogInterface dialog, int which) {
+									AlertDialog alert = new AlertDialog.Builder(Pdftry.this).setMessage("You Altered the file").setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+											public void onClick(DialogInterface dialog, int which) {
 												// do nothing
 											}
 										}).show();
