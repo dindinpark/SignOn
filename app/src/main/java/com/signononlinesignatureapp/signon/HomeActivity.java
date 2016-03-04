@@ -1,6 +1,9 @@
 package com.signononlinesignatureapp.signon;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -23,6 +26,7 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -39,6 +43,9 @@ public class HomeActivity extends AppCompatActivity {
     ImageView signatureImageView;
     ImageView imageView;
     private static final int FILE_SELECT_CODE = 0;
+    public File fileToUpload;
+    public String pathToUpload;
+    boolean exist=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,11 +117,49 @@ queryRef.addValueEventListener(listener);
                     String path = FileUtils.getPath(this, uri);
 
                     Log.d(TAG, "File Path: " + path);
+                      /*  pathToUpload=path;
+                        Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/documents/");
+                        Query queryRef = ref.orderByChild("documentOwnerID").equalTo(session.userkey);
+                       // Query q2=queryRef.orderByChild("documentName").equalTo(new File(pathToUpload).getName());
+                        ValueEventListener listener = new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                for (DataSnapshot child: dataSnapshot.getChildren()) {
+
+                                   System.out.println("path: "+pathToUpload);
+                                    if(child.child("documentName").getValue(String.class).equals((new File(pathToUpload)).getName()))
+                                    {
+                                        System.out.println("inside");
+                                        exist=true;
+                                    }*/
+                                   // if(!exist){
+
+                                        new HDWFTP_Upload(HomeActivity.this).execute(path);
+                                    //}
+                                    //else{
+                                      //  AlertDialog alert = new AlertDialog.Builder(HomeActivity.this).setMessage("A file with the same name already exist").setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                        //    public void onClick(DialogInterface dialog, int which) {
+                                                // do nothing
+                                          //  }
+                                        //}).show();}
+                               // }
+                            //}
+
+                            //@Override
+                            //public void onCancelled(FirebaseError firebaseError) {
+
+                         //   }
+                        //};
+
+                        //queryRef.addValueEventListener(listener);
+
+
+
 
 
 
                         // Get the file instance
-                        new HDWFTP_Upload(this).execute(path);
+
 
                         // File file = new File(path);
                         // Initiate the upload

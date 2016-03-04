@@ -8,11 +8,14 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
+import android.os.StrictMode;
 import android.util.Log;
 
 import com.firebase.client.Firebase;
 
+import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
 
 import java.io.BufferedInputStream;
@@ -66,18 +69,18 @@ public class HDWFTP_Upload_Update extends AsyncTask <String, Void, Long>{
                     ftpClient.changeWorkingDirectory("/htdocs/" + session.userkey + "/");
                 }
 
-//                int length=ftpClient.listNames().length;
-          //      System.out.println("length"+length);
 
-       //         String[] names=ftpClient.listNames();
+
+
+
+//                int length=ftpClient.listNames().length;
+          //    System.out.println("length"+length);
+
+       //        String[] names=ftpClient.listNames();
 
                 String Picture_File_name = new File(FULL_PATH_TO_LOCAL_FILE[0]).getName();
-                boolean exist=false;
-             /*   for (String name : names) {
-                    if (name.equals(Picture_File_name))
-                        exist = true;
-                }*/
-                if(true){
+
+
                 if (ftpClient.getReplyString().contains("250")) {
                     ftpClient.setFileType(org.apache.commons.net.ftp.FTP.BINARY_FILE_TYPE);
                     //////////////////encrypt////////////////////////////
@@ -137,13 +140,7 @@ catch (CryptoException ex) {
                         ex.printStackTrace();
                     }
 
-                }}
-                else{
-                    AlertDialog alert = new AlertDialog.Builder(context).setMessage("A file with the same name already exist").setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            // do nothing
-                        }
-                    }).show();}
+                }
 
             } catch (SocketException e) {
                 Log.e("HDW FTP", e.getStackTrace().toString());
@@ -160,4 +157,7 @@ catch (CryptoException ex) {
         }
 
 
-    }}
+    }
+
+
+}
