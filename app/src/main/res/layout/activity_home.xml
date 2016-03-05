@@ -130,6 +130,16 @@
                 android:background="#7724cc"
                 android:onClick="testOn4"
                 android:layout_marginLeft="30dp" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Documents"
+                android:id="@+id/button5"
+                android:textColor="#ffffff"
+                android:background="#7724cc"
+                android:onClick="testOn5"
+                android:layout_marginLeft="30dp" />
         </LinearLayout>
 
     </LinearLayout>

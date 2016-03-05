@@ -1,14 +1,11 @@
 package com.signononlinesignatureapp.signon;
 
-import android.content.CursorLoader;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
@@ -145,6 +142,38 @@ queryRef.addValueEventListener(listener);
 
     public void testOn4(View v){
         startActivity(new Intent(HomeActivity.this, Request_Signture.class));
+
+
+    }
+
+    public void testOn5(View v){
+        Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/requests");
+
+        Query query = ref.orderByChild("requesterID").equalTo(session.userkey);
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    if (snapshot.exists () && snapshot.hasChild("rDocumentId")){
+                    if (snapshot.child("rDocumentId").getValue().toString().equals("2")) {
+                        Toast.makeText(HomeActivity.this, "you have already request signers to sign this document", Toast.LENGTH_SHORT).show();
+                        break;
+                    } else {
+                        startActivity(new Intent(HomeActivity.this, Request_Signture.class));
+                    }
+                }
+                    else
+                    {
+                        startActivity(new Intent(HomeActivity.this, Request_Signture.class));
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
 
 
     }

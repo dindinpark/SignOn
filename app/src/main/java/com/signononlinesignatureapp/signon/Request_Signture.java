@@ -20,7 +20,6 @@ import java.util.Map;
 
 public class Request_Signture extends ListActivity {
 
-    Intent EditRequestActivity;
     private RequestArrayAdapter mAdapter;
     boolean flag = true;
     static int counter;
@@ -41,8 +40,8 @@ public class Request_Signture extends ListActivity {
                 flag = false;
                 Button btnAdd = (Button) findViewById(R.id.add_signer_button);
                 btnAdd.setEnabled(false);
-                Toast.makeText(Request_Signture.this, "you are only allowed to request 3 signers or less for each document", Toast.LENGTH_SHORT).show();
-                //start activity
+                Toast.makeText(Request_Signture.this, "you are only allowed to request 3 signers at most for each document", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(Request_Signture.this, documentsSelectActivity.class));
             }
             if (flag)
             {
@@ -61,7 +60,16 @@ public class Request_Signture extends ListActivity {
                     public void onClick(View v) {
                         String email;
                         email = etEmail.getText().toString();
-                        Request request = new Request(null, email, "", session.userkey, String.valueOf(counter), "waiting");
+                        Request request;
+                        if (counter > 1)
+                        {
+                            request = new Request(null, email, "", session.userkey, String.valueOf(counter), "waiting2", "");
+                        }
+                        else
+                        {
+                            request = new Request(null, email, "", session.userkey, String.valueOf(counter), "waiting", "");
+                            session.requesterID = request.getRequesterID();
+                        }
                         CheckEmail(request);
                         dialog.cancel();
                     }
@@ -72,7 +80,7 @@ public class Request_Signture extends ListActivity {
 
     public void DoneButtonOnClick (View view)
     {
-        //start activity
+        startActivity(new Intent(Request_Signture.this, documentsSelectActivity.class));
     }
 
 
@@ -112,7 +120,8 @@ public class Request_Signture extends ListActivity {
             newRequest.put("rDocumentId", "");
             newRequest.put("requesterID", request.getRequesterID());
             newRequest.put("signingSeq", request.getOrder());
-            newRequest.put("status", "waiting");
+            newRequest.put("status", request.getStatus());
+            newRequest.put("signature",request.getSignature());
             reqRef.push().setValue(newRequest);
             Toast.makeText(getApplicationContext(), "Done", Toast.LENGTH_SHORT).show();
             counter++;

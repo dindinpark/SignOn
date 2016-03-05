@@ -1,12 +1,14 @@
 package com.signononlinesignatureapp.signon;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
@@ -15,7 +17,6 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +33,7 @@ public class documentsArrayAdapter extends BaseAdapter implements ChildEventList
     private List<documents> waitdocuments;
     private Firebase mFireBase;
     private Firebase userFire;
+    private Context currentContext;
 
     public documentsArrayAdapter(Context context) {
         Firebase.setAndroidContext(context);
@@ -40,6 +42,7 @@ public class documentsArrayAdapter extends BaseAdapter implements ChildEventList
         waitdocuments = new ArrayList<documents>();
         mFireBase=new Firebase("https://torrid-heat-4458.firebaseio.com/documents");
         mFireBase.addChildEventListener(this);
+        currentContext=context;
 
     }
 
@@ -126,7 +129,29 @@ public class documentsArrayAdapter extends BaseAdapter implements ChildEventList
             public void onClick(View v) {
 
                 ////// go to request Activity
+                // search for (documentId + session.userkey) in requests => if snapshot.exist() => cannot request
+                //                                                                              else => start request activity
+                Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/requests");
 
+                Query query = ref.orderByChild("requesterId").equalTo(session.userkey);
+                query.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+                            if (snapshot.child("rDocumentId").equals("1")) {
+                                Toast.makeText(currentContext.getApplicationContext(), "you have already request signers to sign this document", Toast.LENGTH_SHORT).show();
+                            } else {
+                                currentContext.startActivity(new Intent(currentContext, Request_Signture.class));
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(FirebaseError firebaseError) {
+
+                    }
+                });
             }
         });
         return view;

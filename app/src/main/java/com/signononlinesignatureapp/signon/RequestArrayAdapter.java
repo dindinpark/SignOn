@@ -88,7 +88,7 @@ public class RequestArrayAdapter extends BaseAdapter implements ChildEventListen
         }
         TextView OrderTextView = (TextView) view.findViewById(android.R.id.text2);
         Request request = getItem(position);
-        OrderTextView.setText(request.getOrder());
+        OrderTextView.setText("Order: "+request.getOrder());
         TextView EmailTextView = (TextView) view.findViewById(android.R.id.text1);
         EmailTextView.setText(request.getSignerEmail());
         return view;
@@ -102,7 +102,8 @@ public class RequestArrayAdapter extends BaseAdapter implements ChildEventListen
         String requesterID = dataSnapshot.child("requesterID").getValue(String .class);
         String email = dataSnapshot.child("SignerEmail").getValue(String.class);
         String order = dataSnapshot.child("signingSeq").getValue(String.class);
-        mRequests.add(0, new Request(key, email, DocId, requesterID,order, status));// add to the top
+        String signature = dataSnapshot.child("signature").getValue(String.class);
+        mRequests.add(0, new Request(key, email, DocId, requesterID,order, status,signature));// add to the top
         notifyDataSetChanged();// update adapter
     }
 
