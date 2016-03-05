@@ -55,7 +55,9 @@ public class documents {
     }
 
     public String getDocumentOwnerID() {
-        return Owner.getKey();
+        return this.documentOwnerID;
+
+       // return Owner.getKey();
     }
     public void setDocumentOwnerID(String documentOwnerID) {
         this.documentOwnerID = documentOwnerID;
@@ -82,7 +84,7 @@ public class documents {
     }
 
 
-    public void geteKey() {
+   /* public void geteKey() {
 
 
         KeyGenerator keyGen;
@@ -122,5 +124,5 @@ public class documents {
         // Key = new String();
         setEkey(storeStr);
 
-    }
+    }*/
 }

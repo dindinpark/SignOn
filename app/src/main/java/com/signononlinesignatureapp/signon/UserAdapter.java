@@ -15,6 +15,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/*
+ghadeer
+  ECDSA app = new ECDSA();
+        app.setdA(new BigInteger("34234234"));
+        Point pubkey = app.getQA();
+  mFirebase.child(userID).child("x").setValue(pubkey.getX().toString());
+        mFirebase.child(userID).child("y").setValue(pubkey.getY().toString());
+        mFirebase.child(userID).child("a").setValue(pubkey.getA().toString());
+        mFirebase.child(userID).child("p").setValue(pubkey.getP().toString());
+        if(pubkey.isInfinity())
+        mFirebase.child(userID).child("infinity").setValue("TRUE");
+        else
+            mFirebase.child(userID).child("infinity").setValue("FALSE");
+ */
+
 public class UserAdapter extends BaseAdapter implements ChildEventListener {
 
 

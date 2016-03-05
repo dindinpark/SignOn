@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.signononlinesignatureapp.signon" >
+    package="com.signononlinesignatureapp.signon">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -11,10 +11,10 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
             android:name=".IntroActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,32 +23,15 @@
         </activity>
         <activity
             android:name=".SettingActivity"
-            android:parentActivityName=".MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.signononlinesignatureapp.signon.MainActivity" />
+           >
         </activity>
         <activity
             android:name=".ViewDocumentActivity"
-            android:parentActivityName=".MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.signononlinesignatureapp.signon.MainActivity" />
+            >
         </activity>
         <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".DocumentActivity"
-            android:label="@string/title_activity_document"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".HomeActivity"
-            android:parentActivityName=".MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.signononlinesignatureapp.signon.MainActivity" />
+         >
         </activity>
         <activity android:name=".SignatureActivity" />
         <activity android:name=".hash" />
@@ -62,6 +45,7 @@
         <activity android:name=".SignatureSelectActivity" />
         <activity android:name=".Request_Signture" />
         <activity android:name=".documentsSelectActivity" />
+        <activity android:name=".alertDialog" android:theme="@style/mytheme"></activity>
     </application>
 
 </manifest>

@@ -73,21 +73,24 @@ public class AESencrypttionFirst extends AppCompatActivity {
         CurrentDocument.geteKey();
 
         String Skey = CurrentDocument.getEkey();
-        byte[] ekey = Skey.getBytes(Charset.forName("ASCII"));*/
+        byte[] ekey = Skey.getBytes(Charset.forName("ASCII"));
 
 
-        // byte[] ekey = Skey.getBytes(Charset.forName("UTF-8"));
-        //byte[] key = getKey();
+        //byte[] ekey = Skey.getBytes(Charset.forName("UTF-8"));
+        //byte[] key = getKey();*/
 
         File inputFile = new File(newPath);
         File encryptedFile = new File(encPath);
         File decryptedFile = new File(decPath);
 
         try {
+           // AESencryptionSecond.encrypt(ekey, inputFile, inputFile);
             byte[] ekey = AESencryptionSecond.ReadKey();
+            AESencryptionSecond.decrypt(ekey, inputFile, inputFile);
+
             //AESencryptionSecond.encrypt(ekey, inputFile, encryptedFile);
-            AESencryptionSecond.decrypt(ekey, encryptedFile, decryptedFile);
-            //AESencryptionSecond.storeKey(ekey);
+            //AESencryptionSecond.decrypt(ekey, encryptedFile, decryptedFile);
+           // AESencryptionSecond.storeKey(ekey);
         } catch (CryptoException ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace();
