@@ -89,9 +89,9 @@ String originalOwner;
 ///////////////create directory
 
                     ftpClient.changeWorkingDirectory("/htdocs/" + originalOwner + "/");
-
+                System.out.println("ASS:" + "/htdocs/" + originalOwner + "/");
                 String Picture_File_name = new File(FULL_PATH_TO_LOCAL_FILE[0]).getName();
-
+                System.out.println("ASS:" + Picture_File_name);
 
                 if (ftpClient.getReplyString().contains("250")) {
                     ftpClient.setFileType(org.apache.commons.net.ftp.FTP.BINARY_FILE_TYPE);
@@ -100,6 +100,7 @@ try {
     f = new File(FULL_PATH_TO_LOCAL_FILE[0]);
     key = AESencryptionSecond.getencryptioKey();
     ekey = new String(key, Charset.forName("ASCII"));
+    System.out.println("key"+key);
     AESencryptionSecond.encrypt(key, f, f);
 }
 catch (CryptoException ex) {
@@ -131,9 +132,13 @@ catch (CryptoException ex) {
                         documentName=Picture_File_name;
 
                         documentURL="ftp.byethost4.com/htdocs/"+originalOwner+"/"+Picture_File_name+"/";
+                        System.out.println("ftp.byethost4.com/htdocs/"+originalOwner+"/"+Picture_File_name+"/");
                         messagedigest=SHA512.calculateSHA512(new File(FULL_PATH_TO_LOCAL_FILE[0]));
+                        System.out.println(messagedigest);
+                        System.out.println(ekey);
                         ///temp
                         document=new documents(session.docKey,messagedigest,ekey,documentURL,documentOwnerID,documentName);
+                        System.out.println(document.getKey());
                         documentAdapter=new documentsArrayAdapter(context);
                         documentAdapter.updateItem(document);
                     }

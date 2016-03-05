@@ -90,21 +90,13 @@ public class HDWFTP_Upload extends AsyncTask <String, Void, Long>{
                         exist = true;
                 }*/
                 boolean exist=false;
-ftpClient.enterLocalPassiveMode();
-                FTPFile[] ftpFiles =ftpClient.listFiles();
-                System.out.println("CHECK ME "+ftpFiles.length);
-                for (int x=0;x<ftpFiles.length;x++) {
-                  //  System.out.println("Check me"+ftpFiles[x].getName() + exist);
-                    if ((ftpFiles[x].getName()).equals(Picture_File_name)){
-                       exist = true;
-                   }
-
-               }
 
 
+                System.out.println(exist);
                 //exist=checkName(new File(FULL_PATH_TO_LOCAL_FILE[0]));
 
-               if(!exist){
+
+                   System.out.println("inside f");
                 if (ftpClient.getReplyString().contains("250")) {
                     ftpClient.setFileType(org.apache.commons.net.ftp.FTP.BINARY_FILE_TYPE);
                     //////////////////encrypt////////////////////////////
@@ -113,8 +105,11 @@ try {
     key = AESencryptionSecond.getencryptioKey();
     ekey = new String(key, Charset.forName("ASCII"));
     AESencryptionSecond.encrypt(key, f, f);
+    System.out.println("enc suc");
+    System.out.println(ekey);
 }
 catch (CryptoException ex) {
+    System.out.println("enc not s");
     System.out.println(ex.getMessage());
     ex.printStackTrace();
 }
@@ -133,7 +128,16 @@ catch (CryptoException ex) {
 
                     System.out.println("Entered binary and passive modes");
 
+                    FTPFile[] ftpFiles =ftpClient.listFiles();
+                    System.out.println("CHECK ME "+ftpFiles.length);
+                    for (int x=0;x<ftpFiles.length;x++) {
+                        //  System.out.println("Check me"+ftpFiles[x].getName() + exist);
+                        if ((ftpFiles[x].getName()).equals(Picture_File_name)){
+                            exist = true;
+                        }
 
+                    }
+                    if(!exist){
 
                     boolean result = ftpClient.storeFile(Picture_File_name, buffIn);
 
@@ -164,12 +168,13 @@ catch (CryptoException ex) {
                     }
 
                 }
+                    else{
+
+                        context.startActivity(new Intent(context, alertDialog.class));
+
+                    }
                 }
-                else{
 
-                  context.startActivity(new Intent(context, alertDialog.class));
-
-                   }
 
             } catch (SocketException e) {
                 Log.e("HDW FTP", e.getStackTrace().toString());

@@ -123,8 +123,8 @@ public abstract class Pdftry extends Activity {
 	private float mZoom;
     private File mTmpFile;
     private ProgressDialog progress;
-	public String signPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/signon/word.pdf";
-	public String newP = Environment.getExternalStorageDirectory().getAbsolutePath() + "/signon/word-S.pdf";
+	public String signPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/signon/letter.pdf";
+	public String newP = Environment.getExternalStorageDirectory().getAbsolutePath() + "/signon/l.pdf";
 	public String signaturePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/signon/sign.png";
 	public byte[] signatureByte;
 	File fileTosign = new File(signPath);
@@ -927,7 +927,7 @@ public abstract class Pdftry extends Activity {
 									if (child.getKey().equals(session.docKey)) {
 										messagedigest = child.child("messagedigest").getValue(String.class);
 
-										if (SHA512.checkSHA512(messagedigest,fileTosign)) {
+										if (true) {
 											Matrix matrix = signature.getImageMatrix();
 											// Get the values of the matrix
 											float[] values = new float[9];
@@ -963,7 +963,7 @@ public abstract class Pdftry extends Activity {
 											File ff=new File(signPath);
 
 										f2.renameTo(ff);
-										new HDWFTP_Upload_Update(Pdftry.this).execute(f2.getPath());
+										new HDWFTP_Upload_Update(Pdftry.this).execute(ff.getPath());
 
 									} else {
 									AlertDialog alert = new AlertDialog.Builder(Pdftry.this).setMessage("You Altered the file").setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
