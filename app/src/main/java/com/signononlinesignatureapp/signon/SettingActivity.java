@@ -1,5 +1,7 @@
 package com.signononlinesignatureapp.signon;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -9,6 +11,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -21,8 +24,10 @@ import com.firebase.client.ValueEventListener;
 
 public class SettingActivity extends AppCompatActivity {
 
-
-
+    String email;
+    String birthday;
+    EditText Birthday;
+    int year, month, day;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +44,7 @@ public class SettingActivity extends AppCompatActivity {
 
         setContentView(R.layout.setting);
         Firebase.setAndroidContext(this);
+        Birthday = (EditText) findViewById(R.id.BirthdayEditText);
         getInfo();
 
 
@@ -54,14 +60,11 @@ public class SettingActivity extends AppCompatActivity {
 
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     String key = child.getKey();
-                    String name, email, password, birthday;
+                    String name, password, birthday;
                     name = (String) child.child("username").getValue(String.class);
                     email = (String) child.child("Email").getValue(String.class);
-                    ;
                     password = (String) child.child("password").getValue(String.class);
-                    ;
                     birthday = (String) child.child("birthdate").getValue(String.class);
-                    ;
                     User user = new User(key, email, birthday, password, name);
                     showInfo(user);
                 }
@@ -80,12 +83,9 @@ public class SettingActivity extends AppCompatActivity {
 
         EditText Name = (EditText) findViewById(R.id.NameEditText);
         EditText Password = (EditText) findViewById(R.id.PasswordEditText);
-        EditText Email = (EditText) findViewById(R.id.EmailEditText);
-        EditText Birthday = (EditText) findViewById(R.id.BirthdayEditText);
 
         Name.setText(user.getUsername());
         Password.setText(user.getPassword());
-        Email.setText(user.getEmail());
         Birthday.setText(user.getBirthdate());
     }
 
@@ -93,12 +93,10 @@ public class SettingActivity extends AppCompatActivity {
     {
         EditText Name = (EditText) findViewById(R.id.NameEditText);
         EditText Password = (EditText) findViewById(R.id.PasswordEditText);
-        EditText Email = (EditText) findViewById(R.id.EmailEditText);
         EditText Birthday = (EditText) findViewById(R.id.BirthdayEditText);
 
         String key = session.userkey;
         String name = Name.getText().toString();
-        String email = Email.getText().toString();
         String password = Password.getText().toString();
         String birthday = Birthday.getText().toString();
 
@@ -117,5 +115,26 @@ public class SettingActivity extends AppCompatActivity {
 
     }
 
+    public void setDate(View view) {
+        Dialog dialog = new DatePickerDialog(this, myDateListener, year, month, day);
+        dialog.show();
+    }
+
+
+    private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
+            // TODO Auto-generated method stub
+            // arg1 = year
+            // arg2 = month
+            // arg3 = day
+            showDate(arg1, arg2+1, arg3);
+        }
+    };
+
+    private void showDate(int year, int month, int day) {
+        Birthday.setText(new StringBuilder().append(day).append("/")
+                .append(month).append("/").append(year));
+    }
 
 }

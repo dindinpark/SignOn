@@ -1,10 +1,13 @@
 package com.signononlinesignatureapp.signon;
 
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -14,14 +17,22 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 
+import java.util.Calendar;
+
 public class RigesterActivity extends AppCompatActivity {
 
+    private DatePicker datePicker;
+    private Calendar calendar;
+    private int year, month, day;
+    private String birthdate;
+    private EditText etBirthdate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rigester);
         Firebase.setAndroidContext(this);
+        etBirthdate = (EditText) findViewById(R.id.registerBirthdateEditText);
 
     }
 
@@ -33,21 +44,20 @@ public class RigesterActivity extends AppCompatActivity {
 
     public void registerRegisterButtonClick (View v)  {
 
-        EditText etName, etEmail, etPassword, etRePassword, etBirthdate;
+        EditText etName, etEmail, etPassword, etRePassword;
         Button register;
 
         etName = (EditText) findViewById(R.id.registerNameEditText);
         etEmail = (EditText) findViewById(R.id.registerEmailEditText);
         etPassword = (EditText) findViewById(R.id.registerPasswordEditText);
         etRePassword = (EditText) findViewById(R.id.registerRePasswordEditText);
-        etBirthdate = (EditText) findViewById(R.id.registerBirthdateEditText);
         register = (Button) findViewById(R.id.registerRegisterButton);
 
         String name = etName.getText().toString();
         final String email = etEmail.getText().toString().trim().toLowerCase();
         String password = etPassword.getText().toString().trim();
         String repassword = etRePassword.getText().toString().trim();
-        String birthdate = etBirthdate.getText().toString();
+        birthdate = etBirthdate.getText().toString();
 
         String msg;
         Toast MSG;
@@ -70,6 +80,11 @@ public class RigesterActivity extends AppCompatActivity {
         } else if (!isEmailValid(email))
         {
             msg = "Invalid Email";
+            MSG = Toast.makeText(RigesterActivity.this, msg, Toast.LENGTH_SHORT);
+            MSG.show();
+        } else if (birthdate.isEmpty())
+        {
+            msg = "Birthdate field cannot be empty";
             MSG = Toast.makeText(RigesterActivity.this, msg, Toast.LENGTH_SHORT);
             MSG.show();
         }
@@ -123,6 +138,28 @@ public class RigesterActivity extends AppCompatActivity {
         Toast MSG = Toast.makeText(RigesterActivity.this, "register is successful", Toast.LENGTH_SHORT);
         MSG.show();
 
+    }
+
+    public void setDate(View view) {
+        Dialog dialog = new DatePickerDialog(this, myDateListener, year, month, day);
+        dialog.show();
+    }
+
+
+    private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
+            // TODO Auto-generated method stub
+            // arg1 = year
+            // arg2 = month
+            // arg3 = day
+            showDate(arg1, arg2+1, arg3);
+        }
+    };
+
+    private void showDate(int year, int month, int day) {
+        etBirthdate.setText(new StringBuilder().append(day).append("/")
+                .append(month).append("/").append(year));
     }
 
 

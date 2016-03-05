@@ -23,32 +23,15 @@
         </activity>
         <activity
             android:name=".SettingActivity"
-            android:parentActivityName=".MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.signononlinesignatureapp.signon.MainActivity" />
+           >
         </activity>
         <activity
             android:name=".ViewDocumentActivity"
-            android:parentActivityName=".MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.signononlinesignatureapp.signon.MainActivity" />
+            >
         </activity>
         <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".DocumentActivity"
-            android:label="@string/title_activity_document"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".HomeActivity"
-            android:parentActivityName=".MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.signononlinesignatureapp.signon.MainActivity" />
+         >
         </activity>
         <activity android:name=".SignatureActivity" />
         <activity android:name=".hash" />
