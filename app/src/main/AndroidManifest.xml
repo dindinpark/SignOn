@@ -35,7 +35,6 @@
         </activity>
         <activity android:name=".SignatureActivity" />
         <activity android:name=".hash" />
-        <activity android:name=".SignDocument" />
         <activity android:name=".CaptureSignatureActivity" />
         <activity android:name=".GetSignatureActivity" />
         <activity android:name=".RigesterActivity" />
@@ -44,7 +43,9 @@
         <activity android:name=".AESencrypttionFirst" />
         <activity android:name=".SignatureSelectActivity" />
         <activity android:name=".Request_Signture" />
-        <activity android:name=".documentsSelectActivity" />
+        <activity android:name=".DocumentSignedList" />
+        <activity android:name=".DocumentWaitingList"/>
+        <activity android:name=".DocumentOwnerList"/>
         <activity android:name=".alertDialog" android:theme="@style/mytheme"></activity>
     </application>
 

@@ -16,6 +16,7 @@ import android.os.StrictMode;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 
 import org.apache.commons.net.ftp.FTP;
@@ -149,7 +150,10 @@ catch (CryptoException ex) {
                         messagedigest=SHA512.calculateSHA512(new File(FULL_PATH_TO_LOCAL_FILE[0]));
                         ///temp
                         document=new documents(null,messagedigest,ekey,documentURL,documentOwnerID,documentName);
-                        documentAdapter=new documentsArrayAdapter(context);
+                        documentAdapter=new documentsArrayAdapter(context){
+                            public void onChildAdded(DataSnapshot dataSnapshot, String previeousChildName){}
+
+                        };
                         documentAdapter.addItem(document);
                     }
 

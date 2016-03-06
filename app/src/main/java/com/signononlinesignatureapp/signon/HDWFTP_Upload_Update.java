@@ -140,7 +140,10 @@ catch (CryptoException ex) {
                         ///temp
                         document=new documents(session.docKey,messagedigest,ekey,documentURL,documentOwnerID,documentName);
                         System.out.println(document.getKey());
-                        documentAdapter=new documentsArrayAdapter(context);
+                        documentAdapter=new documentsArrayAdapter(context){
+                            public void onChildAdded(DataSnapshot dataSnapshot, String previeousChildName){}
+
+                        };
                         documentAdapter.updateItem(document);
                     }
 

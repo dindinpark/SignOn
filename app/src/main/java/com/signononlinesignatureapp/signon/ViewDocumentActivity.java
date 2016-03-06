@@ -16,7 +16,7 @@ import java.io.File;
 
 
 public class ViewDocumentActivity extends AppCompatActivity {
-
+/*
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +54,7 @@ public class ViewDocumentActivity extends AppCompatActivity {
             super.onPageFinished(view, url);
 
         }
-    }
+    }*/
 }
  /*private void getDocument()
         {

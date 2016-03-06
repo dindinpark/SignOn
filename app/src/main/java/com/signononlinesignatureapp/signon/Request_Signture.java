@@ -41,7 +41,8 @@ public class Request_Signture extends ListActivity {
                 Button btnAdd = (Button) findViewById(R.id.add_signer_button);
                 btnAdd.setEnabled(false);
                 Toast.makeText(Request_Signture.this, "you are only allowed to request 3 signers at most for each document", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(Request_Signture.this, documentsSelectActivity.class));
+                finish();
+
             }
             if (flag)
             {
@@ -80,7 +81,8 @@ public class Request_Signture extends ListActivity {
 
     public void DoneButtonOnClick (View view)
     {
-        startActivity(new Intent(Request_Signture.this, documentsSelectActivity.class));
+        finish();
+
     }
 
 

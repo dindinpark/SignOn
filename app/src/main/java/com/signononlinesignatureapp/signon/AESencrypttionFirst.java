@@ -32,7 +32,7 @@ import javax.crypto.SecretKey;
  *
  */
 public class AESencrypttionFirst extends AppCompatActivity {
-    @Override
+ /*   @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         main();
@@ -79,7 +79,7 @@ public class AESencrypttionFirst extends AppCompatActivity {
         //byte[] ekey = Skey.getBytes(Charset.forName("UTF-8"));
         //byte[] key = getKey();*/
 
-        File inputFile = new File(newPath);
+   /*     File inputFile = new File(newPath);
         File encryptedFile = new File(encPath);
         File decryptedFile = new File(decPath);
 

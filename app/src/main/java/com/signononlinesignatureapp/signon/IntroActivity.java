@@ -79,7 +79,6 @@ public class IntroActivity extends FragmentActivity {
     }
     public void picButtonClick(View v){
 
-        startActivity(new Intent(IntroActivity.this, SignDocument.class));
 
     }
 

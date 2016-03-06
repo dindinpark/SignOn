@@ -179,20 +179,21 @@ queryRef.addValueEventListener(listener);
 
     public void testOn2(View v){
        // startActivity(new Intent(HomeActivity.this, CaptureSignatureActivity.class));
-        startActivity(new Intent(HomeActivity.this, SignDocument.class));
+        startActivity(new Intent(HomeActivity.this, DocumentOwnerList.class));
+
 
 
     }
 
     public void testOn3(View v){
       //  startActivity(new Intent(HomeActivity.this, SettingActivity.class));
-        startActivity(new Intent(HomeActivity.this, documentsSelectActivity.class));
+        startActivity(new Intent(HomeActivity.this, DocumentSignedList.class));
 
     }
 
     public void testOn4(View v){
-        startActivity(new Intent(HomeActivity.this, Request_Signture.class));
-
+//        startActivity(new Intent(HomeActivity.this, Request_Signture.class));
+        startActivity(new Intent(HomeActivity.this, DocumentWaitingList.class));
 
     }
 

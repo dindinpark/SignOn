@@ -25,12 +25,12 @@ import java.util.Map;
 /**
  * Created by Naseebah on 26/02/16.
  */
-public class documentsArrayAdapter extends BaseAdapter implements ChildEventListener {
+public abstract class documentsArrayAdapter extends BaseAdapter implements ChildEventListener {
 
 
     private final LayoutInflater mInflater;
-    private List<documents> mdocuments;
-    private List<documents> waitdocuments;
+    public List<documents> mdocuments;
+
     private Firebase mFireBase;
     private Firebase userFire;
     private Context currentContext;
@@ -39,7 +39,7 @@ public class documentsArrayAdapter extends BaseAdapter implements ChildEventList
         Firebase.setAndroidContext(context);
         mInflater = LayoutInflater.from(context);
         mdocuments = new ArrayList<documents>();
-        waitdocuments = new ArrayList<documents>();
+
         mFireBase=new Firebase("https://torrid-heat-4458.firebaseio.com/documents");
         mFireBase.addChildEventListener(this);
         currentContext=context;
@@ -107,7 +107,7 @@ public class documentsArrayAdapter extends BaseAdapter implements ChildEventList
         TextView childOwnertxt= (TextView)view.findViewById(R.id. docOwnertxt);
         childtxt.setText(child_doc.getDocumentName());
         childOwnertxt.setText(child_doc.getOwner().getUsername());
-        Button viewB= (Button)view.findViewById(R.id.docexviewbutton);
+       /* Button viewB= (Button)view.findViewById(R.id.docexviewbutton);
         Button signB= (Button)view.findViewById(R.id.docexsignbutton);
         Button requestB= (Button)view.findViewById(R.id.docexrequestbutton);
         viewB.setOnClickListener(new View.OnClickListener() {
@@ -153,11 +153,12 @@ public class documentsArrayAdapter extends BaseAdapter implements ChildEventList
                     }
                 });
             }
-        });
+        });*/
         return view;
     }
     @Override
-    public void onChildAdded(DataSnapshot dataSnapshot, String previeousChildName) {
+    public abstract void onChildAdded(DataSnapshot dataSnapshot, String previeousChildName);
+    /*{
         final String Skey = dataSnapshot.getKey();
         final String documentName = dataSnapshot.child("documentName").getValue(String.class);
         final String documentOwnerID = dataSnapshot.child("documentOwnerID").getValue(String.class);
@@ -206,7 +207,7 @@ public class documentsArrayAdapter extends BaseAdapter implements ChildEventList
 
         notifyDataSetChanged();// update adapter
 
-    }
+    }*/
 
     @Override
     public void onChildChanged(DataSnapshot dataSnapshot, String s) {
