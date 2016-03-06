@@ -99,7 +99,7 @@ public class AESencrypttionFirst extends AppCompatActivity {
             ex.printStackTrace();
         }
     }
-    private static byte[] getKey(){
+ /*   private static byte[] getKey(){
 
 
         KeyGenerator keyGen;

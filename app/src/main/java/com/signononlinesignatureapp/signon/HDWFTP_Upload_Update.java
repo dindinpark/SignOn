@@ -98,10 +98,11 @@ String originalOwner;
                     //////////////////encrypt////////////////////////////
 try {
     f = new File(FULL_PATH_TO_LOCAL_FILE[0]);
-    key = AESencryptionSecond.getencryptioKey();
-    ekey = new String(key, Charset.forName("ASCII"));
-    System.out.println("key"+key);
+    ekey = AESencryptionSecond.getencryptioKey();
+    key = ekey.getBytes(Charset.forName("ASCII"));
     AESencryptionSecond.encrypt(key, f, f);
+    System.out.println("enc suc");
+    System.out.println(ekey);
 }
 catch (CryptoException ex) {
     System.out.println(ex.getMessage());
