@@ -53,6 +53,7 @@ public class HomeActivity extends AppCompatActivity {
         Firebase.setAndroidContext(this);
         Bundle extras = getIntent().getExtras();
         session.userkey = extras.getString("key");
+        session.userEmail = extras.getString("Email");
         imageView = (ImageView) findViewById(R.id.imageButton);
         signatureImageView=(ImageView)findViewById(R.id.homeSignatureImageView);
         Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/users/"+session.userkey+"/username/");

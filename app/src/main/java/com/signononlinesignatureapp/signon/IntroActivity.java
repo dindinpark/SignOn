@@ -94,7 +94,7 @@ public class IntroActivity extends FragmentActivity {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot child: dataSnapshot.getChildren()) {
 
-                        passwordsearch(password,child.getKey());
+                        passwordsearch(password,child.getKey(), email);
 
                     }
                 }
@@ -113,7 +113,7 @@ public class IntroActivity extends FragmentActivity {
         queryRef.addValueEventListener(listener);
     }
 
-    public void passwordsearch(String password, final String userkey){
+    public void passwordsearch(String password, final String userkey, final String email){
 
         Firebase ref = new Firebase("https://torrid-heat-4458.firebaseio.com/users/");
         Query queryRef = ref.orderByChild("password").equalTo(password);
@@ -124,6 +124,7 @@ public class IntroActivity extends FragmentActivity {
                     for (DataSnapshot child: dataSnapshot.getChildren()) {
                       if(userkey==child.getKey()) {
                           homeintent.putExtra("key", userkey);
+                          homeintent.putExtra("Email",email);
                         startActivity(homeintent);
                           break;
                       }
