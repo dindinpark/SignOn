@@ -21,13 +21,16 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 
+import java.util.Calendar;
+
 
 public class SettingActivity extends AppCompatActivity {
 
-    String email;
-    String birthday;
-    EditText Birthday;
-    int year, month, day;
+    private String email;
+    private String birthday;
+    private EditText Birthday;
+    private int year, month, day;
+    private Calendar calendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +119,10 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     public void setDate(View view) {
+        calendar = Calendar.getInstance();
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH);
+        day = calendar.get(Calendar.DAY_OF_MONTH);
         Dialog dialog = new DatePickerDialog(this, myDateListener, year, month, day);
         dialog.show();
     }

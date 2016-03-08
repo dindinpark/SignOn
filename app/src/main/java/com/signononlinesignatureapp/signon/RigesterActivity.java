@@ -141,6 +141,10 @@ public class RigesterActivity extends AppCompatActivity {
     }
 
     public void setDate(View view) {
+        calendar = Calendar.getInstance();
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH);
+        day = calendar.get(Calendar.DAY_OF_MONTH);
         Dialog dialog = new DatePickerDialog(this, myDateListener, year, month, day);
         dialog.show();
     }

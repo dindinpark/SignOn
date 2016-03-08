@@ -1,17 +1,11 @@
 package com.signononlinesignatureapp.signon;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.CursorLoader;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
@@ -195,6 +189,11 @@ queryRef.addValueEventListener(listener);
 //        startActivity(new Intent(HomeActivity.this, Request_Signture.class));
         startActivity(new Intent(HomeActivity.this, DocumentWaitingList.class));
 
+    }
+
+    public void testOn5(View v)
+    {
+        startActivity(new Intent(HomeActivity.this,SettingActivity.class));
     }
 
     public void imageViewfromURL (String imageUrl){

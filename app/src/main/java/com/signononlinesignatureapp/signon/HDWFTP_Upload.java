@@ -4,22 +4,15 @@ package com.signononlinesignatureapp.signon;
  * Created by daniah on 2/29/2016.
  */
 ////////////////////////////// wherever you want to upload use new HDWFTP_Upload().execute("/sdcard/signon/word.pdf");
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Looper;
 import android.os.StrictMode;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 
-import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
@@ -222,7 +215,7 @@ catch (CryptoException ex) {
         FTPClient mFTPClient = null;
 
         try {
-            String TAG="ASS";
+            String TAG="MESSAGE";
             mFTPClient = new FTPClient();
             if (android.os.Build.VERSION.SDK_INT > 9) {
                 StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();

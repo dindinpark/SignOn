@@ -4,23 +4,16 @@ package com.signononlinesignatureapp.signon;
  * Created by daniah on 2/29/2016.
  */
 ////////////////////////////// wherever you want to upload use new HDWFTP_Upload().execute("/sdcard/signon/word.pdf");
-import android.app.AlertDialog;
-import android.app.DownloadManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.AsyncTask;
-import android.os.StrictMode;
 import android.util.Log;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
-import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 
-import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
-import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
 
 import java.io.BufferedInputStream;
@@ -55,7 +48,7 @@ String originalOwner;
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
 
-                    System.out.println("ASS:" + dataSnapshot.getValue(String.class));
+                    System.out.println("MESSAGE:" + dataSnapshot.getValue(String.class));
                     originalOwner=dataSnapshot.getValue(String.class);
                 }
 
