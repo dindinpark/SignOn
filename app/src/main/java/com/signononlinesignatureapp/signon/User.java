@@ -1,7 +1,6 @@
 package com.signononlinesignatureapp.signon;
 
 import java.math.BigInteger;
-import java.util.Random;
 
 /**
  * Created by Omaimah on 2/19/2016.
@@ -18,16 +17,15 @@ public class User {
     private String username;
     private BigInteger x;
     private BigInteger y;
+    private BigInteger PK;
 
-    public long getPK() {
+    public BigInteger getPK() {
         return PK;
     }
 
-    public void setPK(long PK) {
+    public void setPK(BigInteger PK) {
         this.PK = PK;
     }
-
-    private long PK;
 
     public BigInteger getA() {
         return a;
@@ -120,11 +118,11 @@ public class User {
         this.username = username;
     }
 
-    public void CreateECDSAobject ( long PrK )
+    public void CreateECDSAobject ( BigInteger PrK )
     {
         PK = PrK;
         ECDSA obj = new ECDSA();
-        obj.setdA(BigInteger.valueOf(PrK));
+        obj.setdA(PrK);
         Point QA = obj.getQA(); // public key
         a = QA.getA();   // store values
         p = QA.getP();
@@ -140,10 +138,4 @@ public class User {
 
     }
 
-    public long GeneratePK ()
-    {
-        Random random = new Random();
-        long PrK = random.nextLong();
-        return PrK;
-    }
 }

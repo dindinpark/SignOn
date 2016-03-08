@@ -17,6 +17,8 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 
+import java.math.BigInteger;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class RigesterActivity extends AppCompatActivity {
@@ -129,16 +131,19 @@ public class RigesterActivity extends AppCompatActivity {
 
     }
 
-    public void createAccount (User CurrentUser, UserAdapter mAdapter)
+    public void createAccount (final User CurrentUser, final UserAdapter mAdapter)
     {
-        //long PrK = CurrentUser.GeneratePK();
-        long PrK = 1245;
+        //final long PrK = CurrentUser.GeneratePK();
+        String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime());
+        //long PrK = System.currentTimeMillis();
+        BigInteger PrK = BigInteger.valueOf(Long.parseLong(timeStamp));
         CurrentUser.CreateECDSAobject(PrK);
         mAdapter.addItem(CurrentUser);
         Toast MSG = Toast.makeText(RigesterActivity.this, "register is successful", Toast.LENGTH_SHORT);
         MSG.show();
 
     }
+
 
     public void setDate(View view) {
         calendar = Calendar.getInstance();
