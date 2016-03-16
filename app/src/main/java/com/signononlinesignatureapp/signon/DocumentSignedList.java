@@ -116,29 +116,28 @@ public class DocumentSignedList extends ListActivity {
         };
     }
 
-
+    String DocURL , EncKey,DocName,DocOwner;
+    String Operation;
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         final documents currentdocuments;
         currentdocuments = (documents) getListAdapter().getItem(position);
         session.docKey = currentdocuments.getKey();
+        DocURL = currentdocuments.getDocumentURL();
+        EncKey = currentdocuments.getEkey();
+        DocName=currentdocuments.getDocumentName();
+        DocOwner=currentdocuments.getDocumentOwnerID();
+
         Button viewB = (Button) findViewById(R.id.docSlistviewButton);
 
         viewB.setEnabled(true);
         viewB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /// go to webview activity
-                // File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/DCIM/signon/DES.pdf");
-                // File file = new File(currentdocuments.getDocumentURL());
+                Operation = "View";
+                FTP_Download.iniate(DocName,EncKey,DocOwner,Operation);
+                new FTP_Download(DocumentSignedList.this).execute(DocURL);
 
-                //////////////////////////// path from download
-                File file = new File("ftp.byethost4.com/htdocs/w.pdf/");
-
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setDataAndType(Uri.fromFile(file), "application/pdf");
-                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                startActivity(intent);
             }
         });
         super.onListItemClick(l, v, position, id);
